@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 import BasicLayout from "./components/BasicLayout.vue";
 
 const route = useRoute();
-const basicLayoutViews = ["beranda"];
+const basicLayoutViews = ["beranda", "profil", "produk", "produkDetail"];
 const useBasicLayout = computed(() => basicLayoutViews.indexOf(route.name) >= 0);
 </script>
 <template>

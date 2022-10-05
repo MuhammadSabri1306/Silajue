@@ -1,9 +1,11 @@
 <script setup>
 import { ref, onMounted, nextTick } from "vue";
+import { useRoute } from "vue-router";
 import { useViewStore } from "@/stores/view";
 import TransitionDownToTop from "./transitions/TransitionDownToTop.vue";
 import Backdrop from "./Backdrop.vue";
 
+const route = useRoute();
 const viewStore = useViewStore();
 
 const isNavToggle = ref(false);
@@ -16,6 +18,10 @@ const onNavToggle = () => {
 const hideBackdrop = () => {
 	isNavToggle.value = !isNavToggle.value;
 	viewStore.toggleShowBackdrop(false);
+};
+
+const getNavActiveClass = (navName) => {
+	return navName === route.name ? ["active"] : null;
 };
 
 const searchElm = ref(null);
@@ -82,13 +88,13 @@ onMounted(() => {
 					</button>
 					<ul class="nav-menu" :class="{ 'show': isNavToggle }">
 						<li class="nav-link hover-margin">
-							<a href="#" class="active">Beranda</a>
+							<router-link to="/" :class="getNavActiveClass('beranda')">Beranda</router-link>
 						</li>
 						<li class="nav-link text-shadow-white hover-margin">
-							<a href="#">Profil</a>
+							<router-link to="/profil" :class="getNavActiveClass('profil')">Profil</router-link>
 						</li>
 						<li class="nav-link text-shadow-white hover-margin">
-							<a href="#">Produk</a>
+							<router-link to="/produk" :class="getNavActiveClass('produk')">Produk</router-link>
 						</li>
 						<li class="nav-link text-shadow-white hover-margin">
 							<a href="#">Blog</a>
