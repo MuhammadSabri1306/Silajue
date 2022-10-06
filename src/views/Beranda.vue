@@ -89,6 +89,7 @@ const onSearchFormSubmit = (event) => {
 		background-image: url(/assets/img/bg-hero.jpg);
 		background-size: cover;
 		background-position: center;
+		background-attachment: fixed;
 	}
 
 	.category-item {
