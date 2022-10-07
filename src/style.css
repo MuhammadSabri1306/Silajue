@@ -8,13 +8,13 @@
 	body {
 		@apply font-sans text-black;
 	}
-
-	button, input, textarea, select {
-		@apply focus:outline-none transition-shadow shadow-none focus:shadow-[0_0_0.3rem_0.15rem_#4490b4];
-	}
 }
 
 @layer component {
+	button, input, textarea, select {
+		@apply focus:outline-none transition-shadow shadow-none focus:shadow-[0_0_0.3rem_0.15rem_#4490b4];
+	}
+	
 	.container {
 		@apply mx-auto px-8;
 	}
@@ -23,8 +23,8 @@
 		@apply min-h-screen flex flex-col;
 	}
 
-	.btn-focus-shadow {
-		@apply shadow-[0_0_0_0.25rem_rgba(49.132,253,0.5)];
+	.btn-focus-primary {
+		@apply focus:shadow-none focus:outline focus:outline-2 focus:outline-primary-500 focus:outline-offset-2;
 	}
 }
 
@@ -39,6 +39,10 @@
 
 	.hover-margin {
 		@apply transition-all mt-0 hover:-mt-1 mb-0 hover:mb-1;
+	}
+
+	.focus-shadow {
+		@apply focus:shadow-[0_0_0.25rem_rgba(0,0,0,0.3)];
 	}
 
 	.focus-solid {

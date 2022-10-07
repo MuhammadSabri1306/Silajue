@@ -55,6 +55,8 @@ getSuggestions(route.params.id).then((suggestionsProduct) => dataSuggestProduct.
 						<div><img src="/assets/img/detail-produk-sample2.png" class="w-full"></div>
 					</div>
 				</div>
+				<div class="border-t pt-2 mt-8"></div>
+				<h6 class="text-base font-semibold mb-4">Produk Serupa</h6>
 				<div class=" grid grid-cols-2 lg:grid-cols-3 gap-4">
 					<CardProduct v-for="item in suggestProduct" :id="item.id" :title="item.name" :price="item.price" :img="item.img" />
 				</div>

@@ -65,7 +65,7 @@ const onInputImgChange = (event) => {
 							</div>
 						</div>
 						<div class="flex justify-end p-16">
-							<button type="submit" class="font-bold text-base xl:text-base text-shadow-white px-6 rounded-2xl py-2 bg-primary-500 hover:bg-primary-600">Update</button>
+							<button type="submit" class="font-bold text-base xl:text-base text-shadow-white px-6 rounded-2xl py-2 bg-primary-500 hover:bg-primary-600 btn-focus-primary">Update</button>
 						</div>
 					</div>
 				</div>
