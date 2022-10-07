@@ -1,8 +1,10 @@
 <script setup>
-import { reactive, computed } from "vue";
+import { reactive, computed, watch } from "vue";
 import { useRoute } from "vue-router";
+import { getSampleProduct } from "@/modules/sampleProducts";
 
 const route = useRoute();
+
 const pageContent = computed(() => {
 	const title = route.params.id ? "Edit Produk" : "Tambah Produk";
 	const btnSubmit = route.params.id ? "Update Produk" : "Tambah Produk";
@@ -10,13 +12,22 @@ const pageContent = computed(() => {
 	return { title, btnSubmit };
 });
 
-const model = reactive({
-	nama: "",
-	harga: "",
-	stok: 0,
-	deskripsi: ""
+const data = reactive({
+	name: "",
+	price: "",
+	stock: 0,
+	description: ""
 });
 
+if(route.params.id) {
+	getSampleProduct(route.params.id).then(product => {
+		data.name = product.name;
+		data.price = product.price;
+		data.stock = product.stock;
+		data.description = product.description;
+		console.log(product);
+	});
+}
 </script>
 <template>
 	<div class="bg-white py-16">
@@ -26,20 +37,20 @@ const model = reactive({
 				<form @submit.prevent>
 					<div class="grid grid-cols-[1fr_0.7fr] gap-4">
 						<div class="form-input-group col-span-2">
-							<label for="inputNama">Nama Produk</label>
-							<input type="text" id="inputNama" v-model="model.nama" class="pl-[10rem] focus-shadow">
+							<label for="inputNama" class="text-shadow-white">Nama Produk</label>
+							<input type="text" id="inputNama" v-model="data.name" class="pl-[10rem] focus-shadow">
 						</div>
 						<div class="form-input-group col-span-1">
-							<label for="inputHarga">Harga Produk</label>
-							<input type="text" id="inputHarga" v-model="model.harga" class="pl-[10rem] focus-shadow">
+							<label for="inputHarga" class="text-shadow-white">Harga Produk</label>
+							<input type="text" id="inputHarga" v-model="data.price" class="pl-[10rem] focus-shadow">
 						</div>
 						<div class="form-input-group col-span-1">
-							<label for="inputStok">Stok</label>
-							<input type="number" id="inputStok" v-model="model.stok" class="pl-[6rem] focus-shadow">
+							<label for="inputStok" class="text-shadow-white">Stok</label>
+							<input type="number" id="inputStok" v-model="data.stock" class="pl-[6rem] focus-shadow">
 						</div>
 						<div class="form-textarea-group col-span-2">
-							<label for="textDeskripsi">Deskripsi Produk</label>
-							<textarea id="textDeskripsi" v-model="model.deskripsi" rows="10" class="focus-shadow"></textarea>
+							<label for="textDeskripsi" class="text-shadow-white">Deskripsi Produk</label>
+							<textarea id="textDeskripsi" v-model="data.description" rows="10" class="focus-shadow"></textarea>
 						</div>
 					</div>
 					<div class="flex justify-end mt-8">
@@ -50,24 +61,3 @@ const model = reactive({
 		</div>
 	</div>
 </template>
-<style scoped>
-	.form-input-group, .form-textarea-group {
-		@apply relative;
-	}
-
-	.form-input-group > input {
-		@apply block w-full h-10 pr-6 text-sm rounded-lg transition-colors bg-gray-200 focus:bg-white;
-	}
-
-	.form-input-group > label {
-		@apply absolute top-0 left-0 h-10 px-6 text-sm rounded-lg text-shadow-white bg-primary-500 font-semibold inline-flex items-center;
-	}
-
-	.form-textarea-group > textarea {
-		@apply block w-full px-6 pt-12 pb-6 text-sm rounded-lg transition-colors bg-gray-200 focus:bg-white;
-	}
-
-	.form-textarea-group > label {
-		@apply absolute top-0 left-0 h-10 w-full px-6 text-sm rounded-lg text-shadow-white bg-primary-500 font-semibold inline-flex items-center;
-	}
-</style>

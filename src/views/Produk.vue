@@ -1,14 +1,16 @@
 <script setup>
-import { computed } from "vue";
-import { useProductStore } from "@/stores/product";
+import { reactive, computed } from "vue";
 import { useUserStore } from "@/stores/user";
+import { getSampleProduct } from "@/modules/sampleProducts";
 import CardProduct from "@/components/CardProduct.vue";
 
-const productStore = useProductStore();
-const sampleProduct = computed(() => productStore.product);
+const data = reactive([]);
 
-if(productStore.product.length < 1)
-	productStore.fetchProduct();
+if(data.length < 1) {
+	getSampleProduct().then(products => {
+		products.forEach(pItem => data.push(pItem));
+	});
+}
 
 const userStore = useUserStore();
 const isAdmin = computed(() => userStore.isRoleAdmin);
@@ -44,7 +46,7 @@ window.userStore = () => userStore;
 							<button class="font-bold text-base xl:text-base text-shadow-white px-6 rounded-2xl py-2 bg-primary-500 hover:bg-primary-600 focus-solid"><font-awesome-icon icon="fa-solid fa-plus" fixed-width /> Tambah Produk</button>
 						</div>
 						<div class=" grid grid-cols-2 lg:grid-cols-3 gap-4">
-							<CardProduct v-for="(item, index) in sampleProduct" :id="index" :title="item.name" :price="item.price" :img="item.img" />
+							<CardProduct v-for="(item, index) in data" :id="index" :title="item.name" :price="item.price" :img="item.img" />
 						</div>
 					</div>
 				</div>

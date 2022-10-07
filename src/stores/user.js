@@ -9,5 +9,9 @@ export const useUserStore = defineStore("user", {
 		isRoleUser: (state) => state.role === 1,
 		isRolePublic: (state) => state.role === 0
 	},
-	actions: {}
+	actions: {
+		setRole(role) {
+			this.role = role;
+		}
+	}
 });

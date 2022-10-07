@@ -26,6 +26,26 @@
 	.btn-focus-primary {
 		@apply focus:shadow-none focus:outline focus:outline-2 focus:outline-primary-500 focus:outline-offset-2;
 	}
+
+	.form-input-group, .form-textarea-group {
+		@apply relative;
+	}
+
+	.form-input-group > input {
+		@apply block w-full h-10 pr-6 text-sm rounded-lg transition-colors bg-gray-200 focus:bg-white;
+	}
+
+	.form-input-group > label {
+		@apply absolute top-0 left-0 h-10 px-6 text-sm rounded-lg bg-primary-500 font-semibold inline-flex items-center;
+	}
+
+	.form-textarea-group > textarea {
+		@apply block w-full px-6 pt-14 pb-6 text-sm rounded-lg transition-colors bg-gray-200 focus:bg-white;
+	}
+
+	.form-textarea-group > label {
+		@apply absolute top-0 left-0 h-10 w-full px-6 text-sm rounded-lg bg-primary-500 font-semibold inline-flex items-center;
+	}
 }
 
 @layer utilities {
