@@ -3,21 +3,13 @@ import { ref, onMounted, nextTick, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useViewStore } from "@/stores/view";
 import TransitionDownToTop from "./transitions/TransitionDownToTop.vue";
-import Backdrop from "./Backdrop.vue";
 
 const route = useRoute();
 const viewStore = useViewStore();
 
 const isNavToggle = ref(false);
-
 const onNavToggle = () => {
 	isNavToggle.value = !isNavToggle.value;
-	viewStore.toggleShowBackdrop(isNavToggle.value);
-};
-
-const hideBackdrop = () => {
-	isNavToggle.value = !isNavToggle.value;
-	viewStore.toggleShowBackdrop(false);
 };
 
 const getNavActiveClass = (navName) => {
