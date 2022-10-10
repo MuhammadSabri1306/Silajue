@@ -20,7 +20,7 @@ window.userStore = () => userStore;
 	<div class="bg-white py-16">
 		<div class="container">
 			<div class="flex flex-col md:flex-row gap-16 pt-8 pb-32">
-				<div class="ml-auto mt-16">
+				<div class="mt-16">
 					<h6 class="font-semibold mb-4">Kategori</h6>
 					<ul class="list-none">
 						<li class="font-medium hover-margin py-1 px-6"><a href="#" class="block">Sapi</a></li>
@@ -31,7 +31,7 @@ window.userStore = () => userStore;
 						<li class="font-medium hover-margin py-1 px-6"><a href="#" class="block">Ikan</a></li>
 					</ul>
 				</div>
-				<div class="lg:w-2/3 mr-auto">
+				<div class="w-full">
 					<div class="flex justify-between items-end">
 						<h6 class="text-4xl font-bold">Produk</h6>
 						<form class="block relative">

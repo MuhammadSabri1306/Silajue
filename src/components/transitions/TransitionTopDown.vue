@@ -1,18 +1,18 @@
 <template>
-	<Transition name="transtion-down-to-top">
+	<Transition name="transtion-top-down">
 		<slot></slot>
 	</Transition>
 </template>
 <style>
-	.transtion-down-to-top-enter-active,
-	.transtion-down-to-top-leave-active {
+	.transtion-top-down-enter-active,
+	.transtion-top-down-leave-active {
 		transition-property: top;
 		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 		transition-duration: 150ms;
 	}
 
-	.transtion-down-to-top-enter-from,
-	.transtion-down-to-top-leave-to {
+	.transtion-top-down-enter-from,
+	.transtion-top-down-leave-to {
 		@apply -top-full;
 	}
 </style>

@@ -6,12 +6,12 @@ import ImgAsync from "./ImgAsync.vue";
 const props = defineProps({
 	id: Number,
 	title: String,
-	price: String,
+	description: String,
 	img: String
 });
 
-const routeDetail = computed(() => "/produk/detail/" + props.id);
-const routeEdit = computed(() => "/produk/form/" + props.id);
+const routeDetail = computed(() => "/blog/detail/" + props.id);
+const routeEdit = computed(() => "/blog/form/" + props.id);
 
 const userStore = useUserStore();
 const isAdmin = computed(() => userStore.isRoleAdmin);
@@ -22,8 +22,8 @@ const isImgLoaded = ref(false);
 		<div class="aspect-square">&nbsp;</div>
 		<ImgAsync class="absolute top-0 left-0 w-full h-full" :size="15" :src="img" @loaded="isImgLoaded = true" />
 		<div class="absolute bottom-0 left-0 w-full rounded-tl-[50px] px-8 py-3 bg-primary-500">
-			<p>{{ title }}</p>
-			<p class="font-semibold text-lg whitespace-nowrap">{{ price }}</p>
+			<p class="text-2xl font-bold mb-2">{{ title }}</p>
+			<p class="text-sm">{{ description }}</p>
 		</div>
 		<div v-if="isAdmin" class="absolute top-0 right-0">
 			<div class="p-2 flex items-center">

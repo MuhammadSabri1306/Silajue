@@ -10,6 +10,16 @@ module.exports = {
       "sans": ["Poppins", ...defaultTheme.fontFamily.sans],
       "body": ["Poppins", ...defaultTheme.fontFamily.sans]
     },
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '1rem',
+        sm: '2rem',
+        lg: '8rem',
+        xl: '8rem',
+        '2xl': '8rem'
+      },
+    },
     extend: {
       colors: {
         primary: {

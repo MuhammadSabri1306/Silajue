@@ -2,7 +2,7 @@
 import { ref, onMounted, nextTick, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useViewStore } from "@/stores/view";
-import TransitionDownToTop from "./transitions/TransitionDownToTop.vue";
+import TransitionTopDown from "./transitions/TransitionTopDown.vue";
 
 const route = useRoute();
 const viewStore = useViewStore();
@@ -13,7 +13,16 @@ const onNavToggle = () => {
 };
 
 const getNavActiveClass = (navName) => {
-	return navName === route.name ? ["active"] : null;
+	if(route.name == "beranda" && navName == "beranda")
+		return ["active"];
+	if(route.name == "profil" && navName == "profil")
+		return ["active"];
+	if(["produk", "produkDetail", "produkForm"].indexOf(route.name) >= 0 && navName == "produk")
+		return ["active"];
+	if(["blog", "blogDetail", "blogForm"].indexOf(route.name) >= 0 && navName == "blog")
+		return ["active"];
+
+	return null;
 };
 
 const searchElm = ref(null);
@@ -68,7 +77,7 @@ watch(() => isNavToggle.value, (val) => {
 							<router-link to="/produk" :class="getNavActiveClass('produk')" @click="onRouteChange">Produk</router-link>
 						</li>
 						<li class="nav-link text-shadow-white hover-margin">
-							<a href="#">Blog</a>
+							<router-link to="/blog" :class="getNavActiveClass('blog')" @click="onRouteChange">Blog</router-link>
 						</li>
 						<li class="nav-link text-shadow-white hover-margin">
 							<a href="#">Panduan</a>
@@ -77,7 +86,7 @@ watch(() => isNavToggle.value, (val) => {
 				</nav>
 			</div>
 		<div class="flex flex-col content-wrapper">
-			<TransitionDownToTop>
+			<TransitionTopDown>
 				<div v-if="isSearchShow" class="fixed w-screen top-0 left-0 z-[3] max-w-[100%] px-4">
 					<form class="block relative" :style="{ height: navHeight + 'px' }" @focusout.capture="onSearchFormLostFocus" @submit.prevent="onSearchFormSubmit">
 						<input ref="searchElm" type="search" name="keyword" class="w-full h-full bg-white pl-4 pr-14" placeholder="Masukkan keyword...">
@@ -86,7 +95,7 @@ watch(() => isNavToggle.value, (val) => {
 						</button>
 					</form>
 				</div>
-			</TransitionDownToTop>
+			</TransitionTopDown>
 			<nav ref="navElm" class="bg-primary-500 shadow-sm z-[2] fixed top-0 left-0 w-screen">
 				<div class="py-5 px-6 md:px-8 lg:px-12">
 					<div class="flex items-center">
@@ -119,7 +128,7 @@ watch(() => isNavToggle.value, (val) => {
 								<router-link to="/produk" :class="getNavActiveClass('produk')">Produk</router-link>
 							</li>
 							<li class="nav-link text-shadow-white hover-margin">
-								<a href="#">Blog</a>
+								<router-link to="/blog" :class="getNavActiveClass('blog')" @click="onRouteChange">Blog</router-link>
 							</li>
 							<li class="nav-link text-shadow-white hover-margin">
 								<a href="#">Panduan</a>

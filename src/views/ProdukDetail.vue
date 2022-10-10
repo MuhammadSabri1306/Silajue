@@ -9,19 +9,23 @@ const data = reactive({
 	name: "",
 	price: "",
 	stock: 0,
-	description: ""
+	description: "",
+	img: ""
 });
-const dataSuggest = reactive([]);
+
+const styleImg = computed(() => ({ backgroundImage: `url('${ data.img }')` }));
 
 if(route.params.id) {
-	getSampleProduct().then(product => {
+	getSampleProduct(route.params.id).then(product => {
 		data.name = product.name;
 		data.price = product.price;
 		data.stock = product.stock;
 		data.description = product.description;
+		data.img = product.img;
 	});
 }
 
+const dataSuggest = reactive([]);
 getSuggestions(route.params.id).then(suggest => {
 	suggest.forEach(suggestItem => dataSuggest.push(suggestItem));
 });
@@ -34,7 +38,7 @@ getSuggestions(route.params.id).then(suggest => {
 				<div class="grid grid-cols-[1fr_auto] gap-4">
 					<div>
 						<div class="mb-4">
-							<img src="/assets/img/detail-produk-sample.png" class="w-full">
+							<div class="aspect-[2.4/1] bg-cover bg-center" :style="styleImg"></div>
 						</div>
 						<div class="flex items-center justify-between my-8">
 							<h4 class="text-4xl font-bold">{{ data.name }}</h4>
