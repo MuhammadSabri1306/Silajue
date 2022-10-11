@@ -17,6 +17,8 @@ const getNavActiveClass = (navName) => {
 		return ["active"];
 	if(route.name == "profil" && navName == "profil")
 		return ["active"];
+	if(route.name == "panduan" && navName == "panduan")
+		return ["active"];
 	if(["produk", "produkDetail", "produkForm"].indexOf(route.name) >= 0 && navName == "produk")
 		return ["active"];
 	if(["blog", "blogDetail", "blogForm"].indexOf(route.name) >= 0 && navName == "blog")
@@ -80,7 +82,7 @@ watch(() => isNavToggle.value, (val) => {
 							<router-link to="/blog" :class="getNavActiveClass('blog')" @click="onRouteChange">Blog</router-link>
 						</li>
 						<li class="nav-link text-shadow-white hover-margin">
-							<a href="#">Panduan</a>
+							<router-link to="/panduan" :class="getNavActiveClass('panduan')" @click="onRouteChange">Panduan</router-link>
 						</li>
 					</ul>
 				</nav>
@@ -131,7 +133,7 @@ watch(() => isNavToggle.value, (val) => {
 								<router-link to="/blog" :class="getNavActiveClass('blog')" @click="onRouteChange">Blog</router-link>
 							</li>
 							<li class="nav-link text-shadow-white hover-margin">
-								<a href="#">Panduan</a>
+								<router-link to="/panduan" :class="getNavActiveClass('panduan')" @click="onRouteChange">Panduan</router-link>
 							</li>
 						</ul>
 						<div class="ml-10 hidden md:inline hover-margin">

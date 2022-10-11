@@ -8,6 +8,7 @@ import Blog from "./views/Blog.vue";
 import BlogDetail from "./views/BlogDetail.vue";
 import BlogForm from "./views/BlogForm.vue";
 import Account from "./views/Account.vue";
+import Panduan from "./views/Panduan.vue";
 
 const useBuildPath = true;
 const routes = {
@@ -20,7 +21,8 @@ const routes = {
     blogDetail: { path: "/blog/detail/:id", component: BlogDetail },
     blogForm: { path: "/blog/form/:id?", component: BlogForm },
     login: { path: "/login", component: Account },
-    register: { path: "/register", component: Account }
+    register: { path: "/register", component: Account },
+    panduan: { path: "/panduan", component: Panduan }
 };
 
 const defineMyRouter = routesObj => {
