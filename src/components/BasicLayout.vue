@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted, nextTick, watch } from "vue";
+import { ref, computed, onMounted, nextTick, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useViewStore } from "@/stores/view";
+import { useUserStore } from "@/stores/user";
 import TransitionTopDown from "./transitions/TransitionTopDown.vue";
 
 const route = useRoute();
@@ -63,6 +64,14 @@ watch(() => isNavToggle.value, (val) => {
 	else
 		document.body.style.overflowY = "auto";
 });
+
+
+const userStore = useUserStore();
+const isRolePublic = computed(() => userStore.isRolePublic);
+
+const logout = () => {
+	console.log("Button Logout was clicked");
+};
 </script>
 <template>
 	<div id="basicWrapper" class="w-full flex max-w-[100vw] overflow-x-hidden" :class="{ 'side-collapsed': isNavToggle }">
@@ -70,19 +79,19 @@ watch(() => isNavToggle.value, (val) => {
 				<nav class="pb-8 h-screen" :style="{ paddingTop: 'calc(' + navHeight + 'px + 3rem)' }">
 					<ul class="nav-side">
 						<li class="nav-link hover-margin">
-							<router-link to="/" :class="getNavActiveClass('beranda')" @click="onRouteChange">Beranda</router-link>
+							<RouterLink to="/" :class="getNavActiveClass('beranda')" @click="onRouteChange">Beranda</RouterLink>
 						</li>
 						<li class="nav-link text-shadow-white hover-margin">
-							<router-link to="/profil" :class="getNavActiveClass('profil')" @click="onRouteChange">Profil</router-link>
+							<RouterLink to="/profil" :class="getNavActiveClass('profil')" @click="onRouteChange">Profil</RouterLink>
 						</li>
 						<li class="nav-link text-shadow-white hover-margin">
-							<router-link to="/produk" :class="getNavActiveClass('produk')" @click="onRouteChange">Produk</router-link>
+							<RouterLink to="/produk" :class="getNavActiveClass('produk')" @click="onRouteChange">Produk</RouterLink>
 						</li>
 						<li class="nav-link text-shadow-white hover-margin">
-							<router-link to="/blog" :class="getNavActiveClass('blog')" @click="onRouteChange">Blog</router-link>
+							<RouterLink to="/blog" :class="getNavActiveClass('blog')" @click="onRouteChange">Blog</RouterLink>
 						</li>
 						<li class="nav-link text-shadow-white hover-margin">
-							<router-link to="/panduan" :class="getNavActiveClass('panduan')" @click="onRouteChange">Panduan</router-link>
+							<RouterLink to="/panduan" :class="getNavActiveClass('panduan')" @click="onRouteChange">Panduan</RouterLink>
 						</li>
 					</ul>
 				</nav>
@@ -121,23 +130,24 @@ watch(() => isNavToggle.value, (val) => {
 						</button>
 						<ul class="nav-menu">
 							<li class="nav-link hover-margin">
-								<router-link to="/" :class="getNavActiveClass('beranda')">Beranda</router-link>
+								<RouterLink to="/" :class="getNavActiveClass('beranda')">Beranda</RouterLink>
 							</li>
 							<li class="nav-link text-shadow-white hover-margin">
-								<router-link to="/profil" :class="getNavActiveClass('profil')">Profil</router-link>
+								<RouterLink to="/profil" :class="getNavActiveClass('profil')">Profil</RouterLink>
 							</li>
 							<li class="nav-link text-shadow-white hover-margin">
-								<router-link to="/produk" :class="getNavActiveClass('produk')">Produk</router-link>
+								<RouterLink to="/produk" :class="getNavActiveClass('produk')">Produk</RouterLink>
 							</li>
 							<li class="nav-link text-shadow-white hover-margin">
-								<router-link to="/blog" :class="getNavActiveClass('blog')" @click="onRouteChange">Blog</router-link>
+								<RouterLink to="/blog" :class="getNavActiveClass('blog')" @click="onRouteChange">Blog</RouterLink>
 							</li>
 							<li class="nav-link text-shadow-white hover-margin">
-								<router-link to="/panduan" :class="getNavActiveClass('panduan')" @click="onRouteChange">Panduan</router-link>
+								<RouterLink to="/panduan" :class="getNavActiveClass('panduan')" @click="onRouteChange">Panduan</RouterLink>
 							</li>
 						</ul>
 						<div class="ml-10 hidden md:inline hover-margin">
-							<button class="nav-btn">Logout</button>
+							<RouterLink v-if="isRolePublic" to="/login" class="nav-btn">Log In</RouterLink>
+							<button v-else class="nav-btn" @click="logout">Logout</button>
 						</div>
 					</div>
 				</div>

@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, computed } from "vue";
 import { useUserStore } from "@/stores/user";
-import { getSampleProduct } from "@/modules/sampleProducts";
+import { getSampleProduct } from "@/modules/sample-products";
 import CardProduct from "@/components/CardProduct.vue";
 
 const data = reactive([]);

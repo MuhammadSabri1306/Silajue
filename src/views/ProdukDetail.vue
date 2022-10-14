@@ -2,7 +2,7 @@
 import { reactive, computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import CardProduct from "@/components/CardProduct.vue";
-import { getSampleProduct, getSuggestions } from "@/modules/sampleProducts";
+import { getSampleProduct, getSuggestions } from "@/modules/sample-products";
 
 const route = useRoute();
 const data = reactive({

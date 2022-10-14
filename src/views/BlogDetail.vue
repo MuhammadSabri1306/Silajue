@@ -3,7 +3,7 @@ import { reactive, computed } from "vue";
 import { useRoute } from "vue-router";
 import CardPostLg from "@/components/CardPostLg.vue";
 import CardPost from "@/components/CardPost.vue";
-import { getSamplePost, getPostSuggestions } from "@/modules/sampleProducts";
+import { getSamplePost, getPostSuggestions } from "@/modules/sample-products";
 
 const route = useRoute();
 

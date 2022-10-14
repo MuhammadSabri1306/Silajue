@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, computed, watch } from "vue";
 import { useRoute } from "vue-router";
-import { getSamplePost } from "@/modules/sampleProducts";
+import { getSamplePost } from "@/modules/sample-products";
 
 const route = useRoute();
 

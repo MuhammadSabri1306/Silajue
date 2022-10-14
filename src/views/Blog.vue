@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import CardPostLg from "@/components/CardPostLg.vue";
 import CardPost from "@/components/CardPost.vue";
-import { getSamplePost, getPostSuggestions } from "@/modules/sampleProducts";
+import { getSamplePost, getPostSuggestions } from "@/modules/sample-products";
 
 const route = useRoute();
 
