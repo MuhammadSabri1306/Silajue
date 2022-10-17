@@ -1,20 +1,18 @@
 <script setup>
 import { ref, computed } from "vue";
-import { useUserStore } from "@/stores/user";
 import ImgAsync from "./ImgAsync.vue";
 
 const props = defineProps({
 	id: Number,
 	title: String,
 	price: String,
-	img: String
+	img: String,
+	isAdmin: Boolean
 });
 
-const routeDetail = computed(() => "/produk/detail/" + props.id);
-const routeEdit = computed(() => "/produk/form/" + props.id);
+const routeDetail = computed(() => "/product/detail/" + props.id);
+const routeEdit = computed(() => "/product/form/" + props.id);
 
-const userStore = useUserStore();
-const isAdmin = computed(() => userStore.isRoleAdmin);
 const isImgLoaded = ref(false);
 </script>
 <template>

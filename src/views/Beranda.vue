@@ -54,7 +54,7 @@ const onSearchFormSubmit = (event) => {
 			</div>
 			<div class="flex flex-col items-center mb-16">
 				<div class="mb-6">
-					<router-link to="/produk" class="block text-xl font-medium px-6 py-2 bg-primary-500 text-shadow-white hover:bg-primary-400 hover-margin">MULAI BELANJA</router-link>
+					<router-link to="/product" class="block text-xl font-medium px-6 py-2 bg-primary-500 text-shadow-white hover:bg-primary-400 hover-margin">MULAI BELANJA</router-link>
 				</div>
 				<h2 class="text-3xl text-primary-600 tracking-wider font-bold text-center">AYO BELANJA DI APLIKASI SILAJUE</h2>
 			</div>

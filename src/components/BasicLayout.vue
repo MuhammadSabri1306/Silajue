@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, nextTick, watch } from "vue";
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useViewStore } from "@/stores/view";
 import { useUserStore } from "@/stores/user";
@@ -14,11 +14,13 @@ const onNavToggle = () => {
 };
 
 const getNavActiveClass = (navName) => {
-	if(route.name == "beranda" && navName == "beranda")
+	if(route.name == "beranda" && navName == route.name)
 		return ["active"];
-	if(route.name == "profil" && navName == "profil")
+	if(route.name == "profil" && navName == route.name)
 		return ["active"];
-	if(route.name == "panduan" && navName == "panduan")
+	if(route.name == "tentang" && navName == route.name)
+		return ["active"];
+	if(route.name == "panduan" && navName == route.name)
 		return ["active"];
 	if(["produk", "produkDetail", "produkForm"].indexOf(route.name) >= 0 && navName == "produk")
 		return ["active"];
@@ -41,20 +43,32 @@ const onSearchFormSubmit = (event) => {
 	console.log(formElm["keyword"].value);
 };
 
-const navElm = ref(null);
-const navHeight = ref(0);
 
 const onSearchFormLostFocus = (event) => {
 	if(!event.relatedTarget)
 		isSearchShow.value = false;
 };
 
+const userMenuElm = ref(null);
+const expandUserMenu = ref(false);
+const onUserMenuLostFocus = event => {
+	expandUserMenu.value = false;
+};
+
+const navElm = ref(null);
+const navHeight = ref(0);
+
 onMounted(() => {
 	if(navElm.value.offsetHeight)
 		navHeight.value = navElm.value.offsetHeight;
 
 	document.body.classList.add("bg-primary-500");
+	document.addEventListener("click", onUserMenuLostFocus);
 });
+
+onUnmounted(() => {
+	document.removeEventListener("click", onUserMenuLostFocus);
+})
 
 const onRouteChange = () => isNavToggle.value = false;
 
@@ -76,26 +90,26 @@ const logout = () => {
 <template>
 	<div id="basicWrapper" class="w-full flex max-w-[100vw] overflow-x-hidden" :class="{ 'side-collapsed': isNavToggle }">
 		<div class="nav-side-wrapper">
-				<nav class="pb-8 h-screen" :style="{ paddingTop: 'calc(' + navHeight + 'px + 3rem)' }">
-					<ul class="nav-side">
-						<li class="nav-link hover-margin">
-							<RouterLink to="/" :class="getNavActiveClass('beranda')" @click="onRouteChange">Beranda</RouterLink>
-						</li>
-						<li class="nav-link text-shadow-white hover-margin">
-							<RouterLink to="/profil" :class="getNavActiveClass('profil')" @click="onRouteChange">Profil</RouterLink>
-						</li>
-						<li class="nav-link text-shadow-white hover-margin">
-							<RouterLink to="/produk" :class="getNavActiveClass('produk')" @click="onRouteChange">Produk</RouterLink>
-						</li>
-						<li class="nav-link text-shadow-white hover-margin">
-							<RouterLink to="/blog" :class="getNavActiveClass('blog')" @click="onRouteChange">Blog</RouterLink>
-						</li>
-						<li class="nav-link text-shadow-white hover-margin">
-							<RouterLink to="/panduan" :class="getNavActiveClass('panduan')" @click="onRouteChange">Panduan</RouterLink>
-						</li>
-					</ul>
-				</nav>
-			</div>
+			<nav class="pb-8 h-screen" :style="{ paddingTop: 'calc(' + navHeight + 'px + 3rem)' }">
+				<ul class="nav-side">
+					<li class="nav-link hover-margin">
+						<RouterLink to="/" :class="getNavActiveClass('beranda')" @click="onRouteChange">Beranda</RouterLink>
+					</li>
+					<li class="nav-link text-shadow-white hover-margin">
+						<RouterLink to="/about" :class="getNavActiveClass('tentang')" @click="onRouteChange">Tentang</RouterLink>
+					</li>
+					<li class="nav-link text-shadow-white hover-margin">
+						<RouterLink to="/product" :class="getNavActiveClass('produk')" @click="onRouteChange">Produk</RouterLink>
+					</li>
+					<li class="nav-link text-shadow-white hover-margin">
+						<RouterLink to="/blog" :class="getNavActiveClass('blog')" @click="onRouteChange">Blog</RouterLink>
+					</li>
+					<li class="nav-link text-shadow-white hover-margin">
+						<RouterLink to="/guide" :class="getNavActiveClass('panduan')" @click="onRouteChange">Panduan</RouterLink>
+					</li>
+				</ul>
+			</nav>
+		</div>
 		<div class="flex flex-col content-wrapper">
 			<TransitionTopDown>
 				<div v-if="isSearchShow" class="fixed w-screen top-0 left-0 z-[3] max-w-[100%] px-4">
@@ -111,15 +125,15 @@ const logout = () => {
 				<div class="py-5 px-6 md:px-8 lg:px-12">
 					<div class="flex items-center">
 						<div>
-							<a href="#" class="nav-brand hidden md:flex flex-col text-shadow-white group">
+							<RouterLink to="/" class="nav-brand hidden md:flex flex-col text-shadow-white group">
 								<span class="text-2xl font-bold transition-all ml-0 group-hover:ml-4">Sistem Informasi Silajue</span>
 								<span class="text-sm leading-none transition-all ml-0 group-hover:ml-8">Penjualan Elektronik</span>
-							</a>
-							<a href="#" class="nav-brand flex flex-col md:hidden text-shadow-white group">
+							</RouterLink>
+							<RouterLink to="/" class="nav-brand flex flex-col md:hidden text-shadow-white group">
 								<span class="leading-none font-bold transition-all ml-0 group-hover:ml-4">Sistem Informasi</span>
 								<span class="text-4xl font-bold transition-all -ml-[0.15rem] group-hover:ml-8">SILAJUE</span>
 								<span class="text-sm leading-none transition-all ml-0 group-hover:ml-4">Penjualan Elektronik</span>
-							</a>
+							</RouterLink>
 						</div>
 						<button class="text-2xl text-black p-2 ml-auto lg:hidden" @click="showSearch">
 							<font-awesome-icon icon="fa-solid fa-magnifying-glass" />
@@ -133,21 +147,40 @@ const logout = () => {
 								<RouterLink to="/" :class="getNavActiveClass('beranda')">Beranda</RouterLink>
 							</li>
 							<li class="nav-link text-shadow-white hover-margin">
-								<RouterLink to="/profil" :class="getNavActiveClass('profil')">Profil</RouterLink>
+								<RouterLink to="/about" :class="getNavActiveClass('tentang')" @click="onRouteChange">Tentang</RouterLink>
 							</li>
 							<li class="nav-link text-shadow-white hover-margin">
-								<RouterLink to="/produk" :class="getNavActiveClass('produk')">Produk</RouterLink>
+								<RouterLink to="/product" :class="getNavActiveClass('produk')">Produk</RouterLink>
 							</li>
 							<li class="nav-link text-shadow-white hover-margin">
 								<RouterLink to="/blog" :class="getNavActiveClass('blog')" @click="onRouteChange">Blog</RouterLink>
 							</li>
 							<li class="nav-link text-shadow-white hover-margin">
-								<RouterLink to="/panduan" :class="getNavActiveClass('panduan')" @click="onRouteChange">Panduan</RouterLink>
+								<RouterLink to="/guide" :class="getNavActiveClass('panduan')" @click="onRouteChange">Panduan</RouterLink>
 							</li>
 						</ul>
-						<div class="ml-10 hidden md:inline hover-margin">
+						<div class="mx-6 hidden md:inline">
 							<RouterLink v-if="isRolePublic" to="/login" class="nav-btn">Log In</RouterLink>
-							<button v-else class="nav-btn" @click="logout">Logout</button>
+							<div v-else class="relative">
+								<a :class="{ 'hover-margin': !expandUserMenu }" class="block w-8 h-8 rounded-full overflow-hidden text-black flex bg-no-repeat bg-center bg-cover opacity-80 hover:opacity-100 focus:opacity-100" role="button" @click.stop="expandUserMenu = !expandUserMenu">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 m-auto"><path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" /></svg>
+								</a>
+								<div ref="userMenuElm" :class="{ 'hidden': !expandUserMenu }" class="absolute top-full right-0 min-w-[10rem] mt-2 bg-white rounded border shadow-lg overflow-hidden grid grid-cols-1">
+									<RouterLink to="/user" class="border-b px-6 py-2 inline-flex items-center opacity-80 hover:opacity-100 active:opacity-100 bg-white hover:bg-gray-100 focus:bg-gray-100">
+										<span class="text-xl text-primary-700 mr-2"><font-awesome-icon icon="fa-regular fa-face-smile" fixed-width /></span>
+										<span class="text-xs font-semibold">Profil</span>
+									</RouterLink>
+									<RouterLink to="/myproduct" class="border-b px-6 py-2 inline-flex items-center opacity-80 hover:opacity-100 active:opacity-100 bg-white hover:bg-gray-100 focus:bg-gray-100" role="button">
+										<span class="text-xl text-green-700 mr-2"><font-awesome-icon icon="fa-regular fa-lemon" /></span>
+										<span class="text-xs font-semibold">Produk saya</span>
+									</RouterLink>
+									<a @click.stop="logout" class="px-6 py-2 inline-flex items-center opacity-80 hover:opacity-100 active:opacity-100 bg-white hover:bg-gray-100 focus:bg-gray-100" role="button">
+										<span class="text-xl text-danger-700 mr-2"><font-awesome-icon icon="fa-regular fa-share-from-square" /></span>
+										<span class="text-xs font-semibold">Logout</span>
+									</a>
+								</div>
+							</div>
+							<!-- <button v-else class="nav-btn" @click="logout">Logout</button> -->
 						</div>
 					</div>
 				</div>
@@ -219,7 +252,7 @@ const logout = () => {
 	}
 
 	.nav-btn {
-		@apply rounded-2xl py-2 bg-light-100 hover:bg-light-300;
+		@apply whitespace-nowrap rounded-2xl py-2 bg-light-100 hover:bg-light-300;
 	}
 
 	.nav-side > .nav-link {

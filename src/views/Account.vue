@@ -59,11 +59,11 @@ const onFormSubmit = () => {
 <template>
 	<div class="flex flex-col lg:flex-row justify-center lg:justify-around items-center flex-wrap gap-8 p-8 min-h-[100vh] bg-cover bg-center bg-no-repeat" style="background-image: url('/assets/img/bg-market.webp');">
 		<div class="w-full md:w-[80%] lg:w-[50vw]">
-			<img src="/assets/img/silajue-text-left.webp" class="w-full">
+			<img src="/assets/img/silajue-text-left.webp" class="w-full opacity-90">
 		</div>
 		<div class="lg:pr-20">
-			<div class="rounded-2xl bg-white/50 py-8 px-6">
-				<h3 class="text-4xl font-bold mb-6 mt-4">{{ isRegisterPage ? 'Sign Up' : 'Log In' }}</h3>
+			<div class="rounded-2xl bg-white/70 py-8 px-6">
+				<h3 class="text-4xl font-bold mb-6 mt-4 text-black/80">{{ isRegisterPage ? 'Sign Up' : 'Log In' }}</h3>
 				<form ref="formElm" @submit.prevent="onFormSubmit">
 					<div class="grid grid-cols-1 gap-4">
 						<div v-if="isRegisterPage" class="login-input-group mb-2">
@@ -87,9 +87,12 @@ const onFormSubmit = () => {
 						<LoaderHorizontalLine v-if="showLoader" />
 						<span v-else-if="message.length > 0" class="text-sm font-bold text-red-700 text-shadow-white">{{ message }}</span>
 					</div>
-					<div class="flex justify-end">
-						<button type="submit" class="font-medium text-base xl:text-base px-6 rounded-[50rem] py-2 font-semibold bg-primary-500 hover:bg-primary-400">{{ isRegisterPage ? 'Sign Up' : 'Log In' }}</button>
+					<div class="flex items-end mb-8 mx-2 md:mx-4">
+						<a v-if="!isRegisterPage" href="#" class="text-xs mb-1 font-semibold drop-shadow-[0_1px_5px_#fff] text-black/80 hover:text-black">Lupa password?</a>
+						<button type="submit" class="ml-auto font-medium text-base xl:text-base px-6 rounded-[50rem] py-2 font-semibold bg-primary-500 hover:bg-primary-400">{{ isRegisterPage ? 'Sign Up' : 'Log In' }}</button>
 					</div>
+					<p v-if="isRegisterPage" class="text-xs text-center mb-2 font-medium drop-shadow-[0_1px_5px_#fff] text-black/80">Sudah punya akun? <RouterLink to="/login" class="font-bold hover:text-black">Login</RouterLink></p>
+					<p v-else class="text-xs text-center mb-2 font-medium drop-shadow-[0_1px_5px_#fff] text-black/80">Belum pernah register? <RouterLink to="/register" class="font-bold hover:text-black">Buat Akun</RouterLink></p>
 				</form>
 			</div>
 		</div>
@@ -107,7 +110,7 @@ const onFormSubmit = () => {
 }
 
 .login-input-group > label {
-	@apply pl-4 pr-2 py-2 text-sm;
+	@apply pl-4 pr-2 py-2 text-sm text-black/80;
 }
 
 </style>

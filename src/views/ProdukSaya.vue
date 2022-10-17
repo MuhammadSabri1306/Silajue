@@ -11,10 +11,6 @@ if(data.length < 1) {
 		products.forEach(pItem => data.push(pItem));
 	});
 }
-
-const userStore = useUserStore();
-const isAdmin = computed(() => userStore.isRoleAdmin);
-window.userStore = () => userStore;
 </script>
 <template>
 	<div class="bg-white py-16">
@@ -42,11 +38,11 @@ window.userStore = () => userStore;
 						</form>
 					</div>
 					<div class="border-t pt-4 mt-4">
-						<div v-if="isAdmin" class="flex justify-end mb-8">
-							<router-link to="/product/form" class="font-bold text-base xl:text-base text-shadow-white px-6 rounded-2xl py-2 bg-primary-500 hover:bg-primary-600 focus-solid"><font-awesome-icon icon="fa-solid fa-plus" fixed-width /> Tambah Produk</router-link>
+						<div class="flex justify-end mb-8">
+							<router-link to="/produk/form" class="font-bold text-base xl:text-base text-shadow-white px-6 rounded-2xl py-2 bg-primary-500 hover:bg-primary-600 focus-solid"><font-awesome-icon icon="fa-solid fa-plus" fixed-width /> Tambah Produk</router-link>
 						</div>
 						<div class=" grid grid-cols-2 lg:grid-cols-3 gap-4">
-							<CardProduct v-for="(item, index) in data" :id="index" :title="item.name" :price="item.price" :img="item.img" />
+							<CardProduct v-for="(item, index) in data" :id="index" :title="item.name" :price="item.price" :img="item.img" :isAdmin="true" />
 						</div>
 					</div>
 				</div>

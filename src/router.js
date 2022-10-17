@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Beranda from "./views/Beranda.vue";
 import Profil from "./views/Profil.vue";
+import Tentang from "./views/Tentang.vue";
 import Produk from "./views/Produk.vue";
+import ProdukSaya from "./views/ProdukSaya.vue";
 import ProdukDetail from "./views/ProdukDetail.vue";
 import ProdukForm from "./views/ProdukForm.vue";
 import Blog from "./views/Blog.vue";
@@ -13,16 +15,18 @@ import Panduan from "./views/Panduan.vue";
 const useBuildPath = true;
 const routes = {
     beranda: { path: "/", component: Beranda },
-    profil: { path: "/profil", component: Profil },
-    produk: { path: "/produk", component: Produk },
-    produkDetail: { path: "/produk/detail/:id", component: ProdukDetail },
-    produkForm: { path: "/produk/form/:id?", component: ProdukForm },
+    profil: { path: "/user", component: Profil },
+    tentang: { path: "/about", component: Tentang },
+    produk: { path: "/product", component: Produk },
+    produkSaya: { path: "/myproduct", component: ProdukSaya },
+    produkDetail: { path: "/product/detail/:id", component: ProdukDetail },
+    produkForm: { path: "/product/form/:id?", component: ProdukForm },
     blog: { path: "/blog", component: Blog },
     blogDetail: { path: "/blog/detail/:id", component: BlogDetail },
     blogForm: { path: "/blog/form/:id?", component: BlogForm },
     login: { path: "/login", component: Account },
     register: { path: "/register", component: Account },
-    panduan: { path: "/panduan", component: Panduan }
+    panduan: { path: "/guide", component: Panduan }
 };
 
 const defineMyRouter = routesObj => {
