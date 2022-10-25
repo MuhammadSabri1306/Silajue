@@ -8,10 +8,13 @@ const basicLayoutViews = ["beranda", "profil", "tentang", "produk", "produkDetai
 const useBasicLayout = computed(() => basicLayoutViews.indexOf(route.name) >= 0);
 </script>
 <template>
-    <BasicLayout v-if="useBasicLayout">
-        <template #main>
-            <router-view></router-view>
-        </template>
-    </BasicLayout>
-    <router-view v-else></router-view>
+    <div>
+        <BasicLayout v-if="useBasicLayout">
+            <template #main>
+                <router-view></router-view>
+            </template>
+        </BasicLayout>
+        <router-view v-else></router-view>
+        <Toast position="bottom-right" />
+    </div>
 </template>

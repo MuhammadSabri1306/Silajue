@@ -1,7 +1,8 @@
 <script setup>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
+import { useToast } from "primevue/usetoast";
 import LoaderHorizontalLine from "@/components/LoaderHorizontalLine.vue";
 
 const route = useRoute();
@@ -23,12 +24,18 @@ const formElm = ref(null);
 const showLoader = ref(false);
 const message = ref("");
 
+const toast = useToast();
 const onLogin = () => {
 	showLoader.value = true;
 	userStore.login(data.email, data.password, status => {
 		if(!status.success) {
+			toast.add({
+				severity:"error",
+				summary: "Gagal Login",
+				detail:"Username atau password yang anda masukkan tidak benar."
+			});
+			
 			showLoader.value = false;
-			message.value = "Failed to log in!";
 			return;
 		}
 		router.push("/");
@@ -40,7 +47,6 @@ const onRegister = () => {
 	userStore.register(data.name, data.email, data.password, data.address, status => {
 		if(!status.success) {
 			showLoader.value = false;
-			message.value = "Failed to sign up!";
 			return;
 		}
 		router.push("/");
