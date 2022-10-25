@@ -22,7 +22,7 @@ export const useUserStore = defineStore("user", {
 				const response = await http.post('/login', { email, password, role: "user" });
 				
 				this.token = response.data.success.token;
-				this.role = (response.data.success.role === "admin") 2 : 1;
+				this.role = (response.data.success.role === "admin") ? 2 : 1;
 				this.profile.id = response.data.success.id;
 				this.profile.name = response.data.success.name;
 
