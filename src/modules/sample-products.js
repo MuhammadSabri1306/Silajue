@@ -2,43 +2,49 @@ export const data = [
 	{
 		id: 0,
 		name: "Sapi 1",
-		price: "Rp. 123.000.000",
+		price: 123000000,
 		stock: 10,
+		category: "sapi",
 		img: "/assets/img/produk-1.webp",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At malesuada eu tortor, amet. Nisi, in tortor magna quisque suspendisse. Turpis eget ultricies pharetra at nisl scelerisque vitae, gravida. Nunc, et egestas sollicitudin arcu lectus dis mauris hac sit. Gravida mattis blandit habitant mi ac mi. Sem eu eget at ut at pellentesque in porta."
 	}, {
 		id: 1,
 		name: "Sapi 2",
-		price: "Rp. 123.000.000",
+		price: 123000000,
 		stock: 9,
+		category: "sapi",
 		img: "/assets/img/produk-2.webp",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At malesuada eu tortor, amet. Nisi, in tortor magna quisque suspendisse. Turpis eget ultricies pharetra at nisl scelerisque vitae, gravida. Nunc, et egestas sollicitudin arcu lectus dis mauris hac sit. Gravida mattis blandit habitant mi ac mi. Sem eu eget at ut at pellentesque in porta."
 	}, {
 		id: 2,
 		name: "Sapi 3",
-		price: "Rp. 123.000.000",
+		price: 123000000,
 		stock: 5,
+		category: "sapi",
 		img: "/assets/img/produk-3.webp",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At malesuada eu tortor, amet. Nisi, in tortor magna quisque suspendisse. Turpis eget ultricies pharetra at nisl scelerisque vitae, gravida. Nunc, et egestas sollicitudin arcu lectus dis mauris hac sit. Gravida mattis blandit habitant mi ac mi. Sem eu eget at ut at pellentesque in porta."
 	}, {
 		id: 3,
 		name: "Sapi 4",
-		price: "Rp. 123.000.000",
+		price: 123000000,
 		stock: 3,
+		category: "sapi",
 		img: "/assets/img/produk-1.webp",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At malesuada eu tortor, amet. Nisi, in tortor magna quisque suspendisse. Turpis eget ultricies pharetra at nisl scelerisque vitae, gravida. Nunc, et egestas sollicitudin arcu lectus dis mauris hac sit. Gravida mattis blandit habitant mi ac mi. Sem eu eget at ut at pellentesque in porta."
 	}, {
 		id: 4,
 		name: "Sapi 5",
-		price: "Rp. 123.000.000",
+		price: 123000000,
 		stock: 10,
+		category: "sapi",
 		img: "/assets/img/produk-2.webp",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At malesuada eu tortor, amet. Nisi, in tortor magna quisque suspendisse. Turpis eget ultricies pharetra at nisl scelerisque vitae, gravida. Nunc, et egestas sollicitudin arcu lectus dis mauris hac sit. Gravida mattis blandit habitant mi ac mi. Sem eu eget at ut at pellentesque in porta."
 	}, {
 		id: 5,
 		name: "Sapi 6",
-		price: "Rp. 123.000.000",
+		price: 123000000,
 		stock: 5,
+		category: "sapi",
 		img: "/assets/img/produk-3.webp",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At malesuada eu tortor, amet. Nisi, in tortor magna quisque suspendisse. Turpis eget ultricies pharetra at nisl scelerisque vitae, gravida. Nunc, et egestas sollicitudin arcu lectus dis mauris hac sit. Gravida mattis blandit habitant mi ac mi. Sem eu eget at ut at pellentesque in porta."
 	}

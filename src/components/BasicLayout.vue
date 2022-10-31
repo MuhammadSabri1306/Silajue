@@ -22,7 +22,7 @@ const getNavActiveClass = (navName) => {
 		return ["active"];
 	if(route.name == "panduan" && navName == route.name)
 		return ["active"];
-	if(["produk", "produkDetail", "produkForm"].indexOf(route.name) >= 0 && navName == "produk")
+	if(["produk", "produkKategori", "produkDetail", "produkForm"].indexOf(route.name) >= 0 && navName == "produk")
 		return ["active"];
 	if(["blog", "blogDetail", "blogForm"].indexOf(route.name) >= 0 && navName == "blog")
 		return ["active"];

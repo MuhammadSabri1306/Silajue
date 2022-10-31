@@ -48,6 +48,10 @@
 	.focus-solid-danger {
 		@apply focus:outline-none transition-shadow shadow-none focus:shadow-[0_0_0rem_0.1rem_#ad4747];
 	}
+
+	.fixed, .xs\:fixed, .sm\:fixed, .md\:fixed, .lg\:fixed, .xl\:fixed {
+		-webkit-backface-visibility: hidden;
+	}
 }
 
 .form-input-group, .form-textarea-group {

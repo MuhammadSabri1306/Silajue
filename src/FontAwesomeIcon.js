@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import { faFacebook, faInstagram, faTwitter, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { faFaceSmile, faShareFromSquare, faLemon } from "@fortawesome/free-regular-svg-icons";
-import { faBars, faBarsStaggered, faMagnifyingGlass, faPlus, faPen, faTrashCan, faUserCircle, faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faBarsStaggered, faMagnifyingGlass, faPlus, faPen, faTrashCan, faUserCircle, faAngleUp, faAngleDown, faAngleLeft, faCartShopping, faCartPlus } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faFacebook, faInstagram, faTwitter, faWhatsapp, faBars, faBarsStaggered, faMagnifyingGlass, faPlus, faPen, faTrashCan, faUserCircle, faFaceSmile, faShareFromSquare, faLemon, faAngleUp);
+library.add(faFacebook, faInstagram, faTwitter, faWhatsapp, faBars, faBarsStaggered, faMagnifyingGlass, faPlus, faPen, faTrashCan, faUserCircle, faFaceSmile, faShareFromSquare, faLemon, faAngleUp, faCartShopping, faCartPlus, faAngleDown, faAngleLeft);
 
 export default FontAwesomeIcon;
