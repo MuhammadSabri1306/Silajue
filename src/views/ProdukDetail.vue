@@ -49,7 +49,7 @@ const productStore = useProductStore();
 const addToCart = () => {
 	const isSuccess = productStore.addToCart(route.params.id, data.name, data.price, itemCount.value);
 	if(isSuccess)
-		alert(props.name + " ditambahkan ke keranjang.");
+		alert(data.name + " ditambahkan ke keranjang.");
 	else
 		alert("Error saat ingin menambahkan ke keranjang.");
 };
