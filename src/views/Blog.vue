@@ -15,7 +15,7 @@ getSamplePost().then(dataPosts => {
 
 const suggestions = reactive([]);
 getPostSuggestions(1).then(dataPosts => {
-	dataPosts.forEach(pItem => suggestions.push(pItem));
+	dataPosts.forEach((pItem, index) => index > 0 && suggestions.push(pItem));
 });
 
 const userStore = useUserStore();
@@ -38,8 +38,10 @@ window.userStore = () => userStore;
 				<div v-if="isAdmin" class="flex justify-end mb-8">
 					<router-link to="/produk/form" class="font-bold text-base xl:text-base text-shadow-white px-6 rounded-2xl py-2 bg-primary-500 hover:bg-primary-600 focus-solid"><font-awesome-icon icon="fa-solid fa-plus" fixed-width /> Tambah Post</router-link>
 				</div>
-				<CardPostLg v-if="posts.length > 0" :id="posts[0].id" :title="posts[0].title" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Neque urna turpis donec nunc ultrices aenean enim purus magna. Eget convallis ultricies arcu adipiscing vulputate nunc. Leo quis ac sed leo euismod." :img="posts[0].img" />
-				<div class=" grid grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+				<div v-if="posts.length > 0" class="hidden md:block">
+					<CardPostLg :id="posts[0].id" :title="posts[0].title" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Neque urna turpis donec nunc ultrices aenean enim purus magna. Eget convallis ultricies arcu adipiscing vulputate nunc. Leo quis ac sed leo euismod." :img="posts[0].img" />
+				</div>
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
 					<CardPost v-for="item in suggestions" :id="item.id" :title="item.title" :description="item.description" :img="item.img" />
 				</div>
 			</div>

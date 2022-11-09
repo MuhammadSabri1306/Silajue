@@ -27,15 +27,36 @@ console.log("test");
 	<div class="bg-white py-16">
 		<div class="container pt-8">
 			<h6 class="text-4xl font-bold">Blog</h6>
-			<div class="border-t pt-4 mt-4 pb-32">
+		</div>
+		<div class="md:container">
+			<div class="border-t pt-4 mt-4">
 				<div class="mb-12">
-					<div class="bg-cover bg-center bg-no-repeat aspect-[2.4/1]" :style="styleImg"></div>
+					<div class="bg-cover bg-center bg-no-repeat aspect-[1/1] md:aspect-[2.4/1]" :style="styleImg"></div>
 				</div>
-				<p class="text-4xl font-bold mb-4">{{ post.title }}</p>
-				<div class="post-content">
-					<div v-html="post.content"></div>
-				</div>
+			</div>
+		</div>
+		<div class="container">
+			<p class="text-4xl font-bold mb-4 text-gray-900">{{ post.title }}</p>
+			<div class="post-content pb-32">
+				<div v-html="post.content"></div>
 			</div>
 		</div>
 	</div>
 </template>
+<style>
+	
+.post-content p,
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6 {
+	@apply mb-8 text-gray-800;
+}
+
+.post-content {
+	@apply text-gray-800;
+}
+
+</style>

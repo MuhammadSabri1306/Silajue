@@ -57,10 +57,13 @@ const onUserMenuLostFocus = event => {
 
 const navElm = ref(null);
 const navHeight = ref(0);
+const topMain = ref(0);
 
 onMounted(() => {
-	if(navElm.value.offsetHeight)
+	if(navElm.value.offsetHeight) {
 		navHeight.value = navElm.value.offsetHeight;
+		topMain.value = (window.innerWidth < 1024) ? 0 : navHeight.value;
+	}
 
 	document.body.classList.add("bg-primary-500");
 	document.addEventListener("click", onUserMenuLostFocus);
@@ -212,7 +215,7 @@ const logout = () => {
 					</div>
 				</div>
 			</nav>
-			<main class="grow w-screen" :class="{ 'w-screen': isNavToggle }" :style="{ marginTop: navHeight + 'px' }">
+			<main class="grow w-screen" :class="{ 'w-screen': isNavToggle }" :style="{ marginTop: topMain + 'px' }">
 				<slot name="main"></slot>
 			</main>
 			<footer class="bg-primary-500 py-16">

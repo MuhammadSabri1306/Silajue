@@ -21,9 +21,8 @@ const isImgLoaded = ref(false);
 	<router-link :to="routeDetail" class="block rounded-t-2xl relative overflow-hidden transition-opacity opacity-100 hover:opacity-80">
 		<div class="aspect-[2.4/1]">&nbsp;</div>
 		<ImgAsync class="absolute top-0 left-0 w-full h-full" :size="15" :src="img" @loaded="isImgLoaded = true" />
-		<div class="absolute left-0 w-full rounded-tl-[50px] bg-primary-500 px-8 md:px-8 py-3 md:py-6 transition-all duration-300 ease-in-out" :class="{ 'bottom-0': isImgLoaded, '-bottom-full': !isImgLoaded }">
-			<p class="text-4xl font-bold mb-4">{{ title }}</p>
-			<p>{{ description }}</p>
+		<div class="absolute bg-gradient-to-t from-gray-900 to-transparent left-0 w-full px-8 md:px-8 py-3 md:py-6 transition-all duration-300 ease-in-out" :class="{ 'bottom-0': isImgLoaded, '-bottom-full': !isImgLoaded }">
+			<p class="text-2xl text-white text-shadow-black font-bold">{{ title }}</p>
 		</div>
 		<div v-if="isAdmin" class="absolute top-0 right-0">
 			<div class="p-2 flex items-center">

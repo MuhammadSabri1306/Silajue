@@ -21,9 +21,8 @@ const isImgLoaded = ref(false);
 	<router-link :to="routeDetail" class="rounded-t-2xl relative overflow-hidden transition-all scale-100 hover:scale-95">
 		<div class="aspect-square">&nbsp;</div>
 		<ImgAsync class="absolute top-0 left-0 w-full h-full" :size="15" :src="img" @loaded="isImgLoaded = true" />
-		<div class="absolute bottom-0 left-0 w-full rounded-tl-[50px] px-8 py-3 bg-primary-500">
-			<p class="text-2xl font-bold mb-2">{{ title }}</p>
-			<p class="text-sm">{{ description }}</p>
+		<div class="absolute bottom-0 left-0 w-full px-4 pb-2 pt-24 bg-gradient-to-t from-gray-900 to-gray-900/10">
+			<p class="text-lg text-white text-shadow-black font-bold">{{ title }}</p>
 		</div>
 		<div v-if="isAdmin" class="absolute top-0 right-0">
 			<div class="p-2 flex items-center">
