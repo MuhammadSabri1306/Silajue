@@ -215,7 +215,7 @@ const logout = () => {
 					</div>
 				</div>
 			</nav>
-			<main class="grow w-screen" :class="{ 'w-screen': isNavToggle }" :style="{ marginTop: topMain + 'px' }">
+			<main class="grow w-screen" :class="{ 'w-screen': isNavToggle }" :style="{ marginTop: navHeight + 'px' }">
 				<slot name="main"></slot>
 			</main>
 			<footer class="bg-primary-500 py-16">
