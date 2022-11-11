@@ -1,7 +1,7 @@
 /** @type {import("tailwindcss").Config} */
 
 const defaultTheme = require("tailwindcss/defaultTheme");
-const colors = require("tailwindcss/colors");
+// const colors = require("tailwindcss/colors");
 
 module.exports = {
   content: ["./index.html", "./src/**/*.{vue,js}"],
@@ -22,9 +22,28 @@ module.exports = {
     },
     extend: {
       colors: {
-        primary: colors.sky,
-        secondary: "#ffff00",
-        danger: colors.red,
+        primary: {
+          '100': '#addbf0',
+          '200': '#99d3ed',
+          '300': '#85cbea',
+          '400': '#71c3e7',
+          '500': '#5cb8e4',
+          '600': '#50a4cc',
+          '700': '#4490b4',
+          '800': '#387c9c',
+          '900': '#2b6783'
+        },
+        danger: {
+          '100': '#ffa9a9',
+          '200': '#f99696',
+          '300': '#f38383',
+          '400': '#ed7070',
+          '500': '#e45c5c',
+          '600': '#d75454',
+          '700': '#ca4c4c',
+          '800': '#bd4444',
+          '900': '#ad3939'
+        },
         graylight: "#D9D9D9",
         light: {
           "100": "#f2f2f2",

@@ -1,136 +1,141 @@
 <script setup>
 import { ref, reactive, computed, watch } from "vue";
 import { useRoute } from "vue-router";
-import CardProduct from "@/components/CardProduct.vue";
+import http from "@/modules/http-common";
+import { formatIdr } from "@/modules/currency-format";
+import { buildCardProps } from "@/modules/buildCardProps";
+import { getSampleProduct, getProductSuggestions } from "@/modules/sample-products";
+import BasicLayout from "@/components/basic-layout/Layout.vue";
+import TopbarProduct from "@/components/TopbarProduct.vue";
 import BgImageAsync from "@/components/BgImageAsync.vue";
-import ProductCart from "@/components/ProductCart.vue";
-import { getSampleProduct, getSuggestions } from "@/modules/sample-products";
-import { useProductStore } from "@/stores/product";
+import CardProduct from "@/components/CardProduct.vue";
+import ModalProduct from "@/components/ModalProduct.vue";
+
+const errMessage = ref(null);
+const isProductLoaded = ref(false);
+const isSuggestLoaded = ref(false);
 
 const route = useRoute();
-const data = reactive({
-	name: "",
-	price: "",
-	stock: 0,
-	description: "",
-	img: ""
+const product = reactive({
+	id: route.params.id,
+	name: null,
+	price: null,
+	img: null,
+	type: null,
+	category: null,
+	description: null,
+	available: null
 });
 
-const numberWithDot = n => {
-	return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-};
+const textPrice = computed(() => formatIdr(product.price));
 
-if(route.params.id) {
-	getSampleProduct(route.params.id).then(product => {
-		data.name = product.name;
-		data.price = product.price;
-		data.stock = product.stock;
-		data.category = product.category;
-		data.description = product.description;
-		data.img = product.img;
+getSampleProduct(product.id)
+	.then(response => {
+		if(!response.product) {
+			return console.warn(response);
+		}
+
+		product.name = response.product.name;
+		product.price = response.product.price;
+		product.img = response.product.img;
+		product.type = response.product.type;
+		product.category = response.product.category;
+		product.description = response.product.description;
+		product.available = response.product.stock > 0;
+
+		isProductLoaded.value = true;
+	})
+	.catch(err => {
+		isProductLoaded.value = true;
+		errMessage.value = "Terjadi kasalahan saat hendak menghubungi server.";
 	});
-}
 
-const dataSuggest = reactive([]);
-getSuggestions(route.params.id).then(suggest => {
-	suggest.forEach(suggestItem => dataSuggest.push(suggestItem));
-});
+const suggests = reactive([]);
+getProductSuggestions(product.id, 4)
+	.then(response => {
+		if(!response.products) {
+			return console.warn(response);
+		}
 
-const textPrice = computed(() => "Rp " + numberWithDot(data.price));
-const showBuyForm = ref(false);
-const itemCount = ref(1);
-const textTotalPrice = computed(() => {
-	return "Rp " + numberWithDot(data.price * itemCount.value);
-});
+		response.products.forEach(item => suggests.push(item));
+		isSuggestLoaded.value = true;
+	})
+	.catch(err => {
+		isSuggestLoaded.value = true;
+	});
 
-const showCart = ref(false);
-
-const productStore = useProductStore();
-const addToCart = () => {
-	const isSuccess = productStore.addToCart(route.params.id, data.name, data.price, itemCount.value);
-	if(isSuccess)
-		alert(data.name + " ditambahkan ke keranjang.");
-	else
-		alert("Error saat ingin menambahkan ke keranjang.");
+const showModal = ref(false);
+const openModal = id => {
+	showModal.value = true;
 };
 </script>
 <template>
-	<div class="bg-white py-16">
-		<div class="container mb-12">
-			<div class="flex justify-end">
-				<button @click="showCart = true" class="flex justify-center items-center text-black rounded px-3 py-1 hover-margin bg-green-500 hover:bg-green-400">
-					<span class="text-xl mr-2"><font-awesome-icon icon="fa-solid fa-cart-shopping" /></span>
-					<span class="text-sm font-semibold hidden md:inline">Keranjang</span>
-				</button>
-			</div>
-		</div>
-		<div class="container pt-8">
-			<h6 class="text-2xl font-bold">Detail Produk</h6>
-			<div class="border-t pt-4 mt-4 pb-32">
-				<div class="md:grid grid-cols-[1fr_auto] gap-4">
-					<div>
-						<div class="mb-12">
-							<BgImageAsync class="aspect-[2.4/1]" :src="data.img" />
-							<div class="grid md:hidden grid-cols-2 gap-4 mt-4">
-								<div><img src="/assets/img/detail-produk-sample1.png" class="w-full"></div>
-								<div><img src="/assets/img/detail-produk-sample2.png" class="w-full"></div>
-							</div>
+	<BasicLayout>
+		<template #topbar>
+			<TopbarProduct />
+		</template>
+		<template #main>
+			<div>
+				<div class="bg-white py-16">
+					<div v-if="errMessage" class="container mb-16">
+						<h6 class="text-2xl font-semibold text-center text-gray-800">{{ errMessage }}</h6>
+					</div>
+					<div v-if="isProductLoaded" class="container mb-16">
+						<h6 class="text-2xl font-bold mb-4">Detail Produk</h6>
+						<div v-if="isProductLoaded && errMessage">
+							<h3 class="text-2xl text-black/60 font-semibold">{{ errMessage }}</h3>
 						</div>
-						<div class="flex gap-4">
-							<h6 class="text-3xl font-bold text-black/90">{{ data.name }}</h6>
-							<button v-if="!showBuyForm" type="button" @click="showBuyForm = true" class="ml-auto flex justify-center items-center text-black rounded px-3 py-1 hover-margin bg-green-500 hover:bg-green-400">
-								<span class="text-2xl mr-2"><font-awesome-icon icon="fa-solid fa-cart-plus" /></span>
-								<span class="font-semibold">Beli</span>
-							</button>
-							<button v-else type="button" @click="showBuyForm = false" class="ml-auto flex justify-center items-center text-black rounded px-3 py-2 bg-gray-100 hover:bg-white">
-								<font-awesome-icon icon="fa-solid fa-angle-left" />
-								<span class="ml-2">Kembali</span>
-							</button>
-						</div>
-						<div :class="{ 'max-h-[100%]': !showBuyForm, 'max-h-[0]': showBuyForm }" class="overflow-hidden transition-all duration-300">
-							<div class="py-4 md:py-8 px-2 md:px-8 my-4 md:my-8 bg-gray-100 rounded-2xl">
-								<p class="text-black/70 mb-4">{{ data.description }}</p>
-								<p class="text-black/80 flex items-center mb-4">Stok tersisa <span class="font-semibold border rounded px-2 py-1 mx-2 text-lg">{{ data.stock }}</span> ekor</p>
-								<p class="font-semibold text-xl whitespace-nowrap text-primary-800">{{ textPrice }}</p>
-							</div>
-						</div>
-						<div :class="{ 'max-h-[0]': !showBuyForm, 'max-h-[100%]': showBuyForm }" class="overflow-hidden transition-all duration-300">
-							<div class="py-4 md:py-8 px-2 md:px-8 my-4 md:my-8 md:w-2/3 lg:w-1/2">
-								<div class="mb-4">
-									<label class="text-black/90 text-sm font-medium" for="jumlahItem">Jumlah item:</label>
-									<div class="flex items-center mt-2">
-										<div class="grow">
-											<input type="number" id="jumlahItem" class="block w-full py-1 px-2 border border-black/10 hover:border-black/20 focus:border-black/20 rounded text-center" v-model="itemCount">
-										</div>
-										<span class="text-sm font-medium text-black/70 ml-2 mr-1">dari</span>
-										<span class="text-sm font-bold text-black/70">{{ data.stock }}</span>
-									</div>
+						<div v-if="isProductLoaded && !errMessage" class="grid gap-4 grid-cols-1 md:grid-cols-[1.5fr_1fr] lg:grid-cols-[2fr_1fr]">
+							<div>
+								<div class="rounded-2xl overflow-hidden">
+									<BgImageAsync class="aspect-video" :src="product.img" />
 								</div>
-								<div class="mb-8">
-									<label class="text-black/90 text-sm font-medium" for="totalItem">Total:</label>
-									<input type="text" :value="textTotalPrice" id="totalItem" class="block w-full py-1 px-2 border border-green-30 text-green-800 text-lg rounded text-center" disabled>
+							</div>
+							<div class="p-4 flex flex-col justify-center">
+								<h6 class="text-4xl font-bold text-gray-900">{{ product.name }}</h6>
+								<p class="text-base font-semibold text-gray-600">{{ product.category }}</p>
+								<div class="py-4">
+									<p class="text-sm text-gray-600 mb-4">{{ product.description }}</p>
+									<div class="flex items-center mb-4 gap-2">
+										<span class="text-xs font-semibold px-3 py-1 rounded bg-gray-700 text-white">{{ product.type }}</span>
+									</div>
+									<p class="font-bold text-2xl whitespace-nowrap text-green-600 text-right">{{ textPrice }}</p>
 								</div>
 								<div class="flex justify-end">
-									<button @click="addToCart" type="button" class="flex justify-center items-center text-black rounded px-3 py-1 hover-margin bg-green-500 hover:bg-green-400">
+									<button type="button" @click="openModal(product.id)" class="flex justify-center items-center text-white rounded px-6 py-2 hover-margin bg-green-600 hover:bg-green-500">
 										<span class="text-xl mr-2"><font-awesome-icon icon="fa-solid fa-cart-plus" /></span>
-										<span class="font-semibold">Beli</span>
+										<span class="text-sm font-medium">Beli</span>
 									</button>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="w-40 hidden md:flex flex-col gap-4">
-						<div><img src="/assets/img/detail-produk-sample1.png" class="w-full"></div>
-						<div><img src="/assets/img/detail-produk-sample2.png" class="w-full"></div>
+				</div>
+				<div v-if="isSuggestLoaded" class="bg-gray-100 pt-16 pb-8">
+					<div class="px-8 lg:container mb-8">
+						<h6 class="text-2xl lg:text-4xl font-bold text-gray-900">Produk lainnya</h6>
+					</div>
+					<div class="w-full overflow-x-auto pb-8">
+						<div class="flex gap-4">
+							<div v-for="(item, index) in suggests" class="product-card-wrapper">
+
+								<CardProduct v-bind="buildCardProps(item)" :class="{ 'ml-4': (index == 0), 'mr-4': (index == suggests.length - 1) }" class="shadow-sm" />
+
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="border-t pt-2 mt-8"></div>
-				<h6 class="text-base font-semibold mb-4">Produk Serupa</h6>
-				<div class=" grid grid-cols-2 lg:grid-cols-3 gap-4">
-					<CardProduct v-for="(item, index) in dataSuggest" :id="index" :title="item.name" :price="item.price" :img="item.img" :category="item.category" :description="item.description" :stock="item.stock" class="shadow-sm" />
-				</div>
+
+				<ModalProduct v-if="showModal" @close="showModal = false" :key="id" :id="product.id" :name="product.name" :price="product.price" :type="product.type" :category="product.category" />
+
 			</div>
-		</div>
-		<ProductCart :class="{ 'right-0': showCart, '-right-full': !showCart }" class="fixed top-0 h-screen bg-white border-l shadow z-[22] md:w-1/2 lg:w-1/3 overflow-y-auto transition-all duration-500" @hide="showCart = false" />
-	</div>
+		</template>
+	</BasicLayout>
 </template>
+<style scoped>
+	
+.product-card-wrapper {
+	@apply flex-[0_0_18rem];
+}
+
+</style>

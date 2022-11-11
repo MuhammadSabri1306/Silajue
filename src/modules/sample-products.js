@@ -1,52 +1,58 @@
 export const data = [
 	{
-		id: 0,
-		name: "Sapi 1",
-		price: 123000000,
-		stock: 10,
-		category: "sapi",
-		img: "/assets/img/produk-1.webp",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At malesuada eu tortor, amet. Nisi, in tortor magna quisque suspendisse. Turpis eget ultricies pharetra at nisl scelerisque vitae, gravida. Nunc, et egestas sollicitudin arcu lectus dis mauris hac sit. Gravida mattis blandit habitant mi ac mi. Sem eu eget at ut at pellentesque in porta."
-	}, {
 		id: 1,
-		name: "Sapi 2",
-		price: 123000000,
-		stock: 9,
-		category: "sapi",
-		img: "/assets/img/produk-2.webp",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At malesuada eu tortor, amet. Nisi, in tortor magna quisque suspendisse. Turpis eget ultricies pharetra at nisl scelerisque vitae, gravida. Nunc, et egestas sollicitudin arcu lectus dis mauris hac sit. Gravida mattis blandit habitant mi ac mi. Sem eu eget at ut at pellentesque in porta."
+		name: "Abang",
+		price: 7500,
+		stock: 10,
+		category: "Limousin",
+		type: "Sexing",
+		img: "/assets/img/product-1.webp",
+		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
 	}, {
 		id: 2,
-		name: "Sapi 3",
-		price: 123000000,
+		name: "Abang",
+		price: 14000,
 		stock: 5,
-		category: "sapi",
-		img: "/assets/img/produk-3.webp",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At malesuada eu tortor, amet. Nisi, in tortor magna quisque suspendisse. Turpis eget ultricies pharetra at nisl scelerisque vitae, gravida. Nunc, et egestas sollicitudin arcu lectus dis mauris hac sit. Gravida mattis blandit habitant mi ac mi. Sem eu eget at ut at pellentesque in porta."
+		category: "Limousin",
+		type: "Unsexing",
+		img: "/assets/img/product-1.webp",
+		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
 	}, {
 		id: 3,
-		name: "Sapi 4",
-		price: 123000000,
-		stock: 3,
-		category: "sapi",
-		img: "/assets/img/produk-1.webp",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At malesuada eu tortor, amet. Nisi, in tortor magna quisque suspendisse. Turpis eget ultricies pharetra at nisl scelerisque vitae, gravida. Nunc, et egestas sollicitudin arcu lectus dis mauris hac sit. Gravida mattis blandit habitant mi ac mi. Sem eu eget at ut at pellentesque in porta."
+		name: "Buyung",
+		price: 7500,
+		stock: 10,
+		category: "Simental",
+		type: "Sexing",
+		img: "/assets/img/product-2.webp",
+		description: "Umur 6 tahun, bobot 688 Kg, tinggi 145 cm, lingkar dada 204 cm, panjang badan 177 cm."
 	}, {
 		id: 4,
-		name: "Sapi 5",
-		price: 123000000,
+		name: "Sadoko",
+		price: 7500,
 		stock: 10,
-		category: "sapi",
-		img: "/assets/img/produk-2.webp",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At malesuada eu tortor, amet. Nisi, in tortor magna quisque suspendisse. Turpis eget ultricies pharetra at nisl scelerisque vitae, gravida. Nunc, et egestas sollicitudin arcu lectus dis mauris hac sit. Gravida mattis blandit habitant mi ac mi. Sem eu eget at ut at pellentesque in porta."
+		category: "Kerbau Belang",
+		type: "Unsexing",
+		img: "/assets/img/product-3.webp",
+		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
 	}, {
 		id: 5,
-		name: "Sapi 6",
-		price: 123000000,
-		stock: 5,
-		category: "sapi",
-		img: "/assets/img/produk-3.webp",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At malesuada eu tortor, amet. Nisi, in tortor magna quisque suspendisse. Turpis eget ultricies pharetra at nisl scelerisque vitae, gravida. Nunc, et egestas sollicitudin arcu lectus dis mauris hac sit. Gravida mattis blandit habitant mi ac mi. Sem eu eget at ut at pellentesque in porta."
+		name: "Sadoko",
+		price: 14000,
+		stock: 10,
+		category: "Kerbau Belang",
+		type: "Sexing",
+		img: "/assets/img/product-3.webp",
+		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
+	}, {
+		id: 6,
+		name: "Kajuara",
+		price: 14000,
+		stock: 10,
+		category: "Bali",
+		type: "Unsexing",
+		img: "/assets/img/product-4.webp",
+		description: "Umur 8 tahun, bobot 523 Kg, tinggi 137 cm, lingkar dada 202 cm, panjang badan 143 cm."
 	}
 ];
 
@@ -159,31 +165,32 @@ export const post = [
 	}
 ];
 
-export const getSampleProduct = (productId = null) => {
-	if(!productId)
-		return new Promise((resolve, reject) => setTimeout(() => resolve(data), 500));
-
-	return new Promise((resolve, reject) => {
-		const dataById = data.find(({ id }) => id == productId);
-		setTimeout(() => resolve(dataById), 500);
-	});
+const buildResponse = responseData => {
+	const response = { success: true, ...responseData };
+	return new Promise((resolve, reject) => setTimeout(() => resolve(response), 500));
 };
 
-export const getSuggestions = (currentId) => {
-	return new Promise((resolve, reject) => {
-		const suggestions = [];
-		let i = data.findIndex(({ id }) => id == currentId);
+export const getSampleProduct = (productId = null) => {
+	if(!productId)
+		return buildResponse({ products: data });
 
-		for(let j=0; j<3; j++) {
-			suggestions.push(data[i]);
-			i++;
+	const dataById = data.find(({ id }) => id == productId);
+	return buildResponse({ product: dataById });
+};
 
-			if(i === data.length)
-				i = 0;
-		}
+export const getProductSuggestions = (currentId, maxLength = 3) => {
+	const suggestions = [];
+	let index = data.findIndex(({ id }) => id == currentId);
+	
+	for(let i=0; i<maxLength; i++) {
+		suggestions.push(data[index]);
+		index++;
 
-		setTimeout(() => resolve(suggestions), 500);
-	});
+		if(index === data.length)
+			index = 0;
+	}
+
+	return buildResponse({ products: suggestions });
 };
 
 export const getSamplePost = (postId = null) => {

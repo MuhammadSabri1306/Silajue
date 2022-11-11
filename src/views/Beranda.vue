@@ -1,4 +1,5 @@
 <script setup>
+import BasicLayout from "@/components/basic-layout/Layout.vue";
 
 const onSearchFormSubmit = (event) => {
 	const formElm = event.target;
@@ -6,83 +7,91 @@ const onSearchFormSubmit = (event) => {
 };
 </script>
 <template>
-	<header class="h-[451px] relative w-full overflow-hidden">
-		<div class="absolute top-0 left-0 w-full h-full bg-black/20 flex">
-			<div class="m-auto flex flex-col items-center">
-				<img src="/assets/img/text-hero.webp" class="w-2/3 md:w-[20rem] mb-10">
-				<form class="hidden md:flex" @submit.prevent="onSearchFormSubmit">
-					<div class="grid w-[30rem] mr-5">
-						<input type="search" name="" class="block w-full h-10 px-6 text-sm rounded-[1.25rem] transition-color bg-gray-200 hover:bg-white focus:bg-white">
+	<BasicLayout>
+		<template #main>
+			<header class="h-[451px] relative w-full overflow-hidden">
+				<div class="absolute top-0 left-0 w-full h-full bg-black/20 flex">
+					<div class="m-auto flex flex-col items-center">
+						<img src="/assets/img/text-hero.webp" class="w-2/3 md:w-[20rem] mb-10">
+						<form @submit.prevent="onSearchFormSubmit">
+							<div class="flex">
+								<div class="grid grow md:w-[30rem] mr-2 lg:mr-4">
+									<input type="search" class="block w-full h-full px-6 text-sm font-semibold rounded transition-color bg-gray-200 hover:bg-white focus:bg-white" placeholder="Cari...">
+								</div>
+								<button class="px-3 py-2 rounded text-xl transition-color text-white hover:text-black bg-black hover:bg-secondary">
+									<font-awesome-icon icon="fa-solid fa-search" />
+								</button>
+							</div>
+						</form>
 					</div>
-					<button class="px-6 py-2 rounded-[1.25rem] text-base leading-none text-white text-shadow-black bg-primary-500 hover:bg-primary-600">Search</button>
-				</form>
+				</div>
+			</header>
+			<div class="bg-white pt-16 pb-8">
+				<div class="container">
+					<div class="flex justify-center items-center mb-12">
+						<div class="w-36 border-b border-gray-500 hidden md:block"></div>
+						<h3 class="text-2xl tracking-widest font-bold text-center mx-8">DAFTAR KATEGORI</h3>
+						<div class="w-36 border-b border-gray-500 hidden md:block"></div>
+					</div>
+					<div class="flex justify-center items-center gap-12 flex-wrap mb-16">
+						<div class="category-item">
+							<img src="/assets/img/kategori-sapi-circle.webp" class="rounded-full mb-4">
+							<p class="text-center font-medium">Sapi</p>
+						</div>
+						<div class="category-item">
+							<img src="/assets/img/kategori-kambing-circle.webp">
+							<p>Kambing</p>
+						</div>
+						<div class="category-item">
+							<img src="/assets/img/kategori-ayam-circle.webp">
+							<p>Ayam</p>
+						</div>
+						<div class="category-item">
+							<img src="/assets/img/kategori-domba-circle.webp">
+							<p>Domba</p>
+						</div>
+						<div class="category-item">
+							<img src="/assets/img/kategori-bebek-circle.webp">
+							<p>Bebek</p>
+						</div>
+						<div class="category-item">
+							<img src="/assets/img/kategori-ikan-circle.webp">
+							<p>Ikan</p>
+						</div>
+					</div>
+					<div class="flex flex-col items-center mb-16">
+						<div class="mb-6">
+							<router-link to="/product" class="block text-xl font-semibold px-6 py-3 bg-primary-500 rounded hover:bg-primary-400 hover-margin">MULAI BELANJA</router-link>
+						</div>
+						<h2 class="text-3xl text-primary-600 tracking-wider font-bold text-center">AYO BELANJA DI APLIKASI SILAJUE</h2>
+					</div>
+				</div>
+				<div class="container mx-auto py-8">
+					<div class="flex justify-center items-center mb-8">
+						<img src="/assets/img/selling-flow.svg" class="lg:w-3/4">
+					</div>
+				</div>
+				<div class="container">
+					<div class="flex justify-center">
+						<div class="w-full lg:w-3/4 h-24 rounded-[3rem] bg-gray-200 flex justify-between items-center px-12">
+							<p class="text-black text-center leading-none">
+								<span class="text-2xl font-bold leading-none">1000</span><br>
+								<span class="text-sm font-medium">Produk</span>
+							</p>
+							<p class="text-black text-center leading-none">
+								<span class="text-2xl font-bold leading-none">1000</span><br>
+								<span class="text-sm font-medium">Penyedia</span>
+							</p>
+							<p class="text-black text-center leading-none">
+								<span class="text-2xl font-bold leading-none">1000</span><br>
+								<span class="text-sm font-medium">Transaksi</span>
+							</p>
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
-	</header>
-	<div class="bg-white pt-16 pb-8">
-		<div class="container">
-			<div class="flex justify-center items-center mb-12">
-				<div class="w-36 border-b border-gray-500 hidden md:block"></div>
-				<h3 class="text-2xl tracking-widest font-bold text-center mx-8">DAFTAR KATEGORI</h3>
-				<div class="w-36 border-b border-gray-500 hidden md:block"></div>
-			</div>
-			<div class="flex justify-center items-center gap-12 flex-wrap mb-16">
-				<div class="category-item">
-					<img src="/assets/img/kategori-sapi-circle.webp" class="rounded-full mb-4">
-					<p class="text-center font-medium">Sapi</p>
-				</div>
-				<div class="category-item">
-					<img src="/assets/img/kategori-kambing-circle.webp">
-					<p>Kambing</p>
-				</div>
-				<div class="category-item">
-					<img src="/assets/img/kategori-ayam-circle.webp">
-					<p>Ayam</p>
-				</div>
-				<div class="category-item">
-					<img src="/assets/img/kategori-domba-circle.webp">
-					<p>Domba</p>
-				</div>
-				<div class="category-item">
-					<img src="/assets/img/kategori-bebek-circle.webp">
-					<p>Bebek</p>
-				</div>
-				<div class="category-item">
-					<img src="/assets/img/kategori-ikan-circle.webp">
-					<p>Ikan</p>
-				</div>
-			</div>
-			<div class="flex flex-col items-center mb-16">
-				<div class="mb-6">
-					<router-link to="/product" class="block text-xl font-medium px-6 py-2 bg-primary-500 text-shadow-white hover:bg-primary-400 hover-margin">MULAI BELANJA</router-link>
-				</div>
-				<h2 class="text-3xl text-primary-600 tracking-wider font-bold text-center">AYO BELANJA DI APLIKASI SILAJUE</h2>
-			</div>
-		</div>
-		<div class="container mx-auto py-8">
-			<div class="flex justify-center items-center mb-8">
-				<img src="/assets/img/selling-flow.svg" class="lg:w-3/4">
-			</div>
-		</div>
-		<div class="container">
-			<div class="flex justify-center">
-				<div class="w-full lg:w-3/4 h-24 rounded-[3rem] bg-gray-200 flex justify-between items-center px-12">
-					<p class="text-black text-center leading-none">
-						<span class="text-2xl font-bold leading-none">1000</span><br>
-						<span class="text-sm font-medium">Produk</span>
-					</p>
-					<p class="text-black text-center leading-none">
-						<span class="text-2xl font-bold leading-none">1000</span><br>
-						<span class="text-sm font-medium">Penyedia</span>
-					</p>
-					<p class="text-black text-center leading-none">
-						<span class="text-2xl font-bold leading-none">1000</span><br>
-						<span class="text-sm font-medium">Transaksi</span>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
+		</template>
+	</BasicLayout>
 </template>
 <style scoped>
 	header {

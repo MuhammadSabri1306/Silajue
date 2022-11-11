@@ -2,15 +2,16 @@ import { defineStore } from "pinia";
 
 export const useViewStore = defineStore("view", {
 	state: () => ({
-		showBackdrop: false
+		showSidebar: false,
+		sidebarWidth: "70vw"
 	}),
 	getters: {},
 	actions: {
-		toggleShowBackdrop(show = null){
+		toggleShowSidebar(show = null){
 			if(show === null)
-				this.showBackdrop = !this.showBackdrop;
+				this.showSidebar = !this.showSidebar;
 			else
-				this.showBackdrop = show;
+				this.showSidebar = show;
 		}
 	}
 });
