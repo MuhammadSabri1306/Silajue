@@ -1,18 +1,11 @@
 import { defineStore } from "pinia";
 import http from "@/modules/http-common";
-import { getSampleProduct } from "@/modules/sample-products";
+import { getSampleProduct, getSampleCategories } from "@/modules/sample-products";
 
 export const useProductStore = defineStore("product", {
 	state: () => ({
-		categories: ["sapi", "kambing", "domba", "bebek", "ayam", "ikan"],
-		carts: [
-			{
-				id: 0,
-				name: "Sapi 1",
-				price: 123000000,
-				itemCount: 3
-			}
-		],
+		categories: [],
+		carts: [],
 		currProduct: {}
 	}),
 	actions: {
@@ -21,8 +14,20 @@ export const useProductStore = defineStore("product", {
 			return true;
 		},
 
-		fetchProducts(callback = null) {
+		fetchProducts() {
 			return getSampleProduct();
+		},
+
+		async fetchCategories() {
+			try {
+
+				// const response = await http.post('/login', { email, password, role: "user" });
+				const response = await getSampleCategories();
+				this.categories = response.categories;
+
+			} catch(err) {
+				console.error(err);
+			}
 		},
 
 		async fetchCurrProduct(id) {

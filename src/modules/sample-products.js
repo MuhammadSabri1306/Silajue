@@ -165,6 +165,13 @@ export const post = [
 	}
 ];
 
+const categories = [
+	{ id: 1, name: "Limousin" },
+	{ id: 1, name: "Simental" },
+	{ id: 1, name: "Bali" },
+	{ id: 1, name: "Kerbau Belang" }
+];
+
 const buildResponse = responseData => {
 	const response = { success: true, ...responseData };
 	return new Promise((resolve, reject) => setTimeout(() => resolve(response), 500));
@@ -218,4 +225,8 @@ export const getPostSuggestions = (currentId) => {
 
 		setTimeout(() => resolve(suggestions), 500);
 	});
+};
+
+export const getSampleCategories = () => {
+	return buildResponse({ categories });
 };

@@ -17,7 +17,7 @@ const isSuggestLoaded = ref(false);
 
 const route = useRoute();
 const product = reactive({
-	id: route.params.id,
+	id: null,
 	name: null,
 	price: null,
 	img: null,
@@ -28,46 +28,58 @@ const product = reactive({
 });
 
 const textPrice = computed(() => formatIdr(product.price));
-
-getSampleProduct(product.id)
-	.then(response => {
-		if(!response.product) {
-			return console.warn(response);
-		}
-
-		product.name = response.product.name;
-		product.price = response.product.price;
-		product.img = response.product.img;
-		product.type = response.product.type;
-		product.category = response.product.category;
-		product.description = response.product.description;
-		product.available = response.product.stock > 0;
-
-		isProductLoaded.value = true;
-	})
-	.catch(err => {
-		isProductLoaded.value = true;
-		errMessage.value = "Terjadi kasalahan saat hendak menghubungi server.";
-	});
-
 const suggests = reactive([]);
-getProductSuggestions(product.id, 4)
-	.then(response => {
-		if(!response.products) {
-			return console.warn(response);
-		}
-
-		response.products.forEach(item => suggests.push(item));
-		isSuggestLoaded.value = true;
-	})
-	.catch(err => {
-		isSuggestLoaded.value = true;
-	});
-
 const showModal = ref(false);
+
 const openModal = id => {
 	showModal.value = true;
 };
+
+const setupData = id => {
+	errMessage.value = null;
+	isProductLoaded.value = false;
+	isSuggestLoaded.value = false;
+	showModal.value = false;
+
+	getSampleProduct(id)
+		.then(response => {
+			if(!response.product) {
+				return console.warn(response);
+			}
+
+			product.id = response.product.id;
+			product.name = response.product.name;
+			product.price = response.product.price;
+			product.img = response.product.img;
+			product.type = response.product.type;
+			product.category = response.product.category;
+			product.description = response.product.description;
+			product.available = response.product.stock > 0;
+
+			isProductLoaded.value = true;
+		})
+		.catch(err => {
+			isProductLoaded.value = true;
+			errMessage.value = "Terjadi kasalahan saat hendak menghubungi server.";
+		});
+
+	suggests.splice(0, suggests.length);
+	getProductSuggestions(id, 4)
+		.then(response => {
+			if(!response.products) {
+				return console.warn(response);
+			}
+
+			response.products.forEach(item => suggests.push(item));
+			isSuggestLoaded.value = true;
+		})
+		.catch(err => {
+			isSuggestLoaded.value = true;
+		});
+};
+
+setupData(route.params.id);
+watch(() => route.params.id, id => setupData(id));
 </script>
 <template>
 	<BasicLayout>
@@ -126,7 +138,7 @@ const openModal = id => {
 					</div>
 				</div>
 
-				<ModalProduct v-if="showModal" @close="showModal = false" :key="id" :id="product.id" :name="product.name" :price="product.price" :type="product.type" :category="product.category" />
+				<ModalProduct v-if="showModal" @close="showModal = false" :key="product.id" :id="product.id" :name="product.name" :price="product.price" :type="product.type" :category="product.category" />
 
 			</div>
 		</template>

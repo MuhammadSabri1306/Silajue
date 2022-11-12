@@ -21,6 +21,7 @@ const { data, v$ } = useDataForm({
 });
 data.itemCount = 1;
 
+const modal = ref(null);
 const textPrice = computed(() => formatIdr(props.price));
 const textTotal = computed(() => formatIdr(props.price * data.itemCount));
 
@@ -29,6 +30,8 @@ const toast = useToast();
 
 const addToCart = () => {
 	const isSuccess = productStore.addToCart(props.id, props.title, props.price, data.itemCount);
+	modal.value && modal.value.hide();
+	
 	if(isSuccess) {
 		toast.add({
 			severity:"success",
@@ -45,7 +48,7 @@ const addToCart = () => {
 };
 </script>
 <template>
-	<Modal @close="$emit('cancel')">
+	<Modal ref="modal" @close="$emit('cancel')">
 		<template #header>
 			<div class="p-4">
 				<h3 class="text-lg text-gray-600">Tambahkan ke keranjang</h3>
@@ -84,7 +87,7 @@ const addToCart = () => {
 					</div>
 				</div>
 				<div class="grid grid-cols-1 p-4">
-					<button type="button" class="flex justify-center items-center text-white rounded px-3 py-2 hover-margin bg-green-600 hover:bg-green-500">
+					<button type="button" @click="addToCart" class="flex justify-center items-center text-white rounded px-3 py-2 hover-margin bg-green-600 hover:bg-green-500">
 						<span class="text-2xl mr-2"><font-awesome-icon icon="fa-solid fa-cart-plus" /></span>
 						<span class="text-base">Masukkan ke Keranjang</span>
 					</button>

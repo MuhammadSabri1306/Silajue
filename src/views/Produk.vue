@@ -8,6 +8,7 @@ import BasicLayout from "@/components/basic-layout/Layout.vue";
 import TopbarProduct from "@/components/TopbarProduct.vue";
 import ListProduct from "@/components/ListProduct.vue";
 import ProductCart from "@/components/ProductCart.vue";
+import FabProduct from "@/components/FabProduct.vue";
 
 const route = useRoute();
 const data = reactive([]);
@@ -63,30 +64,35 @@ const showCart = ref(false);
 			<TopbarProduct />
 		</template>
 		<template #main>
-			<header class="py-16 bg-green-600 flex flex-col">
-				<h3 class="text-black text-4xl font-bold text-shadow-white text-center">Produk</h3>
-				<h6 class="font-medium text-lg text-center text-gray-100 mb-8">Temukan produk semen beku sesuai kebutuhan anda.</h6>
-				<div class="mx-auto">
-					<form>
-						<div class="flex">
-							<div class="grid grow md:w-[30rem] mr-2">
-								<input type="search" class="block w-full h-full px-6 text-sm font-semibold rounded transition-color bg-gray-200 hover:bg-white focus:bg-white" placeholder="Cari produk...">
+			<main>
+				<header class="py-16 bg-green-600 flex flex-col">
+					<h3 class="text-black text-4xl font-bold text-shadow-white text-center">Produk</h3>
+					<h6 class="font-medium text-lg text-center text-gray-100 mb-8">Temukan produk semen beku sesuai kebutuhan anda.</h6>
+					<div class="mx-auto">
+						<form>
+							<div class="flex">
+								<div class="grid grow md:w-[30rem] mr-2">
+									<input type="search" class="block w-full h-full px-6 text-sm font-semibold rounded transition-color bg-gray-200 hover:bg-white focus:bg-white" placeholder="Cari produk...">
+								</div>
+								<button class="px-3 py-2 rounded text-xl transition-color text-white hover:text-black bg-black hover:bg-secondary">
+									<font-awesome-icon icon="fa-solid fa-search" />
+								</button>
 							</div>
-							<button class="px-3 py-2 rounded text-xl transition-color text-white hover:text-black bg-black hover:bg-secondary">
-								<font-awesome-icon icon="fa-solid fa-search" />
-							</button>
-						</div>
-					</form>
+						</form>
+					</div>
+				</header>
+
+				<FabProduct />
+				
+				<div class="bg-white py-16">
+					<div class="container px-8">
+						
+						<ListProduct class="border-t pt-4 mt-4" />
+						
+					</div>
+					<ProductCart :class="{ 'right-0': showCart, '-right-full': !showCart }" class="fixed top-0 h-screen bg-white border-l shadow z-[22] md:w-1/2 lg:w-1/3 overflow-y-auto transition-all duration-500" @hide="showCart = false" />
 				</div>
-			</header>
-			<div class="bg-white py-16">
-				<div class="container px-8">
-					
-					<ListProduct class="border-t pt-4 mt-4" />
-					
-				</div>
-				<ProductCart :class="{ 'right-0': showCart, '-right-full': !showCart }" class="fixed top-0 h-screen bg-white border-l shadow z-[22] md:w-1/2 lg:w-1/3 overflow-y-auto transition-all duration-500" @hide="showCart = false" />
-			</div>
+			</main>
 		</template>
 	</BasicLayout>
 </template>

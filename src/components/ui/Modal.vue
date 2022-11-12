@@ -9,6 +9,10 @@ const props = defineProps({
 const open = ref(true);
 const show = ref(false);
 
+defineExpose({
+	hide: () => show.value = false
+});
+
 onMounted(() => show.value = true);
 
 const onModalClosed = () => {

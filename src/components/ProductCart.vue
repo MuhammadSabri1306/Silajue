@@ -16,6 +16,10 @@ const router = useRouter();
 const toLoginPage = () => {
 	router.push("/login");
 };
+
+/*
+id, name, price, itemCount
+*/
 </script>
 <template>
 	<div class="p-8">

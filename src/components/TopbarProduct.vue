@@ -1,25 +1,23 @@
+<script setup>
+import { computed } from "vue";
+import { useProductStore } from "@/stores/product";
+
+const productStore = useProductStore();
+const categories = computed(() => productStore.categories);
+
+if(categories.value.length < 1)
+	productStore.fetchCategories();
+</script>
 <template>
-	<nav class="topbar">
+	<nav v-if="categories.length > 0" class="topbar">
 		<ul class="flex md:justify-center">
 			<li>
 				<div class="scroll-icon">
 					<font-awesome-icon icon="fa-solid fa-arrows-left-right" fixed-width />
 				</div>
 			</li>
-			<li class="topbar-item">
-				<a href="#">Semua</a>
-			</li>
-			<li class="topbar-item">
-				<a href="#">Sapi Bali</a>
-			</li>
-			<li class="topbar-item">
-				<a href="#">Sapi Limousin</a>
-			</li>
-			<li class="topbar-item">
-				<a href="#">Sapi Simental</a>
-			</li>
-			<li class="topbar-item">
-				<a href="#">Kerbau Belang</a>
+			<li v-for="item in categories" class="topbar-item">
+				<a href="#">{{ item.name }}</a>
 			</li>
 		</ul>
 	</nav>
