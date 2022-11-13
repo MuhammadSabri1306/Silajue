@@ -49,17 +49,17 @@ const onLogin = async () => {
 
 </script>
 <template>
-	<div class="rounded-2xl bg-white/70 py-8 px-6">
+	<div class="rounded-2xl bg-white py-8 px-6 w-full md:w-[25rem]">
 		<h3 class="text-4xl font-bold mb-6 mt-4 form-title">Log In</h3>
 		<form @submit.prevent="onLogin">
 			<div class="grid grid-cols-1 gap-4">
 				<div :class="{ 'invalid': v$.email.$invalid && hasSubmitted }" class="login-input-group">
 					<label for="inputEmail" class="text-shadow-white">Email</label>
-					<div><input v-model="data.email" type="email" id="inputEmail" class="pl-[10rem] focus-shadow" required></div>
+					<input v-model="data.email" type="email" id="inputEmail" class="pl-[10rem] focus-shadow" required>
 				</div>
 				<div :class="{ 'invalid': v$.password.$invalid && hasSubmitted }" class="login-input-group">
 					<label for="inputPass" class="text-shadow-white">Password</label>
-					<div><input v-model="data.password" type="password" id="inputPass" class="pl-[10rem] focus-shadow" required></div>
+					<input v-model="data.password" type="password" id="inputPass" class="pl-[10rem] focus-shadow" required>
 				</div>
 			</div>
 			<div class="h-3 my-4">
@@ -80,12 +80,13 @@ const onLogin = async () => {
 	text-shadow: 1px 3px theme(colors.secondary);
 }
 
-.login-input-group {
-	@apply grid grid-cols-[auto_1fr] rounded-lg transition-colors bg-gray-100 border border-transparent;
+.login-input-group label {
+	@apply block mb-2;
 }
 
-.login-input-group input {
-	@apply block w-full h-full pr-4 pl-2 text-sm bg-transparent focus:shadow-none;
+.login-input-group input,
+.login-input-group textarea {
+	@apply block w-full px-4 py-2 text-sm focus:shadow-none rounded transition-colors bg-gray-100 border;
 }
 
 .login-input-group.invalid {

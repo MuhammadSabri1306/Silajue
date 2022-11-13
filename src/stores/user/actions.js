@@ -27,22 +27,18 @@ export default {
 		}
 	},
 
-	async register(name, email, password, address, callback = null) {
-		const params = { name, email, password };
-		if(address)
-			params.address = address;
-		
+	async register(data, callback = null) {
 		try {
 
-			const response = await http.post("/register", params);
-			console.log(response);
-			callback && callback({ success: true });
+			const response = await http.post('/register', { ...data, role: "user" });
+			const success = !response.data.error;
+			callback && callback({ success });
 		
 		} catch(err) {
 
 			console.error(err);
 			callback && callback({ success: false, message: err.response.data.error });
-
+		
 		}
 	}
 };

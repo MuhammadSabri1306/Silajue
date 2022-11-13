@@ -72,7 +72,7 @@ onMounted(() => document.body.addEventListener("click", onBodyClick));
 onUnmounted(() => document.body.addEventListener("click", onBodyClick));
 </script>
 <template>
-	<div class="rounded-2xl bg-white py-8 px-6 min-w-[25rem]">
+	<div class="rounded-2xl bg-white py-8 px-6 w-[25rem]">
 		<h3 class="text-4xl font-bold mb-6 mt-4 form-title">Register</h3>
 		<form @submit.prevent="onRegister">
 			<div class="grid grid-cols-1 gap-4">

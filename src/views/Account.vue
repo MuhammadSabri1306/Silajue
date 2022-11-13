@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import FormLogin from "@/components/FormLogin.vue";
-import FormRegister from "@/components/FormRegister.vue";
+import FormRegister from "@/components/form-register/Form.vue";
 import FooterLight from "@/components/basic-layout/FooterLight.vue";
 
 const route = useRoute();
@@ -14,7 +14,7 @@ const isLoginPage = computed(() => route.name == "login");
 			<div class="w-full md:w-[80%] lg:w-[50vw]">
 				<img src="/assets/img/silajue-text-left.webp" class="w-full opacity-90">
 			</div>
-			<div class="lg:pr-20">
+			<div class="w-full md:w-auto lg:pr-20">
 				<FormLogin v-if="isLoginPage" />
 				<FormRegister v-else />
 			</div>
