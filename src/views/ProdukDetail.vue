@@ -127,11 +127,11 @@ watch(() => route.params.id, id => setupData(id));
 					<div class="px-8 lg:container mb-8">
 						<h6 class="text-2xl lg:text-4xl font-bold text-gray-900">Produk lainnya</h6>
 					</div>
-					<div class="w-full overflow-x-auto pb-8">
-						<div class="flex gap-4">
-							<div v-for="(item, index) in suggests" class="product-card-wrapper">
+					<div class="w-full overflow-x-auto flex pb-8">
+						<div class="mx-auto grid grid-cols-[repeat(4,18rem)] pl-8 pr-12 gap-4">
+							<div v-for="(item, index) in suggests">
 
-								<CardProduct v-bind="buildCardProps(item)" :class="{ 'ml-4': (index == 0), 'mr-4': (index == suggests.length - 1) }" class="shadow-sm" />
+								<CardProduct v-bind="buildCardProps(item)" class="shadow-sm" />
 
 							</div>
 						</div>

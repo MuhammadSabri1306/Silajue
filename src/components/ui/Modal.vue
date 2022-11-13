@@ -46,7 +46,7 @@ const onBackdropClick = () => {
 <style>
 	
 .modal-wrapper {
-	@apply fixed z-[9999] w-screen h-screen top-0 left-0 p-4 lg:p-8 flex justify-center items-center bg-gray-900/70;
+	@apply fixed z-[8888] w-screen h-screen top-0 left-0 p-4 lg:p-8 flex justify-center items-center bg-gray-900/70;
 }
 
 .modal {

@@ -2,7 +2,9 @@
 import { computed, useSlots } from "vue";
 import { useRouter } from "vue-router";
 import { useViewStore } from "@/stores/view";
+import { useUserStore } from "@/stores/user";
 import Navbar from "./Navbar.vue";
+import CollapseUser from "./CollapseUser.vue";
 import Sidebar from "./Sidebar.vue";
 import Footer from "./Footer.vue";
 
@@ -14,12 +16,14 @@ const navItems = [
 	{ title: "Panduan", target: "/guide", routeItems: ["panduan"] }
 ];
 
+const userStore = useUserStore();
+const isRolePublic = computed(() => userStore.isRolePublic);
+
 const router = useRouter();
 const navigateTo = to => router.push(to);
-const login = () => router.push("/login");
-const toProfile = () => router.push("/user");
 const logout = () => {
-	console.log("Button Logout was clicked");
+	userStore.logout();
+	router.push("/login");
 };
 
 const viewStore = useViewStore();
@@ -38,7 +42,12 @@ const useTopbarSlot = computed(() => !!slots.topbar);
 <template>
 	<div id="basicWrapper" class="w-full max-w-[100vw] overflow-x-hidden relative">
 		<nav :style="{ marginLeft: contentLeft }" class="navbar">
-			<Navbar :navItems="navItems" @navigate="navigateTo" @login="login" @logout="logout" @toProfile="toProfile" class="border-b" />
+			<Navbar :navItems="navItems" @navigate="navigateTo" class="border-b" >
+				<div class="mx-2 lg:mx-6 flex">
+					<a v-if="isRolePublic" role="button" class="nav-btn my-auto" @click="navigateTo('/login')">Log In</a>
+					<CollapseUser v-else class="my-auto" @logout="logout" @navigate="navigateTo" />
+				</div>
+			</Navbar>
 			<slot name="topbar"></slot>
 		</nav>
 		<div :style="{ marginLeft: contentLeft }" class="flex flex-col content-wrapper w-screen">
@@ -47,7 +56,7 @@ const useTopbarSlot = computed(() => !!slots.topbar);
 			</main>
 			<Footer />
 		</div>
-		<Sidebar :navItems="navItems" @navigate="navigateTo" @login="login" @logout="logout" @toProfile="toProfile" />
+		<Sidebar :navItems="navItems" @navigate="navigateTo" @login="navigateTo('/login')" @logout="logout" @toProfile="navigateTo('/user')" />
 	</div>
 </template>
 <style>
@@ -74,6 +83,10 @@ body > #app > div,
 .navbar {
 	@apply bg-white z-[2] sticky top-0 w-screen shadow-sm grid grid-cols-1;
 	transition: margin-left 0.3s;
+}
+
+.nav-btn {
+	@apply whitespace-nowrap rounded py-2 px-6 text-white font-medium text-sm xl:text-base transition-colors bg-primary-600 hover:bg-gray-900;
 }
 
 </style>
