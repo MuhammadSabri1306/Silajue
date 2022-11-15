@@ -37,7 +37,7 @@ if(blogList.value.length < 1)
 				</header>
 				<div class="bg-gray-100 py-16">
 					<div class="container">
-						<div class="bg-white grid grid-cols-[2fr_1fr]">
+						<div class="bg-white grid grid-cols-1 md:grid-cols-[2fr_1fr]">
 							<div class="grid-cols-1 py-8">
 								<CardBlog v-for="item in blogList" :id="item.id" :date="item.date" :title="item.title" :img="item.img" :desc="item.description" class="mb-12" />
 							</div>
