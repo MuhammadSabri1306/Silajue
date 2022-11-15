@@ -44,11 +44,11 @@ const onRegister = async () => {
 	showLoader.value = true;
 	const dataRegister = {
 		name: props.name,
-		telp: props.telp,
-		idNumber: props.idNumber,
-		villageId: props.villageId,
+		password: data.password,
 		address: props.address,
-		password: data.password
+		phone_number: props.telp,
+		village_id: props.villageId,
+		nric: props.idNumber,
 	};
 
 	userStore.register(dataRegister, success => {

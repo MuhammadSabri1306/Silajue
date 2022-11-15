@@ -29,7 +29,15 @@ const productStore = useProductStore();
 const toast = useToast();
 
 const addToCart = () => {
-	const isSuccess = productStore.addToCart(props.id, props.title, props.price, data.itemCount);
+	const cartData = {
+		id: props.id,
+		name: props.name,
+		price: props.price,
+		type: props.type,
+		category: props.category,
+		itemCount: data.itemCount
+	};
+	const isSuccess = productStore.addToCart(cartData);
 	modal.value && modal.value.hide();
 	
 	if(isSuccess) {

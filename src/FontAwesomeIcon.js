@@ -5,8 +5,8 @@ import { faFacebook, faInstagram, faTwitter, faWhatsapp } from "@fortawesome/fre
 
 import { faFaceSmile, faShareFromSquare, faLemon } from "@fortawesome/free-regular-svg-icons";
 
-import { faBars, faBarsStaggered, faMagnifyingGlass, faPlus, faPen, faTrashCan, faUserCircle, faAngleUp, faAngleDown, faAngleLeft, faCartShopping, faCartPlus, faX, faCircleXmark, faSearch, faArrowsLeftRight, faReceipt } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faBarsStaggered, faMagnifyingGlass, faPlus, faPen, faTrashCan, faUserCircle, faAngleUp, faAngleDown, faAngleLeft, faCartShopping, faCartPlus, faX, faCircleXmark, faSearch, faArrowsLeftRight, faReceipt, faImage } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faFacebook, faInstagram, faTwitter, faWhatsapp, faBars, faBarsStaggered, faMagnifyingGlass, faPlus, faPen, faTrashCan, faUserCircle, faFaceSmile, faShareFromSquare, faLemon, faAngleUp, faCartShopping, faCartPlus, faAngleDown, faAngleLeft, faX, faCircleXmark, faArrowsLeftRight, faReceipt);
+library.add(faFacebook, faInstagram, faTwitter, faWhatsapp, faBars, faBarsStaggered, faMagnifyingGlass, faPlus, faPen, faTrashCan, faUserCircle, faFaceSmile, faShareFromSquare, faLemon, faAngleUp, faCartShopping, faCartPlus, faAngleDown, faAngleLeft, faX, faCircleXmark, faArrowsLeftRight, faReceipt, faImage);
 
 export default FontAwesomeIcon;

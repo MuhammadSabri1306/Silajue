@@ -138,7 +138,7 @@ watch(() => route.params.id, id => setupData(id));
 					</div>
 				</div>
 
-				<ModalProduct v-if="showModal" @close="showModal = false" :key="product.id" :id="product.id" :name="product.name" :price="product.price" :type="product.type" :category="product.category" />
+				<ModalProduct v-if="showModal" @close="showModal = false" :id="product.id" :name="product.name" :price="product.price" :type="product.type" :category="product.category" />
 
 			</div>
 		</template>

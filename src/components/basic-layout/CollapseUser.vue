@@ -37,7 +37,7 @@ const nameUser = computed(() => userStore.profile.name);
 						<p>Lihat Profil saya</p>
 					</div>
 				</a>
-				<a role="button" @click.stop="" class="collapse-item">
+				<a role="button" @click.stop="$emit('navigate', '/invoice')" class="collapse-item">
 					<div class="icon text-green-500">
 						<font-awesome-icon icon="fa-solid fa-receipt" fixed-width />
 					</div>
