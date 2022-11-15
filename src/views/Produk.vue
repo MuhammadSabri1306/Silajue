@@ -15,10 +15,9 @@ const data = reactive([]);
 
 const userStore = useUserStore();
 const isAdmin = computed(() => userStore.isRoleAdmin);
-window.userStore = () => userStore;
 
 const productStore = useProductStore();
-const categoryList = computed(() => ["semua", ...productStore.categories]);
+const categoryList = computed(() => ["Semua", ...productStore.categories]);
 const activeCategoryText = computed(() => {
 	if(!route.params.category)
 		return "Semua";

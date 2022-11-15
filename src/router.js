@@ -24,8 +24,6 @@ const routes = {
     produkDetail: { path: "/product/detail/:id", component: ProdukDetail },
     produkForm: { path: "/product/form/:id?", component: ProdukForm },
     blog: { path: "/blog", component: Blog },
-    blogDetail: { path: "/blog/detail/:id", component: BlogDetail },
-    blogForm: { path: "/blog/form/:id?", component: BlogForm },
     login: { path: "/login", component: Account },
     register: { path: "/register", component: Account },
     panduan: { path: "/guide", component: Panduan },

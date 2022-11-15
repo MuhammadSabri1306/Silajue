@@ -59,6 +59,7 @@ export const data = [
 export const post = [
 	{
 		id: 1,
+		date: "4 Maret 2022",
 		title: "Memulai Usaha Ternak Sapi Digital",
 		description: "Perkembangan teknologi yang semakin canggih mendorong masyarakat untuk terus berinovasi. Hadirnya teknologi digital yang memudahkan aktivitas dan kehidupan sehari-hari membuat produk digital terus diminati. Tidak ketinggalan, usaha ternak sapi digital online turut mewarnai perkembangan teknologi.",
 		content: `<p class=""></p><p><strong><strong>Ingin Memulai Usaha Ternak Sapi Digital? Perhatikan Hal Berikut</strong></strong></p>
@@ -101,6 +102,7 @@ export const post = [
 		img: "/assets/img/produk-1.webp"
 	}, {
 		id: 2,
+		date: "10 November 2022",
 		title: "Peternakan Sapi Modern dan juga Terpercaya",
 		description: "Bagi anda yang belum memiliki sebuah pekerjaan, ada baiknya anda untuk melakukan pekerjaan lain. Pekerjaan lain yang bisa anda lakukan, adalah melakukan kegiatan berternak sapi. Peternakan sapi yang bisa dilakukan ini, adalah secara daring atau online. Berikut ini adalah keunggulan dari ternak sapi online, dan juga tempat untuk ternak sapi secara online.",
 		content: `
@@ -202,12 +204,10 @@ export const getProductSuggestions = (currentId, maxLength = 3) => {
 
 export const getSamplePost = (postId = null) => {
 	if(!postId)
-		return new Promise((resolve, reject) => setTimeout(() => resolve(post), 500));
+		return buildResponse({ blog: post });
 
-	return new Promise((resolve, reject) => {
-		const postById = post.find(({ id }) => id == postId);
-		setTimeout(() => resolve(postById), 500);
-	});
+	const dataById = post.find(({ id }) => id == postId);
+	return buildResponse({ blog: dataById });
 };
 
 export const getPostSuggestions = (currentId) => {

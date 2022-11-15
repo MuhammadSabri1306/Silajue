@@ -23,7 +23,7 @@ module.exports = {
     extend: {
       colors: {
         primary: colors.sky,
-        secondary: "#ffff00",
+        secondary: "#fff240",
         danger: colors.red,
         graylight: "#D9D9D9",
         light: {

@@ -1,55 +1,50 @@
 <script setup>
-import { reactive, computed } from "vue";
-import { useRoute } from "vue-router";
-import { useUserStore } from "@/stores/user";
+import { computed } from "vue";
+import { useBlogStore } from "@/stores/blog";
 import BasicLayout from "@/components/basic-layout/Layout.vue";
-import CardPostLg from "@/components/CardPostLg.vue";
-import CardPost from "@/components/CardPost.vue";
-import { getSamplePost, getPostSuggestions } from "@/modules/sample-products";
+import CardBlog from "@/components/CardBlog.vue";
 
-const route = useRoute();
+const blogStore = useBlogStore();
 
-const posts = reactive([]);
-getSamplePost().then(dataPosts => {
-	dataPosts.forEach(pItem => posts.push(pItem));
+const blogList = computed(() => {
+	if(!blogStore.blogs)
+		return [];
+	return blogStore.blogs;
 });
 
-const suggestions = reactive([]);
-getPostSuggestions(1).then(dataPosts => {
-	dataPosts.forEach((pItem, index) => index > 0 && suggestions.push(pItem));
-});
-
-const userStore = useUserStore();
-const isAdmin = computed(() => userStore.isRoleAdmin);
-window.userStore = () => userStore;
+if(blogList.value.length < 1)
+	blogStore.fetchBlog();
 </script>
 <template>
 	<BasicLayout>
 		<template #main>
-			<div class="bg-white py-16">
-				<div class="container pt-8">
-					<div class="flex justify-between items-end">
-						<h6 class="text-4xl font-bold">Blog</h6>
-						<form class="block relative">
-							<input type="search" name="keyword" class="w-full bg-white pl-4 pr-14 py-2 rounded-[50rem] bg-gray-200" placeholder="Cari...">
-							<button type="submit" class="absolute top-1/2 right-0 -translate-y-1/2 p-4 rounded-full text-lg">
-								<font-awesome-icon icon="fa-solid fa-magnifying-glass" fixed-width />
-							</button>
+			<main>
+				<header class="py-16 bg-primary-600 flex flex-col">
+					<h3 class="text-black text-4xl font-bold text-shadow-white text-center">Silajue Blog</h3>
+					<h6 class="font-medium text-lg text-center text-gray-100 mb-8">Artikel dan Informasi dari kami.</h6>
+					<div class="mx-auto">
+						<form>
+							<div class="flex">
+								<div class="grid grow md:w-[30rem] mr-2">
+									<input type="search" class="block w-full h-full px-6 text-sm font-semibold rounded transition-color bg-gray-200 hover:bg-white focus:bg-white" placeholder="Cari artikel...">
+								</div>
+								<button class="px-3 py-2 rounded text-xl transition-color text-white hover:text-black bg-black hover:bg-secondary">
+									<font-awesome-icon icon="fa-solid fa-search" />
+								</button>
+							</div>
 						</form>
 					</div>
-					<div class="border-t pt-4 mt-4 pb-32">
-						<div v-if="isAdmin" class="flex justify-end mb-8">
-							<router-link to="/produk/form" class="font-bold text-base xl:text-base text-shadow-white px-6 rounded-2xl py-2 bg-primary-500 hover:bg-primary-600 focus-solid"><font-awesome-icon icon="fa-solid fa-plus" fixed-width /> Tambah Post</router-link>
-						</div>
-						<div v-if="posts.length > 0" class="hidden md:block">
-							<CardPostLg :id="posts[0].id" :title="posts[0].title" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Neque urna turpis donec nunc ultrices aenean enim purus magna. Eget convallis ultricies arcu adipiscing vulputate nunc. Leo quis ac sed leo euismod." :img="posts[0].img" />
-						</div>
-						<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-							<CardPost v-for="item in suggestions" :id="item.id" :title="item.title" :description="item.description" :img="item.img" />
+				</header>
+				<div class="bg-gray-100 py-16">
+					<div class="container">
+						<div class="bg-white grid grid-cols-[2fr_1fr]">
+							<div class="grid-cols-1 py-8">
+								<CardBlog v-for="item in blogList" :id="item.id" :date="item.date" :title="item.title" :img="item.img" :desc="item.description" class="mb-12" />
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</main>
 		</template>
 	</BasicLayout>
 </template>

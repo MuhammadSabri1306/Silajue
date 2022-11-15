@@ -4,17 +4,21 @@ import { useProductStore } from "@/stores/product";
 
 const productStore = useProductStore();
 const categories = computed(() => productStore.categories);
+const showTopbar = computed(() => productStore.categories && productStore.categories.length > 0);
 
 if(categories.value.length < 1)
 	productStore.fetchCategories();
 </script>
 <template>
-	<nav v-if="categories.length > 0" class="topbar">
+	<nav v-if="showTopbar" class="topbar">
 		<ul class="flex md:justify-center">
 			<li>
 				<div class="scroll-icon">
 					<font-awesome-icon icon="fa-solid fa-arrows-left-right" fixed-width />
 				</div>
+			</li>
+			<li class="topbar-item">
+				<a href="#">Semua</a>
 			</li>
 			<li v-for="item in categories" class="topbar-item">
 				<a href="#">{{ item.name }}</a>
@@ -33,7 +37,7 @@ if(categories.value.length < 1)
 }
 
 .topbar-item a {
-	@apply block px-6 py-4 text-sm font-medium whitespace-nowrap transition-colors hover:text-green-400;
+	@apply block px-6 py-4 text-sm font-medium whitespace-nowrap transition-colors hover:bg-white/10;
 }
 
 .scroll-icon,
