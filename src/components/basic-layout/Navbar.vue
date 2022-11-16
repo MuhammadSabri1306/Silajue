@@ -32,7 +32,7 @@ const toggleSidebar = () => viewStore.toggleShowSidebar();
 	<div class="px-6 md:px-8 lg:px-12">
 		<div class="flex">
 			<RouterLink to="/" class="mr-auto">
-				<h4 class="nav-brand"><span>S</span>ILAJUE</h4>
+				<h4 class="nav-brand"><span>S</span><span>ilajue</span></h4>
 			</RouterLink>
 			<ul class="nav-menu">
 				<li v-for="item in navItems" class="nav-link text-shadow-white hover-margin">
@@ -52,12 +52,16 @@ const toggleSidebar = () => viewStore.toggleShowSidebar();
 <style scoped>
 
 .nav-brand {
-	text-shadow: 2px 1px #ffff00;
-	@apply font-black tracking-widest text-gray-900 text-xl lg:text-2xl py-5;
+	/*text-shadow: 2px 1px theme(colors.primary.100);*/
+	@apply flex items-center py-2;
 }
 
-.nav-brand > span {
-	@apply text-3xl md:text-4xl font-bold;
+.nav-brand > span:first-child {
+	@apply text-3xl md:text-5xl font-semibold text-gray-800;
+}
+
+.nav-brand > span:nth-child(2) {
+	@apply font-black tracking-widest text-gray-800 text-xl mt-1 md:mt-2;
 }
 
 .nav-menu {

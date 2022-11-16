@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from "vue";
 import BgImageAsync from "@/components/BgImageAsync.vue";
 
 const props = defineProps({
@@ -8,6 +9,8 @@ const props = defineProps({
 	img: { type: String },
 	desc: { type: String }
 });
+
+const url = computed(() => "/blog/detail/" + props.id);
 
 </script>
 <template>
@@ -24,8 +27,10 @@ const props = defineProps({
 				<span class="ml-2">{{ date }}</span>
 			</p>
 			<p class="mb-4 text-gray-700">{{ desc }}</p>
-			<div>
-				<a href="#" class="text-lg font-semibold text-primary-700 border-b-2 py-1 border-primary-700">Selengkapnya</a>
+			<div class="flex">
+				<router-link :to="url" class="card-link">
+					<span>Selengkapnya</span>
+				</router-link>
 			</div>
 		</div>
 	</article>
@@ -37,7 +42,11 @@ const props = defineProps({
 }
 
 .card-blog .h-padding {
-	@apply px-12;
+	@apply px-8 md:px-12;
+}
+
+.card-link {
+	@apply block text-lg font-semibold text-primary-700 py-1 relative before:absolute before:h-0.5 before:top-full before:left-0 before:bg-primary-700 before:transition-all before:w-0 hover:before:w-full;
 }
 
 </style>

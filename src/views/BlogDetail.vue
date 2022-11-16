@@ -1,65 +1,89 @@
 <script setup>
-import { reactive, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useRoute } from "vue-router";
+import { useBlogStore } from "@/stores/blog";
 import BasicLayout from "@/components/basic-layout/Layout.vue";
-// import CardPostLg from "@/components/CardPostLg.vue";
-// import CardPost from "@/components/CardPost.vue";
-import { getSamplePost, getPostSuggestions } from "@/modules/sample-products";
+import BgImageAsync from "@/components/BgImageAsync.vue";
+
+const showErrMessage = ref(false);
+const isBlogLoaded = ref(false);
+const isSuggestLoaded = ref(false);
 
 const route = useRoute();
+const blogId = computed(() => route.params.id);
+const currBlog = ref(null);
 
-const post = reactive({
-	title: "",
-	content: "",
-	img: ""
-});
+const blogStore = useBlogStore();
+const blog = ref(null);
 
-const styleImg = computed(() => ({ backgroundImage: `url('${ post.img }')` }));
-
-route.params.id && getSamplePost(route.params.id).then(dataPost => {
-	post.title = dataPost.title;
-	post.content = dataPost.content;
-	post.img = dataPost.img;
-});
+blogStore.fetchBlogById(blogId.value)
+	.then(response => {
+		blog.value = response.blog;
+		isBlogLoaded.value = true;
+	})
+	.catch(err => {
+		console.error(err);
+		showErrMessage.value = true;
+	});
 </script>
 <template>
 	<BasicLayout>
 		<template #main>
-			<div class="bg-white py-16">
-				<div class="container pt-8">
-					<h6 class="text-4xl font-bold">Blog</h6>
+			<main class="bg-gray-100">
+				<header class="py-16 bg-primary-600 flex flex-col">
+					<h3 class="text-black text-4xl font-bold text-shadow-white text-center">Silajue Blog</h3>
+					<h6 class="font-medium text-lg text-center text-gray-100 mb-8">Artikel dan Informasi dari kami.</h6>
+					<div class="mx-auto">
+						<form>
+							<div class="flex">
+								<div class="grid grow md:w-[30rem] mr-2">
+									<input type="search" class="block w-full h-full px-6 text-sm font-semibold rounded transition-color bg-gray-200 hover:bg-white focus:bg-white" placeholder="Cari artikel...">
+								</div>
+								<button class="px-3 py-2 rounded text-xl transition-color text-white hover:text-black bg-black hover:bg-secondary">
+									<font-awesome-icon icon="fa-solid fa-search" />
+								</button>
+							</div>
+						</form>
+					</div>
+				</header>
+				<div v-if="showErrMessage" class="py-16 bg-white">
+					<div class="container">
+						<h3 class="text-4xl font-semibold text-gray-700">Terdapat kesalahan saat menghubungi server.</h3>
+					</div>
 				</div>
-				<div class="md:container">
-					<div class="border-t pt-4 mt-4">
-						<div class="mb-12">
-							<div class="bg-cover bg-center bg-no-repeat aspect-[1/1] md:aspect-[2.4/1]" :style="styleImg"></div>
+				<div v-if="blog" class="container py-16">
+					<div class="bg-white grid grid-cols-1 md:grid-cols-[2fr_1fr]">
+						<div class="grid-cols-1 py-4">
+							<article class="bg-white py-16 px-4 md:px-8">
+								<h1 class="text-4xl font-semibold text-gray-900 mb-8">{{ blog.title }}</h1>
+								<div class="mb-8 -ml-4 md:-ml-8">
+									<BgImageAsync class="aspect-video" :src="blog.img" />
+								</div>
+								<p class="font-medium text-gray-700 mb-2">
+									<font-awesome-icon icon="fa-regular fa-clock" />
+									<span class="ml-2">{{ blog.date }}</span>
+								</p>
+								<div v-html="blog.content" class="blog-content"></div>
+							</article>
 						</div>
 					</div>
 				</div>
-				<div class="container">
-					<p class="text-4xl font-bold mb-4 text-gray-900">{{ post.title }}</p>
-					<div class="post-content pb-32">
-						<div v-html="post.content"></div>
-					</div>
-				</div>
-			</div>
+			</main>
 		</template>
 	</BasicLayout>
 </template>
-<style>
-	
-.post-content p,
-.post-content h1,
-.post-content h2,
-.post-content h3,
-.post-content h4,
-.post-content h5,
-.post-content h6 {
-	@apply mb-8 text-gray-800;
+<style scoped>
+
+.blog-content {
+	@apply text-gray-700;
 }
 
-.post-content {
-	@apply text-gray-800;
+.blog-content :deep(p) {
+	@apply mb-4;
+}
+
+.blog-content :deep(strong) {
+	@apply font-bold;
 }
 
 </style>
