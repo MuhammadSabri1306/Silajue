@@ -1,8 +1,8 @@
 <script setup>
 import { ref, computed } from "vue";
-import { useToast } from "primevue/usetoast";
 import { required, minLength } from "@vuelidate/validators";
 import { useProductStore } from "@/stores/product";
+import { useViewStore } from "@/stores/view";
 import { formatIdr } from "@/modules/currency-format";
 import { useDataForm } from "@/modules/data-form";
 import Modal from "@/components/ui/Modal.vue";
@@ -26,7 +26,7 @@ const textPrice = computed(() => formatIdr(props.price));
 const textTotal = computed(() => formatIdr(props.price * data.itemCount));
 
 const productStore = useProductStore();
-const toast = useToast();
+const viewStore = useViewStore();
 
 const addToCart = () => {
 	const cartData = {
@@ -40,19 +40,10 @@ const addToCart = () => {
 	const isSuccess = productStore.addToCart(cartData);
 	modal.value && modal.value.hide();
 	
-	if(isSuccess) {
-		toast.add({
-			severity:"success",
-			summary: "Keranjang",
-			detail:"Berhasil menambahkan item."
-		});
-	} else {
-		toast.add({
-			severity:"error",
-			summary: "Keranjang",
-			detail:"Terjadi masalah saat menghubungi server."
-		});
-	}
+	if(isSuccess)
+		viewStore.showToast("addCart", true);
+	else
+		viewStore.showToast("addCart", false);
 };
 </script>
 <template>

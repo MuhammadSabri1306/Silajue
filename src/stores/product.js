@@ -41,7 +41,8 @@ export const useProductStore = defineStore("product", {
 	},
 	actions: {
 		addToCart({ id, name, price, type, category, itemCount }) {
-			this.carts.push({ id, name, price, type, category, itemCount });
+			const status = "Verifikasi";
+			this.carts.push({ id, name, price, type, category, itemCount, status });
 			return true;
 		},
 

@@ -6,6 +6,7 @@ import StepCircle from "@/components/ui/StepCircle.vue";
 
 const { data, v$ } = useDataForm({
 	name: { required },
+	email: { required },
 	telp: { required },
 	idNumber: { required }
 });
@@ -22,6 +23,7 @@ const onSubmit = async () => {
 
 	emit("change", {
 		name: data.name,
+		email: data.email,
 		telp: data.telp,
 		idNumber: data.idNumber.toString()
 	});
@@ -32,15 +34,19 @@ const onSubmit = async () => {
 		<div class="grid grid-cols-1 gap-4">
 			<div :class="{ 'invalid': v$.name.$invalid && hasSubmitted }" class="register-input-group">
 				<label for="inputNama" class="text-shadow-white">Nama Lengkap *</label>
-				<input v-model="data.name" type="text" id="inputNama" class="focus-shadow" required>
+				<input v-model="v$.name.$model" type="text" id="inputNama" class="focus-shadow" required>
+			</div>
+			<div :class="{ 'invalid': v$.email.$invalid && hasSubmitted }" class="register-input-group">
+				<label for="inputEmail" class="text-shadow-white">Email *</label>
+				<input v-model="v$.email.$model" type="email" id="inputEmail" class="focus-shadow" required>
 			</div>
 			<div :class="{ 'invalid': v$.telp.$invalid && hasSubmitted }" class="register-input-group">
 				<label for="inputTelp" class="text-shadow-white">No. Telepon *</label>
-				<input v-model="data.telp" type="tel" id="inputTelp" class="focus-shadow" required>
+				<input v-model="v$.telp.$model" type="tel" id="inputTelp" class="focus-shadow" required>
 			</div>
 			<div :class="{ 'invalid': v$.idNumber.$invalid && hasSubmitted }" class="register-input-group">
 				<label for="inputNik" class="text-shadow-white">NIK *</label>
-				<input v-model="data.idNumber" type="text" id="inputNik" class="focus-shadow" required>
+				<input v-model="v$.idNumber.$model" type="text" id="inputNik" class="focus-shadow" required>
 			</div>
 		</div>
 

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useProductStore } from "@/stores/product";
 import { useUserStore } from "@/stores/user";
@@ -9,8 +9,8 @@ const productStore = useProductStore();
 const carts = computed(() => productStore.carts);
 
 defineEmits(["hide"]);
-const data = ref([]);
-const disableSubmit = computed(() => data.value.length < 1);
+const data = reactive([]);
+const disableSubmit = computed(() => data.length < 1);
 
 const userStore = useUserStore();
 const isRolePublic = computed(() => userStore.isRolePublic);
@@ -20,7 +20,7 @@ const submitInvoice = () => {
 	if(isRolePublic.value)
 		return router.push("/login");
 
-	data.value.forEach(productId => {
+	data.forEach(productId => {
 		const index = carts.value.findIndex(cartItem => cartItem.id === productId);
 		if(index < 0)
 			return;
@@ -30,6 +30,14 @@ const submitInvoice = () => {
 	});
 
 	router.push("/invoice");
+};
+
+const toggleData = productId => {
+	const index = data.indexOf(productId);
+	if(index < 0)
+		data.push(productId);
+	else
+		data.splice(index, 1);
 };
 
 
@@ -47,8 +55,9 @@ const submitInvoice = () => {
 		</div>
 		<div class="overflow-y-auto">
 			<h3 class="text-2xl text-gray-900 font-bold mb-4">Keranjang Belanja</h3>
-			<div class="grid grid-cols-1 gap-4 mb-8">
-				<div v-for="item in carts" class="border rounded-xl p-4 bg-white flex gap-2">
+			<p v-if="carts.length < 1" class="font-semibold text-gray-500 text-center my-16">Belum ada produk yang ditambahkan.</p>
+			<div v-else class="grid grid-cols-1 gap-4 mb-8">
+				<div v-for="item in carts" class="border rounded-xl p-4 bg-white flex gap-2 relative">
 					<div class="pt-1">
 						<input type="checkbox" v-model="data" :value="item.id" :id="'product'+item.id">
 					</div>
@@ -59,10 +68,11 @@ const submitInvoice = () => {
 						<p class="text-gray-700 mb-4 text-xs font-medium">Jumlah: <span class="font-semibold text-gray-800">{{ item.itemCount }}</span></p>
 						<p class="text-gray-700 text-xs font-medium">Total: <span class="font-semibold text-lg text-gray-800">{{ formatIdr(item.price * item.itemCount) }}</span></p>
 					</div>
+					<a role="button" @click="toggleData(item.id)" class="absolute left-0 top-0 w-full h-full"></a>
 				</div>
 			</div>
 			<div>
-				<button type="button" :disabled="disableSubmit" class="rounded-lg text-lg text-black px-4 py-2 block w-full hover-margin bg-green-500 hover:bg-green-400" @click="submitInvoice">Proses Pesanan</button>
+				<button type="button" :disabled="disableSubmit" class="rounded-lg text-lg text-black px-4 py-2 block w-full enabled:hover-margin bg-green-500 enabled:hover:bg-green-400" @click="submitInvoice">Proses Pesanan</button>
 			</div>
 		</div>
 	</div>

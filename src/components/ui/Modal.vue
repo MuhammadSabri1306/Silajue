@@ -3,7 +3,8 @@ import { ref, onMounted, onUnmounted } from "vue";
 
 const emit = defineEmits(["close"]);
 const props = defineProps({
-	closeByBackdrop: { type: Boolean, default: true } 
+	large: { type: Boolean, default: false },
+	closeByBackdrop: { type: Boolean, default: true }
 });
 
 const open = ref(true);
@@ -30,14 +31,16 @@ const onBackdropClick = () => {
 	<div v-if="open">
 		<Transition name="modal-fade" @after-leave="onModalClosed">
 			<div v-show="show" class="modal-wrapper backdrop-blur" @click.self="onBackdropClick">
-				<div class="modal">
+				<div :class="{ 'modal-lg': large }" class="modal">
 					<div class="relative">
 						<slot name="header"></slot>
 						<button type="button" @click="show = false" class="absolute right-2 top-2 text-xl text-gray-400 hover:text-gray-600">
 							<font-awesome-icon icon="fa-solid fa-circle-xmark" fixed-width />
 						</button>
 					</div>
-					<slot name="body"></slot>
+					<div class="modal-body">
+						<slot name="body"></slot>
+					</div>
 				</div>
 			</div>
 		</Transition>
@@ -51,6 +54,14 @@ const onBackdropClick = () => {
 
 .modal {
 	@apply w-[25rem] max-w-full bg-white rounded-2xl shadow-sm;
+}
+
+.modal-lg {
+	@apply w-full md:w-[35rem];
+}
+
+.modal-body {
+    @apply overflow-auto max-h-[80vh];
 }
 
 .modal-fade-enter-active,

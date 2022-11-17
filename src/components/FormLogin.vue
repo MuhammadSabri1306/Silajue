@@ -3,12 +3,10 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { required, email } from "@vuelidate/validators";
 import { useUserStore } from "@/stores/user";
-import { useToast } from "primevue/usetoast";
+import { useViewStore } from "@/stores/view";
 import LoaderHorizontalLine from "@/components/LoaderHorizontalLine.vue";
+import http from "@/modules/http-common";
 import { useDataForm } from "@/modules/data-form";
-
-const router = useRouter();
-const toast = useToast();
 
 const { data, v$ } = useDataForm({
 	email: { required, email },
@@ -16,6 +14,9 @@ const { data, v$ } = useDataForm({
 });
 
 const userStore = useUserStore();
+const viewStore = useViewStore();
+const router = useRouter();
+
 const showLoader = ref(false);
 const hasSubmitted = ref(false);
 
@@ -27,24 +28,25 @@ const onLogin = async () => {
 		return;
 
 	showLoader.value = true;
-	userStore.login(data.email, data.password, response => {
-		if(response.success) {
-			toast.add({
-				severity:"success",
-				summary: "Berhasil Login.",
-				detail:"Anda akan diarahkan ke halaman beranda."
-			});
-			setTimeout(() => router.push("/"), 500);
-			return;
-		}
+	http.post("/login", { email: data.email, password: data.password, role: "user" })
+		.then(response => {
 
-		showLoader.value = false;
-		toast.add({
-			severity:"error",
-			summary: "Gagal Login",
-			detail:"Username atau password yang anda masukkan tidak benar."
+			if(!response.data.success) {
+				viewStore.showToast("login", false);
+				console.warn(response);
+				return;
+			}
+
+			let { id, name, token, role } = response.data.success;
+			userStore.updateUser({ id, name, token, role });
+			viewStore.showToast("login", true);
+			setTimeout(() => router.push("/"), 500);
+
+		})
+		.catch(err => {
+			console.error(err);
+			viewStore.showToast("login", false);
 		});
-	});
 };
 
 </script>
@@ -55,11 +57,11 @@ const onLogin = async () => {
 			<div class="grid grid-cols-1 gap-4">
 				<div :class="{ 'invalid': v$.email.$invalid && hasSubmitted }" class="login-input-group">
 					<label for="inputEmail" class="text-shadow-white">Email</label>
-					<input v-model="data.email" type="email" id="inputEmail" class="pl-[10rem] focus-shadow" required>
+					<input v-model="v$.email.$model" type="email" id="inputEmail" class="pl-[10rem] focus-shadow" required>
 				</div>
 				<div :class="{ 'invalid': v$.password.$invalid && hasSubmitted }" class="login-input-group">
 					<label for="inputPass" class="text-shadow-white">Password</label>
-					<input v-model="data.password" type="password" id="inputPass" class="pl-[10rem] focus-shadow" required>
+					<input v-model="v$.password.$model" type="password" id="inputPass" class="pl-[10rem] focus-shadow" required>
 				</div>
 			</div>
 			<div class="h-3 my-4">

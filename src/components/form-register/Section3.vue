@@ -1,9 +1,9 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { useToast } from "primevue/usetoast";
-import { useUserStore } from "@/stores/user";
+import { useViewStore } from "@/stores/view";
 import { required } from "@vuelidate/validators";
+import http from "@/modules/http-common";
 import { useDataForm } from "@/modules/data-form";
 import LoaderHorizontalLine from "@/components/LoaderHorizontalLine.vue";
 import StepCircle from "@/components/ui/StepCircle.vue";
@@ -12,9 +12,10 @@ defineEmits(["back"]);
 
 const props = defineProps({
 	name: { type: String, required: true },
+	email: { type: String, required: true },
 	telp: { type: String, required: true },
 	idNumber: { type: String, required: true },
-	villageId: { type: String, required: true },
+	villageId: { type: Number, required: true },
 	address: { type: String, required: true },
 	fullAddress: { type: String, required: true }
 });
@@ -24,9 +25,22 @@ const { data, v$ } = useDataForm({
 	retypePassword: { required }
 });
 
+const dataRegister = computed(() => {
+	return {
+		name: props.name,
+		email: props.email,
+		password: data.password,
+		address: props.address,
+		phone_number: props.telp,
+		village_id: props.villageId.toString(),
+		nric: props.idNumber,
+		role: "user"
+	};
+});
+
 const router = useRouter();
-const toast = useToast();
-const userStore = useUserStore();
+const viewStore = useViewStore();
+
 const showLoader = ref(false);
 const hasSubmitted = ref(false);
 const isPassEqual = ref(false);
@@ -42,39 +56,31 @@ const onRegister = async () => {
 		return;
 
 	showLoader.value = true;
-	const dataRegister = {
-		name: props.name,
-		password: data.password,
-		address: props.address,
-		phone_number: props.telp,
-		village_id: props.villageId,
-		nric: props.idNumber,
-	};
+	http.post("/register", dataRegister.value)
+		.then(response => {
 
-	userStore.register(dataRegister, success => {
-		if(success) {
-			toast.add({
-				severity:"success",
-				summary: "Berhasil membuat akun.",
-				detail:"Silahkan login menggunakan akun anda."
-			});
+			if(!response.data.success) {
+				viewStore.showToast("register", false);
+				console.warn(response);
+				return;
+			}
+
+			viewStore.showToast("register", true);
 			setTimeout(() => router.push("/login"), 500);
-			return;
-		}
 
-		showLoader.value = false;
-		toast.add({
-			severity:"error",
-			summary: "Gagal Register",
-			detail:"Terjadi masalah saat menghubungi server."
+		})
+		.catch(err => {
+			console.error(err);
+			viewStore.showToast("register", false);
 		});
-	});
+
 };
 </script>
 <template>
 	<form @submit.prevent="onRegister">
-		<div class="grid grid-cols-[auto_1fr] gap-4 submitted-info">
+		<div class="grid grid-cols-[auto_1fr] gap-4 submitted-info mb-8">
 			<p>Nama Lengkap</p><p class="font-semibold">{{ name }}</p>
+			<p>Email</p><p class="font-semibold">{{ email }}</p>
 			<p>No. Telepon</p><p class="font-semibold">{{ telp }}</p>
 			<p>NIK</p><p class="font-semibold">{{ idNumber }}</p>
 			<p>Alamat</p><p class="font-semibold">{{ fullAddress }}</p>
@@ -82,11 +88,11 @@ const onRegister = async () => {
 		<div class="grid grid-cols-1 gap-4">
 			<div :class="{ 'invalid': hasSubmitted && v$.password.$invalid }" class="register-input-group">
 				<label for="inputPass" class="text-shadow-white">Masukkan Password *</label>
-				<input v-model="data.password" type="password" id="inputPass" class="focus-shadow" required>
+				<input v-model="v$.password.$model" type="password" id="inputPass" class="focus-shadow" required>
 			</div>
 			<div :class="{ 'invalid': hasSubmitted && v$.retypePassword.$invalid || hasSubmitted && !isPassEqual }" class="register-input-group">
 				<label for="inputRetypePass" class="text-shadow-white">Masukkan ulang Password *</label>
-				<input v-model="data.retypePassword" type="password" id="inputRetypePass" class="focus-shadow" required>
+				<input v-model="v$.retypePassword.$model" type="password" id="inputRetypePass" class="focus-shadow" required>
 			</div>
 		</div>
 		<p v-if="hasSubmitted && !isPassEqual" class="mt-2 text-red-700 text-xs font-bold">Password tidak cocok.</p>

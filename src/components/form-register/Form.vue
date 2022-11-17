@@ -6,6 +6,7 @@ import Section3 from "./Section3.vue";
 
 const data = reactive({
 	name: null,
+	email: null,
 	telp: null,
 	idNumber: null,
 	villageId: null,
@@ -15,8 +16,9 @@ const data = reactive({
 
 const section = ref(1);
 
-const onSection1Change = ({ name, telp, idNumber }) => {
+const onSection1Change = ({ name, email, telp, idNumber }) => {
 	data.name = name;
+	data.email = email;
 	data.telp = telp;
 	data.idNumber = idNumber;
 
@@ -32,8 +34,8 @@ const onSection2Change = ({ villageId, address, fullAddress }) => {
 };
 
 const dataSection3 = computed(() => {
-	const { name, telp, idNumber, villageId, address, fullAddress } = data;
-	return { name, telp, idNumber, villageId, address, fullAddress };
+	const { name, email, telp, idNumber, villageId, address, fullAddress } = data;
+	return { name, email, telp, idNumber, villageId, address, fullAddress };
 });
 </script>
 <template>

@@ -1,66 +1,8 @@
-export const data = [
+const data = [
 	{
-		id: 1,
-		name: "Abang",
-		price: 7500,
-		stock: 10,
-		category: "Limousin",
-		type: "Sexing",
-		img: "/assets/img/product-1.webp",
-		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
-	}, {
-		id: 2,
-		name: "Abang",
-		price: 14000,
-		stock: 5,
-		category: "Limousin",
-		type: "Unsexing",
-		img: "/assets/img/product-1.webp",
-		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
-	}, {
-		id: 3,
-		name: "Buyung",
-		price: 7500,
-		stock: 10,
-		category: "Simental",
-		type: "Sexing",
-		img: "/assets/img/product-2.webp",
-		description: "Umur 6 tahun, bobot 688 Kg, tinggi 145 cm, lingkar dada 204 cm, panjang badan 177 cm."
-	}, {
-		id: 4,
-		name: "Sadoko",
-		price: 7500,
-		stock: 10,
-		category: "Kerbau Belang",
-		type: "Unsexing",
-		img: "/assets/img/product-3.webp",
-		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
-	}, {
-		id: 5,
-		name: "Sadoko",
-		price: 14000,
-		stock: 10,
-		category: "Kerbau Belang",
-		type: "Sexing",
-		img: "/assets/img/product-3.webp",
-		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
-	}, {
-		id: 6,
-		name: "Kajuara",
-		price: 14000,
-		stock: 10,
-		category: "Bali",
-		type: "Unsexing",
-		img: "/assets/img/product-4.webp",
-		description: "Umur 8 tahun, bobot 523 Kg, tinggi 137 cm, lingkar dada 202 cm, panjang badan 143 cm."
-	}
-];
-
-export const post = [
-	{
-		id: 1,
 		date: "4 Maret 2022",
 		title: "Memulai Usaha Ternak Sapi Digital",
+		img: "/assets/img/produk-1.webp",
 		description: "Perkembangan teknologi yang semakin canggih mendorong masyarakat untuk terus berinovasi. Hadirnya teknologi digital yang memudahkan aktivitas dan kehidupan sehari-hari membuat produk digital terus diminati. Tidak ketinggalan, usaha ternak sapi digital online turut mewarnai perkembangan teknologi.",
 		content: `<p class=""></p><p><strong><strong>Ingin Memulai Usaha Ternak Sapi Digital? Perhatikan Hal Berikut</strong></strong></p>
 
@@ -98,12 +40,12 @@ export const post = [
 
 <p>Platform layanan ternak sapi digital online seperti <strong><strong>Silajue </strong></strong>dapat mewujudkan keinginan Anda untuk menjadi peternak digital. Didukung dengan sistem dan teknologi yang mumpuni, Anda dapat memantau ternak secara online dalam 24 jam dari genggaman.</p>
 
-<p>&nbsp;</p><p></p>`,
-		img: "/assets/img/produk-1.webp"
-	}, {
-		id: 2,
+<p>&nbsp;</p><p></p>`
+	},
+	{
 		date: "10 November 2022",
 		title: "Peternakan Sapi Modern dan juga Terpercaya",
+		img: "/assets/img/produk-1.webp",
 		description: "Bagi anda yang belum memiliki sebuah pekerjaan, ada baiknya anda untuk melakukan pekerjaan lain. Pekerjaan lain yang bisa anda lakukan, adalah melakukan kegiatan berternak sapi. Peternakan sapi yang bisa dilakukan ini, adalah secara daring atau online. Berikut ini adalah keunggulan dari ternak sapi online, dan juga tempat untuk ternak sapi secara online.",
 		content: `
                             <p class=""></p><p><strong>Peternakan Sapi Modern dan juga Terpercaya</strong></p>
@@ -162,70 +104,11 @@ export const post = [
 
 <p>Demikianlah informasi mengenai ternak online, yang ada di Goopo. Semoga informasi ini bermanfaat bagi anda, yang ingin melakukan ternak sapi secara online.</p>
 
-<p>&nbsp;</p><p></p>`,
-		img: "/assets/img/produk-1.webp"
+<p>&nbsp;</p><p></p>`
 	}
 ];
 
-const categories = [
-	{ id: 1, name: "Limousin" },
-	{ id: 1, name: "Simental" },
-	{ id: 1, name: "Bali" },
-	{ id: 1, name: "Kerbau Belang" }
-];
-
-const buildResponse = responseData => {
-	const response = { success: true, ...responseData };
-	return new Promise((resolve, reject) => setTimeout(() => resolve(response), 500));
-};
-
-export const getSampleProduct = (productId = null) => {
-	if(!productId)
-		return buildResponse({ products: data });
-
-	const dataById = data.find(({ id }) => id == productId);
-	return buildResponse({ product: dataById });
-};
-
-export const getProductSuggestions = (currentId, maxLength = 3) => {
-	const suggestions = [];
-	let index = data.findIndex(({ id }) => id == currentId);
-	
-	for(let i=0; i<maxLength; i++) {
-		suggestions.push(data[index]);
-		index++;
-
-		if(index === data.length)
-			index = 0;
-	}
-
-	return buildResponse({ products: suggestions });
-};
-
-export const getSamplePost = (postId = null) => {
-	if(!postId)
-		return buildResponse({ blog: post });
-
-	const dataById = post.find(({ id }) => id == postId);
-	return buildResponse({ blog: dataById });
-};
-
-export const getPostSuggestions = (currentId = 1, maxLength = 4) => {
-	const suggestions = [];
-	let index = post.findIndex(({ id }) => id == currentId);
-
-	for(let i=0; i<maxLength; i++) {
-		suggestions.push(post[index]);
-		index++;
-
-		if(index === post.length) {
-			index = 0;
-		}
-	}
-
-	return buildResponse({ blog: suggestions });
-};
-
-export const getSampleCategories = () => {
-	return buildResponse({ categories });
-};
+export default data.map((item, index) => {
+	const id = index + 1;
+	return { id, ...item }
+});

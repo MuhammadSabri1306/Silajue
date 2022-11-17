@@ -4,7 +4,8 @@ import { useProductStore } from "@/stores/product";
 import { toTimeStr } from "@/modules/date-id";
 import { formatIdr } from "@/modules/currency-format";
 import CardTable from "@/components/ui/CardTable.vue";
-import ModalInvoice from "@/components/ModalInvoice.vue";
+
+defineEmits(["verify"]);
 
 const productStore = useProductStore();
 const invoices = computed(() => {
@@ -16,13 +17,6 @@ const invoices = computed(() => {
 		return { ...item, dateTime, total };
 	});
 });
-
-const modalId = ref(null);
-const showModal = ref(false);
-const openModal = id => {
-	modalId.value = id;
-	showModal.value = true;
-};
 </script>
 <template>
 	<section class="container py-16">
@@ -42,7 +36,7 @@ const openModal = id => {
 					<td>{{ item.dateTime }}</td>
 					<td>
 						<span v-if="item.status == 'Pengiriman'" class="bg-green-300 cursor-default">{{ item.status }}</span>
-						<button v-if="item.status == 'Verifikasi'" type="button" @click="openModal(item.id)" class="bg-gray-300">{{ item.status }}</button>
+						<button v-if="item.status == 'Verifikasi'" type="button" @click="$emit('verify', item.id)" class="bg-gray-300 hover-margin">{{ item.status }}</button>
 					</td>
 					<td>
 						<p class="text-xs mb-2">Nama: <b>{{ item.name }}</b></p>
@@ -57,7 +51,6 @@ const openModal = id => {
 				</tr>
 			</template>
 		</CardTable>
-		<ModalInvoice v-if="showModal" :id="modalId" @close="showModal = false" />
 	</section>
 </template>
 <style scoped>

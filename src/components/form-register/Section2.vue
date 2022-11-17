@@ -13,7 +13,17 @@ const { data, v$ } = useDataForm({
 
 const emit = defineEmits(["change", "back"]);
 
-const { prov, onProvChange, fetchProv, kab, onKabChange, kec, onKecChange, desa, onDesaChange } = useRegion();
+const {
+	prov,
+	onProvChange,
+	fetchProv,
+	kab,
+	onKabChange,
+	kec,
+	onKecChange,
+	desa,
+	onDesaChange
+} = useRegion();
 fetchProv();
 
 const getFullAddress = () => {
@@ -94,8 +104,8 @@ const onSubmit = async () => {
 				</div>
 			</div>
 			<div :class="{ 'invalid': v$.address.$invalid && hasSubmitted }" class="register-input-group">
-				<label for="inputAddress" class="text-shadow-white">Jalan *</label>
-				<textarea v-model="data.address" id="inputAddress" rows="3" class="focus-shadow" required></textarea>
+				<label for="textAddress" class="text-shadow-white">Jalan *</label>
+				<textarea v-model="v$.address.$model" id="textAddress" rows="3" class="focus-shadow" required></textarea>
 			</div>
 		</div>
 

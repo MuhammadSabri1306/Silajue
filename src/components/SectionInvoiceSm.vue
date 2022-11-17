@@ -3,7 +3,8 @@ import { ref, computed } from "vue";
 import { useProductStore } from "@/stores/product";
 import { toTimeStr } from "@/modules/date-id";
 import { formatIdr } from "@/modules/currency-format";
-import ModalInvoice from "@/components/ModalInvoice.vue";
+
+defineEmits(["verify"]);
 
 const productStore = useProductStore();
 const invoices = computed(() => {
@@ -15,16 +16,9 @@ const invoices = computed(() => {
 		return { ...item, dateTime, total };
 	});
 });
-
-const modalId = ref(null);
-const showModal = ref(false);
-const openModal = id => {
-	modalId.value = id;
-	showModal.value = true;
-};
 </script>
 <template>
-	<section>
+	<section class="py-16">
 		<div class="container">
 			<h6 class="text-4xl font-bold mb-8">Invoice</h6>
 		</div>
@@ -40,7 +34,7 @@ const openModal = id => {
 							<p class="text-gray-700 mb-4">Jumlah: <span class="font-semibold text-gray-800">{{ item.itemCount }}</span></p>
 							<p class="text-gray-700 mb-8">Total: <span class="font-semibold text-lg text-gray-800">{{ formatIdr(item.total) }}</span></p>
 							<div v-if="item.status == 'Verifikasi'" class="flex justify-end">
-								<button type="button" @click="openModal(item.id)" class="text-white bg-primary-700 hover:bg-primary-600 px-4 py-2 rounded">Verifikasi</button>
+								<button type="button" @click="$emit('verify', item.id)" class="text-white bg-primary-700 hover:bg-primary-600 px-4 py-2 rounded">Verifikasi</button>
 							</div>
 							<div class="absolute top-0 right-0">
 								<span :class="{ 'bg-gray-300': item.status == 'Verifikasi', 'bg-green-300': item.status == 'Pengiriman' }" class="text-gray-900 text-sm font-medium px-2">{{ item.status }}</span>
@@ -50,6 +44,5 @@ const openModal = id => {
 				</div>
 			</div>
 		</div>
-		<ModalInvoice v-if="showModal" :id="modalId" @close="showModal = false" />
 	</section>
 </template>

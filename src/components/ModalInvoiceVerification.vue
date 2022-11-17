@@ -3,7 +3,6 @@ import { ref } from "vue";
 import Modal from "@/components/ui/Modal.vue";
 import FileUpload from "@/components/FileUpload.vue";
 
-const emit = defineEmits(["cancel"]);
 const props = defineProps({
 	id: { required: true }
 })
@@ -28,7 +27,7 @@ const updateImgSrc = () => {
 };
 </script>
 <template>
-	<Modal ref="modal" @close="$emit('cancel')">
+	<Modal ref="modal">
 		<template #header>
 			<div class="p-4">
 				<h3 class="text-lg text-gray-700">Verifikasi Pembayaran</h3>
