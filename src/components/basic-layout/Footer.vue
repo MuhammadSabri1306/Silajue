@@ -4,8 +4,8 @@
 			<div class="flex flex-col lg:flex-row">
 				<div class="lg:max-w-[34rem] mb-16 lg:mb-0">
 						<router-link to="/" class="text-white hidden md:flex flex-col text-shadow-black group mb-4">
-							<span class="text-2xl font-bold transition-all ml-0 group-hover:ml-4">Sistem Informasi <span class="text-primary-600">Silajue</span></span>
-							<span class="text-sm leading-none transition-all ml-0 group-hover:ml-8">Penjualan Elektronik</span>
+							<span class="text-2xl font-bold transition-all ml-0 group-hover:ml-4">E-Market <span class="text-primary-600">Silajue</span></span>
+							<span class="text-sm leading-none transition-all ml-0 group-hover:ml-8">Pasar Bibit Ternak Daring</span>
 						</router-link>
 						<p class="text-sm mb-2 text-gray-200">Alamat</p>
 						<p class="text-sm text-gray-200">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fringilla eget euismod netus est accumsan.</p>

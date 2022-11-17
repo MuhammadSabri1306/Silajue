@@ -16,7 +16,7 @@ const url = computed(() => "/blog/detail/" + props.id);
 <template>
 	<article class="card-blog">
 		<div class="h-padding">
-			<h1 class="text-4xl font-semibold text-gray-900">{{ title }}</h1>
+			<h1 class="text-3xl font-semibold text-gray-900">{{ title }}</h1>
 		</div>
 		<div class="my-8">
 			<BgImageAsync class="aspect-video" :src="img" />

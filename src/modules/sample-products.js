@@ -210,21 +210,20 @@ export const getSamplePost = (postId = null) => {
 	return buildResponse({ blog: dataById });
 };
 
-export const getPostSuggestions = (currentId) => {
-	return new Promise((resolve, reject) => {
-		const suggestions = [];
-		let i = post.findIndex(({ id }) => id == currentId);
+export const getPostSuggestions = (currentId = 1, maxLength = 4) => {
+	const suggestions = [];
+	let index = post.findIndex(({ id }) => id == currentId);
 
-		for(let j=0; j<3; j++) {
-			suggestions.push(post[i]);
-			i++;
+	for(let i=0; i<maxLength; i++) {
+		suggestions.push(post[index]);
+		index++;
 
-			if(i === post.length)
-				i = 0;
+		if(index === post.length) {
+			index = 0;
 		}
+	}
 
-		setTimeout(() => resolve(suggestions), 500);
-	});
+	return buildResponse({ blog: suggestions });
 };
 
 export const getSampleCategories = () => {

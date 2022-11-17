@@ -31,9 +31,10 @@ const toggleSidebar = () => viewStore.toggleShowSidebar();
 <template>
 	<div class="px-6 md:px-8 lg:px-12">
 		<div class="flex">
-			<RouterLink to="/" class="mr-auto">
-				<h4 class="nav-brand"><span>S</span><span>ilajue</span></h4>
-			</RouterLink>
+			<router-link to="/" class="text-gray-900 flex flex-col text-shadow-white group mr-auto py-4 pr-4 md:pl-4">
+				<span class="text-2xl font-bold transition-all ml-0 group-hover:ml-4">E-Market <span class="text-primary-600">Silajue</span></span>
+				<span class="text-sm leading-none transition-all ml-0 group-hover:ml-8">Pasar Bibit Ternak Daring</span>
+			</router-link>
 			<ul class="nav-menu">
 				<li v-for="item in navItems" class="nav-link text-shadow-white hover-margin">
 					<a role="button" :class="getNavActiveClass(item.routeItems)" @click="$emit('navigate', item.target)">{{ item.title }}</a>

@@ -73,7 +73,7 @@ const showCart = ref(false);
 								<div class="grid grow md:w-[30rem] mr-2">
 									<input type="search" class="block w-full h-full px-6 text-sm font-semibold rounded transition-color bg-gray-200 hover:bg-white focus:bg-white" placeholder="Cari produk...">
 								</div>
-								<button class="px-3 py-2 rounded text-xl transition-color text-white hover:text-black bg-black hover:bg-secondary">
+								<button class="px-3 py-2 rounded text-xl transition-color text-white hover:text-green-500 bg-black">
 									<font-awesome-icon icon="fa-solid fa-search" />
 								</button>
 							</div>
