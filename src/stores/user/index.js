@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
-import { getCookie, setCookie, resetCookie } from "@/modules/apps-cookie";
+import { getSession, setSession, deleteSession } from "@/modules/session";
 
 export const useUserStore = defineStore("user", {
 	state: () => ({
 		profile: {},
-		role: "admin",
-		token: "sada"
+		role: "",
+		token: ""
 	}),
 	getters: {
 		isRoleAdmin: (state) => state.token.length > 0 && state.role === "admin",
@@ -18,14 +18,15 @@ export const useUserStore = defineStore("user", {
 
 		logout() {
 			this.token = "";
-			this.role = "public";
+			this.role = "";
 			this.profile = {};
+			deleteSession("user");
 		},
 
 		/*
 		* @params Object params
 		*/
-		updateUser(params) {
+		updateUser(params, saveLocally = true) {
 			if(params.id)
 				this.profile.id = params.id;
 			if(params.name)
@@ -34,6 +35,14 @@ export const useUserStore = defineStore("user", {
 				this.token = params.token;
 			if(params.role)
 				this.role = params.role;
+
+			if(saveLocally)
+				setSession("user", params);
+		},
+
+		checkUserCookie() {
+			const dataUser = getSession("user");
+			dataUser && this.updateUser(dataUser, false);
 		}
 	}
 });

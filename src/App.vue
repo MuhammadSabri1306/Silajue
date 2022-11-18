@@ -1,5 +1,6 @@
 <script setup>
 import { watch } from "vue";
+import { useUserStore } from "@/stores/user";
 import { useViewStore } from "@/stores/view";
 import { useToast } from "primevue/usetoast";
 
@@ -9,6 +10,9 @@ const toast = useToast();
 const watcherSrc = () => viewStore.toastContent;
 const watcherCall = toastContent => toast.add(toastContent);
 watch(watcherSrc, watcherCall);
+
+const userStore = useUserStore();
+userStore.checkUserCookie();
 </script>
 <template>
     <div>

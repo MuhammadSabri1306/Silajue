@@ -1,64 +1,315 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, reactive, computed, watch, onMounted, onUnmounted } from "vue";
+import { useUserStore } from "@/stores/user";
+import http from "@/modules/http-common";
+import Listbox from "primevue/listbox";
+import { useDataForm } from "@/modules/data-form";
+import { useRegion } from "@/modules/region-id";
 import BasicLayout from "@/components/basic-layout/Layout.vue";
+import BgImageAsync from "@/components/BgImageAsync.vue";
+import UploadIdCard from "@/components/UploadIdCard.vue";
 
-const profileImg = ref(null);
-const profileImgStyle = computed(() => {
-	if(!profileImg.value)
-		return {};
-
-	return {
-		backgroundImage: `url(${ profileImg.value })`
-	};
+const { data, v$ } = useDataForm({
+	name: { value: null },
+	email: { value: null },
+	identityCard: { value: null },
+	avatar: { value: null },
+	nric: { value: null },
+	phoneNumber: { value: null },
+	address: { value: null },
+	role: { value: null },
+	province: { value: null },
+	regency: { value: null },
+	district: { value: null },
+	village: { value: null },
+	villageId: { value: null }
 });
 
-const onSubmit = event => null;
+const {
+	prov,
+	onProvChange,
+	fetchProv,
+	kab,
+	onKabChange,
+	fetchKab,
+	kec,
+	onKecChange,
+	fetchKec,
+	desa,
+	onDesaChange,
+	fetchDesa
+} = useRegion();
 
-const onInputImgChange = (event) => {
-	const reader = new FileReader();
+const setRegion = dataRegion => {
+	fetchProv();
+	prov.id = dataRegion.prov.id;
+	prov.text = dataRegion.prov.name;
+	kab.idProv = dataRegion.prov.id;
 	
-	reader.onload = () => {
-		profileImg.value = reader.result;
-		console.log(profileImgStyle.value);
-	};
+	fetchKab();
+	kab.id = dataRegion.kab.id;
+	kab.text = dataRegion.kab.name;
+	kec.idKab = dataRegion.kab.id;
 
-	reader.readAsDataURL(event.target.files[0]);
+	fetchKec();
+	kec.id = dataRegion.kec.id;
+	kec.text = dataRegion.kec.name;
+	desa.idKec = dataRegion.kec.id;
+
+	fetchDesa();
+	desa.id = dataRegion.desa.id;
+	desa.text = dataRegion.desa.name;
 };
 
+const profileImg = computed(() => {
+	if(!data.avatar)
+		return null;
+	return "https://silajue.taekwondosulsel.info/storage/" + data.avatar;
+});
+
+const setData = (dataUser, village) => {
+	data.name = dataUser.name;
+	data.email = dataUser.email;
+	data.identityCard = dataUser.identity_card;
+	data.avatar = dataUser.avatar;
+	data.nric = dataUser.nric;
+	data.phoneNumber = dataUser.phone_number;
+	data.address = dataUser.address;
+	data.role = dataUser.role;
+	data.province = village.district.regency.province.name;
+	data.regency = village.district.regency.name;
+	data.district = village.district.name
+	data.village = village.name;
+	data.villageId = village.id;
+};
+
+const userStore = useUserStore();
+http.get("/user", { headers: { "Authorization": "Bearer " + userStore.token } })
+	.then(response => {
+		const { village, ...dataUser } = response.data.data;
+		setData(dataUser, village);
+
+		setRegion({
+			prov: {
+				id: village.district.regency.province.id,
+				name: village.district.regency.province.name
+			},
+			kab: {
+				id: village.district.regency.id,
+				name: village.district.regency.name
+			},
+			kec: {
+				id: village.district.id,
+				name: village.district.name
+			},
+			desa: {
+				id: village.id,
+				name: village.name
+			}
+		});
+	})
+	.catch(err => console.error(err));
+
+const onBodyClick = () => {
+	prov.showListbox = false;
+	kab.showListbox = false;
+	kec.showListbox = false;
+	desa.showListbox = false;
+};
+
+onMounted(() => document.body.addEventListener("click", onBodyClick));
+onUnmounted(() => document.body.addEventListener("click", onBodyClick));
+
+watch(
+	() => desa.id,
+	idDesa => data.villageId = idDesa
+);
+
+const onSave = event => null;
+const profileSection = ref(1);
 </script>
 <template>
 	<BasicLayout>
 		<template #main>
 			<div class="bg-white py-16">
+				<div class="container mb-12">
+					<h3 class="text-4xl font-semibold text-gray-900">Profil Saya</h3>
+				</div>
 				<div class="container">
-					<form @submit.prevent="onSubmit">
-						<div class="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-16">
-							<div class="p-8 flex justify-center md:justify-end">
-								<div class="flex flex-col items-center">
-									<div class="w-56 lg:w-72 aspect-square rounded-full bg-gray-200 mb-8 bg-cover bg-center" :style="profileImgStyle">&nbsp;</div>
-								</div>
-							</div>
-							<div>
-								<div class="input-group mb-8">
-									<label>Nama Lengkap</label>
-									<input type="text" name="nama" placeholder="Masukkan nama anda">
-								</div>
-								<div class="input-group mb-8">
-									<label>Email</label>
-									<input type="email" name="email" placeholder="Masukkan email anda">
-								</div>
-								<div class="input-group">
-									<label>Alamat</label>
-									<textarea id="textAlamat" rows="3"></textarea>
-								</div>
-								<div class="flex justify-end p-16">
-									<button type="submit" class="text-base text-shadow-black text-white px-6 rounded py-2 bg-primary-700 hover:bg-primary-600 btn-focus-primary">Update</button>
-								</div>
+					<div class="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-16">
+						<div class="flex justify-center items-start">
+							<div class="relative profile-avatar-wrapper">
+								<BgImageAsync :src="profileImg" class="profile-avatar" />
+								<button type="button" class="absolute top-0 left-0 w-full h-full text-gray-100 bg-gray-400/40 text-4xl flex justify-center items-center transition-opacity opacity-0 hover:opacity-100 focus:opacity-100">
+									<font-awesome-icon icon="fa-solid fa-image" />
+								</button>
 							</div>
 						</div>
-					</form>
+						<div class="card-profile">
+							<div class="md:py-2 border-r bg-gray-100">
+								<ul class="profile-menu">
+									<li class="hidden md:list-item"><h6 class="text-gray-900 px-4 py-2 font-semibold text-lg">Update Profil</h6></li>
+									<li><button type="button" :class="{ 'active': profileSection == 1 }" @click="profileSection = 1" class="profile-link">Akun</button></li>
+									<li><button type="button" :class="{ 'active': profileSection == 2 }" @click="profileSection = 2" class="profile-link">Lokasi</button></li>
+									<li><button type="button" :class="{ 'active': profileSection == 3 }" @click="profileSection = 3" class="profile-link">Kartu Identitas</button></li>
+								</ul>
+							</div>
+							<div class="relative">
+								<Transition name="fade">
+									<section v-if="profileSection == 1" class="profile-section">
+										<div class="input-group">
+											<label for="inputName">Nama Lengkap</label>
+											<input type="text" v-model="v$.name.$model" id="inputName">
+										</div>
+										<div class="input-group">
+											<label for="inputEmail">Email</label>
+											<input type="email" v-model="v$.email.$model" id="inputEmail">
+										</div>
+										<div class="input-group mb-4">
+											<label for="inputTelp">No. Telepon</label>
+											<input type="tele" v-model="v$.phoneNumber.$model" id="inputTelp">
+										</div>
+										<div class="input-group flex items-center">
+											<label>Password</label>
+											<button type="button" class="ml-4 px-4 py-2 inline-flex gap-1 justify-center items-center rounded shadow-sm hover-margin text-gray-700 bg-yellow-300 hover:bg-yellow-200">
+												<span class="text-lg">
+													<font-awesome-icon icon="fa-solid fa-key" fixed-width />
+												</span>
+												<span class="text-xs font-medium">Reset Password</span>
+											</button>
+										</div>
+										<div class="flex justify-end pt-12">
+											<button type="button" @click="onSave" class="py-2 px-4 rounded font-medium text-white hover-margin bg-primary-600 hover:bg-primary-500">Simpan Perubahan</button>
+										</div>
+									</section>
+								</Transition>
+								<Transition name="fade">
+									<section v-if="profileSection == 2" class="profile-section">
+										<div class="input-group">
+											<label for="inputProvinsi">Provinsi</label>
+											<div class="listbox-wrapper" @click.stop="">
+												<input :value="prov.text" type="text" id="inputProvinsi" class="focus-shadow" readonly required @click="prov.showListbox = true">
+												<div v-if="prov.showListbox" class="listbox listbox-region top-full">
+													<Listbox :options="prov.list" optionLabel="name" :filter="true" @change="onProvChange" />
+												</div>
+											</div>
+										</div>
+										<div class="input-group">
+											<label for="inputKab">Kabupaten</label>
+											<div class="listbox-wrapper" @click.stop="">
+												<input type="text" :value="kab.text" :disabled="!kab.idProv" id="inputKab" class="focus-shadow" readonly required @click="kab.showListbox = true">
+												<div v-if="kab.showListbox" class="listbox listbox-region top-full">
+													<Listbox :options="kab.list" optionLabel="name" :filter="true" @change="onKabChange" />
+												</div>
+											</div>
+										</div>
+										<div class="input-group">
+											<label for="inputKec">Kecamatan</label>
+											<div class="listbox-wrapper" @click.stop="">
+												<input type="text" :value="kec.text" :disabled="!kec.idKab" @click="kec.showListbox = true" id="inputKec" class="focus-shadow" readonly required>
+												<div v-if="kec.showListbox" class="listbox listbox-region top-full">
+													<Listbox :options="kec.list" optionLabel="name" :filter="true" @change="onKecChange" />
+												</div>
+											</div>
+										</div>
+										<div class="input-group">
+											<label for="inputDesa">Desa/Kelurahan</label>
+											<div class="listbox-wrapper" @click.stop="">
+												<input type="text" :value="desa.text" :disabled="!desa.idKec" @click="desa.showListbox = true" id="inputDesa" class="focus-shadow" readonly required>
+												<div v-if="desa.showListbox" class="listbox listbox-region bottom-full">
+													<Listbox :options="desa.list" optionLabel="name" :filter="true" @change="onDesaChange" />
+												</div>
+											</div>
+										</div>
+										<div :class="{ 'invalid': v$.address.$invalid && hasSubmitted }" class="input-group">
+											<label for="textAddress" class="text-shadow-white">Jalan *</label>
+											<textarea v-model="v$.address.$model" id="textAddress" rows="3" class="focus-shadow" required></textarea>
+										</div>
+										<div class="flex justify-end pt-12">
+											<button type="button" @click="onSave" class="py-2 px-4 rounded font-medium text-white hover-margin bg-primary-600 hover:bg-primary-500">Simpan Perubahan</button>
+										</div>
+									</section>
+								</Transition>
+								<Transition name="fade">
+									<section v-if="profileSection == 3" class="profile-section">
+										<div class="input-group mb-8">
+											<label for="inputNric">No. NIK</label>
+											<input type="tele" v-model="v$.nric.$model" id="inputNric">
+										</div>
+										<div class="input-group">
+											<UploadIdCard />
+										</div>
+										<div class="flex justify-end pt-12">
+											<button type="button" @click="onSave" class="py-2 px-4 rounded font-medium text-white hover-margin bg-primary-600 hover:bg-primary-500">Simpan Perubahan</button>
+										</div>
+									</section>
+								</Transition>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</template>
 	</BasicLayout>
 </template>
+<style scoped>
+	
+.profile-avatar-wrapper {
+	@apply w-56 md:w-full rounded-full overflow-hidden;
+}
+
+.profile-avatar {
+	@apply aspect-square w-full bg-gray-200;
+}
+
+.card-profile {
+	@apply rounded border shadow-lg grid grid-cols-1 md:grid-cols-[1fr_2fr] overflow-hidden;
+}
+
+.profile-menu {
+	@apply flex md:flex-col;
+}
+
+.profile-menu > li:not(:last-child) {
+	@apply md:border-b;
+}
+
+.profile-link {
+	@apply block w-full text-left md:text-sm px-4 py-3 font-medium md:font-semibold transition-colors bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-primary-600;
+}
+
+.profile-link.active {
+	@apply text-primary-600 md:font-bold bg-gray-200/50;
+}
+
+.profile-section {
+	@apply py-6 px-4 grid grid-cols-1 gap-4 bg-white;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.3s, margin-left 0.3s, margin-right 0.3s;
+}
+
+/*.fade-enter-from {
+	@apply absolute;
+}*/
+
+.fade-enter-from,
+.fade-leave-to {
+	@apply absolute opacity-0 ml-4 -mr-4;
+}
+
+.listbox-wrapper {
+	@apply relative;
+}
+
+.listbox {
+	@apply absolute w-full left-0 z-10;
+}
+
+.listbox-region :deep(.p-listbox-list) {
+	@apply max-h-[8rem];
+}
+
+</style>

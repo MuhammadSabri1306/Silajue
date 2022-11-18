@@ -19,8 +19,8 @@ if(blogList.value.length < 1)
 <template>
 	<BasicLayout>
 		<template #main>
-			<main>
-				<header class="py-16 bg-yellow-300 flex flex-col">
+			<main class="bg-white">
+				<header class="py-16 bg-yellow-400/70 flex flex-col">
 					<h3 class="text-black text-4xl font-bold text-shadow-white text-center">Silajue Blog</h3>
 					<h6 class="font-medium text-lg text-center text-gray-100 mb-8 text-shadow-black">Artikel dan Informasi dari kami.</h6>
 					<div class="mx-auto">
@@ -40,18 +40,18 @@ if(blogList.value.length < 1)
 					<div class="md:container">
 						<div class="bg-white grid grid-cols-1 md:grid-cols-[2fr_1fr]">
 							<div class="pb-8 md:pr-8">
-								<p class="text-2xl font-semibold bg-yellow-300 text-gray-900 mb-4 py-4 text-center px-8 md:px-12">Artikel terbaru</p>
+								<p class="text-2xl font-semibold text-gray-900 mb-4 md:bg-yellow-400/50 py-4 px-8 md:px-12 text-center">Artikel terbaru</p>
 								<div class="grid grid-cols-1 gap-12">
 									<CardBlog v-for="item in blogList" :id="item.id" :date="item.date" :title="item.title" :img="item.img" :desc="item.description" />
 								</div>
 							</div>
-							<div class="grid grid-cols-1 gap-16 pb-8 md:pt-8">
-								<div class="pr-4 md:pr-8 pl-4 md:pl-0">
-									<p class="text-xl font-semibold text-gray-900 mb-4">Paling banyak dibaca</p>
+							<div class="flex flex-col pb-8 md:pt-8">
+								<div class="pr-4 md:pr-8 pl-4 md:pl-0 mb-16">
+									<p class="text-lg font-semibold text-gray-900 mb-4 bg-yellow-400/50 p-4">Paling banyak dibaca</p>
 									<SectionBlogSuggest />
 								</div>
 								<div class="pr-4 md:pr-8 pl-4 md:pl-0">
-									<p class="text-xl font-semibold text-gray-900 mb-4">Pilihan editor</p>
+									<p class="text-lg font-semibold text-gray-900 mb-4 bg-yellow-400/50 p-4">Pilihan editor</p>
 									<SectionBlogSuggest />
 								</div>
 							</div>

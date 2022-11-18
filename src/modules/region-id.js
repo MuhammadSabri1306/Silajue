@@ -146,6 +146,18 @@ const onProvChange = event => {
 	fetchKab();
 };
 
-export const useRegion = () => {
-	return { prov, onProvChange, fetchProv, kab, onKabChange, kec, onKecChange, desa, onDesaChange };
+export const useRegion = (initVal = null) => {
+	// if(!initVal)
+	return { prov, onProvChange, fetchProv, kab, onKabChange, fetchKab, kec, onKecChange, fetchKec, desa, onDesaChange, fetchDesa };
+/*
+	if(initVal.provId) {
+		fetchProv();
+
+		prov.id = initVal.provId;
+		prov.text = event.value.name;
+		prov.showListbox = false;
+
+		kab.idProv = prov.id;
+		fetchKab();
+	}*/
 };
