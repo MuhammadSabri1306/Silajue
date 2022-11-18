@@ -7,6 +7,7 @@ import SectionInvoiceSm from "@/components/SectionInvoiceSm.vue";
 import ModalInvoiceVerification from "@/components/ModalInvoiceVerification.vue";
 import ModalInvoiceGuide from "@/components/ModalInvoiceGuide.vue";
 import ModalBankList from "@/components/ModalBankList.vue";
+import FabProduct from "@/components/FabProduct.vue";
 
 const errMessage = ref(null);
 const isProductLoaded = ref(true);
@@ -52,6 +53,7 @@ const showBankListModal = ref(false);
 				<ModalInvoiceVerification v-if="showVerfModal" :id="verfProductId" @close="showVerfModal = false" />
 				<ModalInvoiceGuide v-if="showGuideModal" @close="showGuideModal = false" />
 				<ModalBankList v-if="showBankListModal" @close="showBankListModal = false" />
+				<FabProduct />
 			</div>
 		</template>
 	</BasicLayout>

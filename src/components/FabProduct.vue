@@ -19,7 +19,7 @@ const showCart = ref(false);
 			</a>
 		</div>
 
-		<ProductCart :class="{ 'right-0': showCart, '-right-full': !showCart }" class="fixed top-0 h-screen bg-white border-l shadow z-[22] md:w-1/2 lg:w-1/3 overflow-y-auto transition-all duration-500" @hide="showCart = false" />
+		<ProductCart :class="{ 'right-0': showCart, 'right-[-110vw]': !showCart }" class="fixed top-0 h-screen w-screen md:w-[50vw] lg:w-auto bg-white border-l shadow z-[22] md:w-1/2 lg:w-1/3 overflow-y-auto transition-all duration-500" @hide="showCart = false" />
 
 	</div>
 </template>

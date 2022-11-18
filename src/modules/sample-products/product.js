@@ -3,7 +3,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -12,7 +12,7 @@ const data = [
 		name: "Bima",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-bima.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -21,7 +21,7 @@ const data = [
 		name: "Celebes",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-celebes.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -30,7 +30,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -39,7 +39,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -48,7 +48,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -57,7 +57,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -66,7 +66,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -75,7 +75,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -84,7 +84,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -93,7 +93,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -102,7 +102,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -111,7 +111,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -120,7 +120,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -129,7 +129,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -138,7 +138,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -147,7 +147,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."
@@ -156,7 +156,7 @@ const data = [
 		name: "Arjuna",
 		price: 7500,
 		stock: 10,
-		category: "Sapi Bali",
+		category: 1,
 		type: "Sexing",
 		img: "/uploads/bali-arjuna.webp",
 		description: "Umur 5 tahun, bobot 655 Kg, tinggi 141 cm, lingkar dada 193 cm, panjang badan 150 cm."

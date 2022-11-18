@@ -18,10 +18,10 @@ if(categories.value.length < 1)
 				</div>
 			</li>
 			<li class="topbar-item">
-				<a href="#">Semua</a>
+				<router-link to="/product">Semua</router-link>
 			</li>
 			<li v-for="item in categories" class="topbar-item">
-				<a href="#">{{ item.name }}</a>
+				<router-link :to="'/product/category/' + item.id">{{ item.name }}</router-link>
 			</li>
 		</ul>
 	</nav>

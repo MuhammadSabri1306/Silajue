@@ -26,18 +26,23 @@ const invoices = computed(() => {
 			<div class="w-full overflow-x-auto">
 				<div class="flex pl-8">
 					<div v-for="(item, index) in invoices" class="flex-[0_0_18rem]">
-						<div class="bg-white relative rounded-2xl border shadow-sm p-8 mr-8">
-							<h6 class="text-gray-900 text-2xl font-bold mb-4 mr-auto">{{ item.name }}</h6>
-							<p class="text-gray-700 mb-2 text-sm">Tipe: <span class="font-semibold text-gray-900">{{ item.type }}</span></p>
-							<p class="text-gray-700 mb-2 text-sm">Kategori: <span class="font-semibold text-gray-900">{{ item.category }}</span></p>
-							<p class="text-gray-700 mb-2 text-sm">Harga: <span class="font-semibold text-gray-800">{{ formatIdr(item.price) }}</span></p>
-							<p class="text-gray-700 mb-4">Jumlah: <span class="font-semibold text-gray-800">{{ item.itemCount }}</span></p>
-							<p class="text-gray-700 mb-8">Total: <span class="font-semibold text-lg text-gray-800">{{ formatIdr(item.total) }}</span></p>
-							<div v-if="item.status == 'Verifikasi'" class="flex justify-end">
-								<button type="button" @click="$emit('verify', item.id)" class="text-white bg-primary-700 hover:bg-primary-600 px-4 py-2 rounded">Verifikasi</button>
+						<div class="bg-white relative rounded-2xl border shadow-sm mr-8">
+							<div class="p-4 mb-2">
+								<p class="text-gray-700 font-semibold text-sm">{{ item.dateTime }}</p>
+							</div>
+							<div class="px-8 pb-8">
+								<h6 class="text-gray-900 text-2xl font-bold mb-4 mr-auto">{{ item.name }}</h6>
+								<p class="text-gray-700 mb-2 text-sm">Tipe: <span class="font-semibold text-gray-900">{{ item.type }}</span></p>
+								<p class="text-gray-700 mb-2 text-sm">Kategori: <span class="font-semibold text-gray-900">{{ item.category }}</span></p>
+								<p class="text-gray-700 mb-2 text-sm">Harga: <span class="font-semibold text-gray-800">{{ formatIdr(item.price) }}</span></p>
+								<p class="text-gray-700 mb-4">Jumlah: <span class="font-semibold text-gray-800">{{ item.itemCount }}</span></p>
+								<p class="text-gray-700 mb-8">Total: <span class="font-semibold text-lg text-gray-800">{{ formatIdr(item.total) }}</span></p>
+								<div v-if="item.status == 'Verifikasi'" class="flex justify-end">
+									<button type="button" @click="$emit('verify', item.id)" class="text-white bg-primary-700 hover:bg-primary-600 px-4 py-2 rounded">Verifikasi</button>
+								</div>
 							</div>
 							<div class="absolute top-0 right-0">
-								<span :class="{ 'bg-gray-300': item.status == 'Verifikasi', 'bg-green-300': item.status == 'Pengiriman' }" class="text-gray-900 text-sm font-medium px-2">{{ item.status }}</span>
+								<span :class="{ 'bg-yellow-200': item.status == 'Verifikasi', 'bg-gray-300': item.status == 'Pengiriman', 'bg-green-300': item.status == 'Selesai' }" class="text-gray-900 text-sm font-medium px-2">{{ item.status }}</span>
 							</div>
 						</div>
 					</div>

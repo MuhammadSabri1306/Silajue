@@ -31,9 +31,9 @@ const toggleSidebar = () => viewStore.toggleShowSidebar();
 <template>
 	<div class="px-6 md:px-8 lg:px-12">
 		<div class="flex">
-			<router-link to="/" class="text-gray-900 flex flex-col text-shadow-white group mr-auto py-4 pr-4 md:pl-4">
-				<span class="text-2xl font-bold transition-all ml-0 group-hover:ml-4">E-Market <span class="text-primary-600">Silajue</span></span>
-				<span class="text-sm leading-none transition-all ml-0 group-hover:ml-8">Pasar Bibit Ternak Daring</span>
+			<router-link to="/" class="nav-brand text-shadow-white group">
+				<h6 class="transition-all ml-0 group-hover:ml-4">E-Market <span class="text-primary-600">Silajue</span></h6>
+				<p class="transition-all ml-0 group-hover:ml-8">Pasar Bibit Ternak Daring</p>
 			</router-link>
 			<ul class="nav-menu">
 				<li v-for="item in navItems" class="nav-link text-shadow-white hover-margin">
@@ -53,16 +53,15 @@ const toggleSidebar = () => viewStore.toggleShowSidebar();
 <style scoped>
 
 .nav-brand {
-	/*text-shadow: 2px 1px theme(colors.primary.100);*/
-	@apply flex items-center py-2;
+	@apply text-gray-900 flex flex-col mr-auto py-4 pr-4 md:pl-4
 }
 
-.nav-brand > span:first-child {
-	@apply text-3xl md:text-5xl font-semibold text-gray-800;
+.nav-brand h6 {
+	@apply text-xl md:text-2xl font-bold;
 }
 
-.nav-brand > span:nth-child(2) {
-	@apply font-black tracking-widest text-gray-800 text-xl mt-1 md:mt-2;
+.nav-brand p {
+	@apply text-xs md:text-sm leading-none;
 }
 
 .nav-menu {

@@ -35,8 +35,9 @@ const invoices = computed(() => {
 				<tr v-for="item in invoices">
 					<td>{{ item.dateTime }}</td>
 					<td>
-						<span v-if="item.status == 'Pengiriman'" class="bg-green-300 cursor-default">{{ item.status }}</span>
-						<button v-if="item.status == 'Verifikasi'" type="button" @click="$emit('verify', item.id)" class="bg-gray-300 hover-margin">{{ item.status }}</button>
+						<span v-if="item.status == 'Selesai'" class="bg-green-300 cursor-default">{{ item.status }}</span>
+						<span v-if="item.status == 'Pengiriman'" class="bg-gray-300 cursor-default">{{ item.status }}</span>
+						<button v-if="item.status == 'Verifikasi'" type="button" @click="$emit('verify', item.id)" class="bg-yellow-200 hover-margin">{{ item.status }}</button>
 					</td>
 					<td>
 						<p class="text-xs mb-2">Nama: <b>{{ item.name }}</b></p>

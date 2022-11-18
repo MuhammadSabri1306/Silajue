@@ -19,7 +19,7 @@ const routes = {
     profil: { path: "/user", component: Profil },
     tentang: { path: "/about", component: Tentang },
     produk: { path: "/product", component: Produk },
-    produkKategori: { path: "/product/category/:category?", component: Produk },
+    produkKategori: { path: "/product/category/:categoryId", component: Produk },
     produkSaya: { path: "/myproduct", component: ProdukSaya },
     produkDetail: { path: "/product/detail/:id", component: ProdukDetail },
     produkForm: { path: "/product/form/:id?", component: ProdukForm },

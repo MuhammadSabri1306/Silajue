@@ -16,7 +16,7 @@ export const useProductStore = defineStore("product", {
 			    "category": "Simental",
 			    "itemCount": 1,
 			    "timestamp": 1668396679741,
-			    "status": "Verifikasi"
+			    "status": "Pengiriman"
 			},
 			{
 			    "id": 3,
@@ -26,7 +26,7 @@ export const useProductStore = defineStore("product", {
 			    "category": "Simental",
 			    "itemCount": 1,
 			    "timestamp": 1668396679741,
-			    "status": "Pengiriman"
+			    "status": "Selesai"
 			}
 		]
 	}),
@@ -35,20 +35,20 @@ export const useProductStore = defineStore("product", {
 		invoiceByTimeAsc: state => {
 			if(!state.invoice)
 				return [];
-			return state.invoice.sort((a, b) => a.timestamp - b.timestamp);
+			return state.invoice.sort((a, b) => b.timestamp - a.timestamp);
 		}
 	
 	},
 	actions: {
 		addToCart({ id, name, price, type, category, itemCount }) {
-			const status = "Verifikasi";
-			this.carts.push({ id, name, price, type, category, itemCount, status });
+			this.carts.push({ id, name, price, type, category, itemCount });
 			return true;
 		},
 
 		addToInvoice({ id, name, price, type, category, itemCount }) {
+			const status = "Verifikasi";
 			const timestamp = Date.now();
-			this.invoice.push({ id, name, price, type, category, itemCount, timestamp });
+			this.invoice.push({ id, name, price, type, category, itemCount, timestamp, status });
 		},
 
 		fetchProducts() {

@@ -15,10 +15,22 @@ const props = defineProps({
 	price: Number,
 	img: String,
 	type: String,
-	category: String,
+	category: { default: null },
 	description: String,
 	available: Boolean
 });
+
+const productStore = useProductStore();
+const categoryName = computed(() => {
+	if(!productStore.categories)
+		return null;
+	
+	const currCategory = productStore.categories.find(item => item.id == props.category);
+	if(!currCategory)
+		return null;
+	
+	return currCategory.name;
+})
 
 const textPrice = computed(() => formatIdr(props.price));
 // const textDescription = computed(() => props.description.slice(0, 50) + "...");
@@ -38,7 +50,7 @@ const openModal = id => {
 			<div class="flex items-start">
 				<div class="mr-auto">
 					<h6 class="text-2xl font-bold text-gray-900">{{ title }}</h6>
-					<p class="text-xs font-semibold text-gray-600">{{ category }}</p>
+					<p class="text-xs font-semibold text-gray-600">{{ categoryName }}</p>
 				</div>
 				<button type="button" @click="openModal(id)" class="flex justify-center items-center text-white rounded px-3 py-1 hover-margin bg-green-600 hover:bg-green-500">
 					<span class="text-lg mr-2"><font-awesome-icon icon="fa-solid fa-cart-plus" /></span>

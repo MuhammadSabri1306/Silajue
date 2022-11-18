@@ -15,6 +15,11 @@ export const getSampleProduct = (productId = null) => {
 	return buildResponse({ product: dataById });
 };
 
+export const getProductByCategory = categoryName => {
+	const dataByCategory = product.find(({ category }) => category == categoryName);
+	return buildResponse({ product: dataByCategory });
+};
+
 export const getProductSuggestions = (currentId, maxLength = 3) => {
 	const suggestions = [];
 	let index = product.findIndex(({ id }) => id == currentId);

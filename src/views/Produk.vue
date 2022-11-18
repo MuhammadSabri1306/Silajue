@@ -1,61 +1,8 @@
 <script setup>
-import { ref, reactive, computed, watch, onMounted, onUnmounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useUserStore } from "@/stores/user";
-import { useProductStore } from "@/stores/product";
-import { getSampleProduct } from "@/modules/sample-products";
 import BasicLayout from "@/components/basic-layout/Layout.vue";
 import TopbarProduct from "@/components/TopbarProduct.vue";
 import ListProduct from "@/components/ListProduct.vue";
-import ProductCart from "@/components/ProductCart.vue";
 import FabProduct from "@/components/FabProduct.vue";
-
-const route = useRoute();
-const data = reactive([]);
-
-const userStore = useUserStore();
-const isAdmin = computed(() => userStore.isRoleAdmin);
-
-const productStore = useProductStore();
-const categoryList = computed(() => ["Semua", ...productStore.categories]);
-const activeCategoryText = computed(() => {
-	if(!route.params.category)
-		return "Semua";
-
-	const activedIndex = productStore.categories.indexOf(route.params.category);
-	if(activedIndex >= 0)
-		return productStore.categories[activedIndex];
-
-	return "Kategori";
-})
-
-const router = useRouter();
-const showCategoryDropdown = ref(false);
-
-const goToCategory = category => {
-	if(productStore.categories.indexOf(category) >= 0)
-		router.push("/product/category/" + category);
-	else if(category == "semua")
-		router.push("/product");
-	else
-		console.log("E404");
-
-	showCategoryDropdown.value = false;
-};
-
-const onBodyClick = event => {
-	if(showCategoryDropdown.value)
-		showCategoryDropdown.value = false;
-};
-
-onMounted(() => {
-	document.body.addEventListener("click", onBodyClick);
-});
-onUnmounted(() => {
-	document.body.removeEventListener("click", onBodyClick);
-});
-
-const showCart = ref(false);
 </script>
 <template>
 	<BasicLayout>
@@ -80,16 +27,11 @@ const showCart = ref(false);
 						</form>
 					</div>
 				</header>
-
 				<FabProduct />
-				
 				<div class="bg-white py-16">
 					<div class="container px-8">
-						
 						<ListProduct class="border-t pt-4 mt-4" />
-						
 					</div>
-					<ProductCart :class="{ 'right-0': showCart, '-right-full': !showCart }" class="fixed top-0 h-screen bg-white border-l shadow z-[22] md:w-1/2 lg:w-1/3 overflow-y-auto transition-all duration-500" @hide="showCart = false" />
 				</div>
 			</main>
 		</template>
