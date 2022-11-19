@@ -1,5 +1,6 @@
 <script setup>
 import BasicLayout from "@/components/basic-layout/Layout.vue";
+import BgImageAsync from "@/components/BgImageAsync.vue";
 
 const onSearchFormSubmit = (event) => {
 	const formElm = event.target;
@@ -30,33 +31,18 @@ const onSearchFormSubmit = (event) => {
 				<div class="container">
 					<div class="flex justify-center items-center mb-12">
 						<div class="w-36 border-b border-gray-500 hidden md:block"></div>
-						<h3 class="text-2xl tracking-widest font-bold text-center mx-8">DAFTAR KATEGORI</h3>
+						<h3 class="text-2xl tracking-widest font-bold text-center mx-8">PRODUK KAMI</h3>
 						<div class="w-36 border-b border-gray-500 hidden md:block"></div>
 					</div>
-					<div class="flex justify-center items-center gap-12 flex-wrap mb-16">
-						<div class="category-item">
-							<img src="/assets/img/kategori-sapi-circle.webp" class="rounded-full mb-4">
-							<p class="text-center font-medium">Sapi</p>
+					<div class="relative mb-16">
+						<div class="grid grid-cols-1 md:grid-cols-4 h-48">
+							<BgImageAsync src="/assets/img/bali-bima.webp" />
+							<BgImageAsync src="/assets/img/limousin-abang.webp" class="hidden md:block" />
+							<BgImageAsync src="/assets/img/simental-buyung.webp" class="hidden md:block" />
+							<BgImageAsync src="/assets/img/kerbau belang-sopai.webp" class="hidden md:block" />
 						</div>
-						<div class="category-item">
-							<img src="/assets/img/kategori-kambing-circle.webp">
-							<p>Kambing</p>
-						</div>
-						<div class="category-item">
-							<img src="/assets/img/kategori-ayam-circle.webp">
-							<p>Ayam</p>
-						</div>
-						<div class="category-item">
-							<img src="/assets/img/kategori-domba-circle.webp">
-							<p>Domba</p>
-						</div>
-						<div class="category-item">
-							<img src="/assets/img/kategori-bebek-circle.webp">
-							<p>Bebek</p>
-						</div>
-						<div class="category-item">
-							<img src="/assets/img/kategori-ikan-circle.webp">
-							<p>Ikan</p>
+						<div class="absolute w-full h-full top-0 left-0 bg-black/70 px-8 py-4 flex justify-center items-center">
+							<p class="text-center font-semibold text-white text-xl text-shadow-black">Kami menyediakan semen beku sapi dan kerbau dengan berbagai pilihan jenis sapi.</p>
 						</div>
 					</div>
 					<div class="flex flex-col items-center mb-16">
@@ -66,26 +52,67 @@ const onSearchFormSubmit = (event) => {
 						<h2 class="text-3xl text-primary-600 tracking-wider font-bold text-center">AYO BELANJA DI APLIKASI SILAJUE</h2>
 					</div>
 				</div>
-				<div class="container mx-auto py-8">
-					<div class="flex justify-center items-center mb-8">
-						<img src="/assets/img/selling-flow.svg" class="lg:w-3/4">
-					</div>
+				<div class="lg:container mb-32">
+					<img src="/assets/img/distribution-flow.png">
 				</div>
-				<div class="container">
-					<div class="flex justify-center">
-						<div class="w-full lg:w-3/4 h-24 rounded-[3rem] bg-gray-200 flex justify-between items-center px-12">
-							<p class="text-black text-center leading-none">
-								<span class="text-2xl font-bold leading-none">1000</span><br>
-								<span class="text-sm font-medium">Produk</span>
-							</p>
-							<p class="text-black text-center leading-none">
-								<span class="text-2xl font-bold leading-none">1000</span><br>
-								<span class="text-sm font-medium">Penyedia</span>
-							</p>
-							<p class="text-black text-center leading-none">
-								<span class="text-2xl font-bold leading-none">1000</span><br>
-								<span class="text-sm font-medium">Transaksi</span>
-							</p>
+				<div class="container mb-32">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+						<div>
+							<h6 class="text-4xl text-gray-900 font-bold">Feedback</h6>
+							<p class="text-gray-600 mb-12">Review dari pengguna layanan kami.</p>
+							<div class="flex flex-col gap-8">
+								<div class="grid grid-cols-[auto_1fr] gap-4">
+									<div class="flex justify-center items-center">
+										<BgImageAsync src="/assets/img/person_2.jpg" class="feedback-avatar" />
+									</div>
+									<div class="feedback-text">
+										<p class="feedback-name">Gibran Giffar</p>
+										<p class="feedback-message">Lorem ipsum dolor sit amet consectetur adipisicing elit. In, ad.</p>
+									</div>
+								</div>
+								<div class="grid grid-cols-[auto_1fr] gap-4">
+									<div class="flex justify-center items-center">
+										<BgImageAsync src="/assets/img/person_3.jpg" class="feedback-avatar" />
+									</div>
+									<div class="feedback-text">
+										<p class="feedback-name">Ali Sadikin</p>
+										<p class="feedback-message">Lorem, ipsum, dolor sit amet consectetur adipisicing elit. Distinctio, debitis! Nisi, facilis.</p>
+									</div>
+								</div>
+								<div class="grid grid-cols-[auto_1fr] gap-4">
+									<div class="flex justify-center items-center">
+										<BgImageAsync src="/assets/img/person_1.jpg" class="feedback-avatar" />
+									</div>
+									<div class="feedback-text">
+										<p class="feedback-name">Amalia Ramadhani</p>
+										<p class="feedback-message">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<h6 class="text-2xl text-gray-700 font-semibold my-4">Bagikan respons anda</h6>
+							<div class="px-8 py-16 bg-white shadow-lg rounded border">
+								<form>
+									<div class="grid grid-cols-1 gap-4 mb-8">
+										<div class="input-group">
+											<label for="inputName">Nama Lengkap</label>
+											<input type="text" id="inputName">
+										</div>
+										<div class="input-group">
+											<label for="inputEmail">Email</label>
+											<input type="email" id="inputEmail">
+										</div>
+										<div class="input-group">
+											<label for="inputComment">Komentar</label>
+											<textarea id="inputComment" rows="4"></textarea>
+										</div>
+									</div>
+									<div class="flex justify-end">
+										<button type="button" class="px-4 py-2 rounded text-white font-semibold hover-margin bg-primary-600 hover:bg-primary-500">Kirim</button>
+									</div>
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -94,35 +121,53 @@ const onSearchFormSubmit = (event) => {
 	</BasicLayout>
 </template>
 <style scoped>
-	header {
-		background-image: url(/assets/img/bg-hero.jpg);
-		background-size: cover;
-		background-position: center;
-		background-attachment: fixed;
-	}
+	
+header {
+	background-image: url(/assets/img/bg-hero.jpg);
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+}
 
-	.category-item {
-		@apply w-28;
-	}
+.category-item {
+	@apply w-28;
+}
 
-	.category-item > img {
-		@apply rounded-full mb-4;
-	}
+.category-item > img {
+	@apply rounded-full mb-4;
+}
 
-	.category-item > p {
-		@apply text-center font-medium;
-	}
+.category-item > p {
+	@apply text-center font-medium;
+}
 
-	.category-item > img:hover {
-		animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-		transform: translate3d(0, 0, 0);
-		backface-visibility: hidden;
-	}
+.category-item > img:hover {
+	animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+	transform: translate3d(0, 0, 0);
+	backface-visibility: hidden;
+}
 
-	@keyframes shake {
-		10%, 90% { transform: translate3d(-1px, 0, 0); }
-		20%, 80% { transform: translate3d(2px, 0, 0); }
-		30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-		40%, 60% { transform: translate3d(4px, 0, 0); }
-	}
+@keyframes shake {
+	10%, 90% { transform: translate3d(-1px, 0, 0); }
+	20%, 80% { transform: translate3d(2px, 0, 0); }
+	30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+	40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.feedback-avatar {
+	@apply w-16 h-16 rounded-full overflow-hidden;
+}
+
+.feedback-text {
+	@apply flex flex-col justify-center;
+}
+
+.feedback-name {
+	@apply font-bold text-gray-800;
+}
+
+.feedback-message {
+	@apply text-sm text-gray-600;
+}
+
 </style>

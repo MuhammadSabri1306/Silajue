@@ -5,13 +5,12 @@ import Tentang from "./views/Tentang.vue";
 import Produk from "./views/Produk.vue";
 import ProdukSaya from "./views/ProdukSaya.vue";
 import ProdukDetail from "./views/ProdukDetail.vue";
-import ProdukForm from "./views/ProdukForm.vue";
 import Blog from "./views/Blog.vue";
 import BlogDetail from "./views/BlogDetail.vue";
-import BlogForm from "./views/BlogForm.vue";
 import Account from "./views/Account.vue";
 import Panduan from "./views/Panduan.vue";
 import Invoice from "./views/Invoice.vue";
+import DashbProduct from  "./views/DashbProduct.vue";
 
 const useBuildPath = true;
 const routes = {
@@ -20,15 +19,14 @@ const routes = {
     tentang: { path: "/about", component: Tentang },
     produk: { path: "/product", component: Produk },
     produkKategori: { path: "/product/category/:categoryId", component: Produk },
-    produkSaya: { path: "/myproduct", component: ProdukSaya },
     produkDetail: { path: "/product/detail/:id", component: ProdukDetail },
-    produkForm: { path: "/product/form/:id?", component: ProdukForm },
     blog: { path: "/blog", component: Blog },
-    blogDetail: { path: "/blog/detail/:id", component: BlogDetail },
     login: { path: "/login", component: Account },
     register: { path: "/register", component: Account },
     panduan: { path: "/guide", component: Panduan },
-    invoice: { path: "/invoice", component: Invoice }
+    invoice: { path: "/invoice", component: Invoice },
+    dashboard: { path: "/app", component: DashbProduct },
+    dashbProduct: { path: "/app/product", component: DashbProduct }
 };
 
 const defineMyRouter = routesObj => {
