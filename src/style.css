@@ -4,17 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+@layer components {
+
 	body {
 		@apply font-sans text-gray-800;
 	}
-}
 
-@layer component {
 	button, input, textarea, select {
 		@apply focus:outline-none transition-shadow shadow-none focus:shadow-[0_0_0.3rem_0.15rem_#4490b4];
 	}
-	
+
 	.basic-wrapper {
 		@apply min-h-screen flex flex-col;
 	}
@@ -22,9 +21,7 @@
 	.btn-focus-primary {
 		@apply focus:shadow-none focus:outline focus:outline-2 focus:outline-primary-500 focus:outline-offset-2;
 	}
-}
 
-@layer utilities {
 	.text-shadow-black {
 		text-shadow: 0 0 0.25rem rgba(0,0,0,0.2);
 	}
@@ -56,41 +53,62 @@
 	.fixed, .xs\:fixed, .sm\:fixed, .md\:fixed, .lg\:fixed, .xl\:fixed {
 		-webkit-backface-visibility: hidden;
 	}
-}
 
-.form-input-group, .form-textarea-group {
-	@apply relative;
-}
+	.form-input-group, .form-textarea-group {
+		@apply relative;
+	}
 
-.form-input-group > input {
-	@apply block w-full h-10 pr-6 text-sm rounded-lg transition-colors bg-gray-200 focus:bg-white;
-}
+	.form-input-group > input {
+		@apply block w-full h-10 pr-6 text-sm rounded-lg transition-colors bg-gray-200 focus:bg-white;
+	}
 
-.form-input-group > label {
-	@apply absolute top-0 left-0 h-10 px-6 text-sm rounded-lg bg-primary-500 font-semibold inline-flex items-center;
-}
+	.form-input-group > label {
+		@apply absolute top-0 left-0 h-10 px-6 text-sm rounded-lg bg-primary-500 font-semibold inline-flex items-center;
+	}
 
-.form-textarea-group > textarea {
-	@apply block w-full px-6 pt-14 pb-6 text-sm rounded-lg transition-colors bg-gray-200 focus:bg-white;
-}
+	.form-textarea-group > textarea {
+		@apply block w-full px-6 pt-14 pb-6 text-sm rounded-lg transition-colors bg-gray-200 focus:bg-white;
+	}
 
-.form-textarea-group > label {
-	@apply absolute top-0 left-0 h-10 w-full px-6 text-sm rounded-lg bg-primary-500 font-semibold inline-flex items-center;
-}
+	.form-textarea-group > label {
+		@apply absolute top-0 left-0 h-10 w-full px-6 text-sm rounded-lg bg-primary-500 font-semibold inline-flex items-center;
+	}
 
-.input-group label {
-	@apply block mb-2;
-}
+	.input-group label {
+		@apply block mb-2;
+	}
 
-.input-group input,
-.input-group textarea {
-	@apply block w-full px-4 py-2 text-sm focus:shadow-none rounded transition-colors bg-gray-100 border;
-}
+	.input-group input,
+	.input-group textarea {
+		@apply block w-full px-4 py-2 text-sm focus:shadow-none rounded transition-colors bg-gray-100 border;
+	}
 
-.input-group.invalid {
-	@apply border-danger-500;
-}
+	.input-group.invalid {
+		@apply border-danger-500;
+	}
 
-.input-group > label {
-	@apply block text-sm text-black/80;
+	.input-group > label {
+		@apply block text-sm text-black/80;
+	}
+
+	.dropdown button {
+		@apply focus:shadow-none;
+	}
+
+	.dropdown-toggler {
+		@apply bg-white px-4 py-2 min-w-[10rem] text-sm rounded border transition-colors text-gray-600 border-gray-300;
+	}
+
+	.dropdown-collapse {
+		@apply bg-white py-2 rounded shadow;
+	}
+
+	.dropdown-item {
+		@apply py-2 pl-8 pr-16 text-sm font-medium text-gray-600 bg-white hover:bg-gray-100;
+	}
+
+	.dropdown-item.active {
+		@apply bg-gray-100;
+	}
+
 }

@@ -2,13 +2,24 @@
 import { ref, reactive, computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useProductStore } from "@/stores/product";
-import { buildCardProps } from "@/modules/buildCardProps";
+import { buildCardProps } from "@/modules/build-card-props";
 import CardProduct from "@/components/CardProduct.vue";
 
 const errMessage = ref(null);
 const productStore = useProductStore();
 
 const products = reactive([]);
+const isSexing = computed(() => productStore.isSexing);
+const productsByType = computed(() => {
+
+	return products.filter(item => {
+		if(isSexing.value)
+			return item.type == "Sexing";
+		return item.type == "Unsexing"; 
+	});
+
+});
+
 const route = useRoute();
 const categoryId = computed(() => route.params.categoryId);
 
@@ -51,7 +62,7 @@ watch(
 		</div>
 		<div v-if="products.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 py-16">
 			
-			<CardProduct v-for="(item, index) in products" :key="item.id" v-bind="buildCardProps(item)" class="shadow-sm" />
+			<CardProduct v-for="(item, index) in productsByType" :key="item.id" v-bind="buildCardProps(item)" class="shadow-sm" />
 		
 		</div>
 	</div>

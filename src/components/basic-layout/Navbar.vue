@@ -57,7 +57,7 @@ const toggleSidebar = () => viewStore.toggleShowSidebar();
 }
 
 .nav-brand h6 {
-	@apply text-xl md:text-2xl font-bold;
+	@apply text-xl lg:text-2xl font-bold;
 }
 
 .nav-brand p {

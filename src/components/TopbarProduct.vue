@@ -1,52 +1,77 @@
 <script setup>
-import { computed } from "vue";
+import { ref, computed, watch } from "vue";
+import { useRouter } from "vue-router";
 import { useProductStore } from "@/stores/product";
+import { getSampleCategories } from "@/modules/sample-products";
+import Dropdown from "@/components/ui/Dropdown.vue";
+import SwitchToggle from "@/components/ui/SwitchToggle.vue";
 
 const productStore = useProductStore();
-const categories = computed(() => productStore.categories);
 const showTopbar = computed(() => productStore.categories && productStore.categories.length > 0);
+const categories = computed(() => {
+	if(!productStore.categories)
+		return [];
 
-if(categories.value.length < 1)
-	productStore.fetchCategories();
+	const all = { id: -1, name: "Semua" };
+	return [ all, ...productStore.categories ];
+});
+
+if(!showTopbar.value) {
+
+	getSampleCategories()
+		.then(response => productStore.setupCategories(response.categories))
+		.catch(err => console.error(err));
+
+}
+
+const router = useRouter();
+const onDropdownChange = categoryId => {
+	if(categoryId < 0)
+		router.push("/product");
+	else
+		router.push("/product/category/" + categoryId);
+};
+
+const isSexing = ref(productStore.isSexing);
+const onSexingToggle = value => {
+	isSexing.value = value;
+	productStore.setSexing(value);
+};
+
+watch(() => productStore.isSexing, isProductSexing => isSexing.value = isProductSexing);
 </script>
 <template>
-	<nav v-if="showTopbar" class="topbar">
-		<ul class="flex md:justify-center">
-			<li>
-				<div class="scroll-icon">
-					<font-awesome-icon icon="fa-solid fa-arrows-left-right" fixed-width />
-				</div>
-			</li>
-			<li class="topbar-item">
-				<router-link to="/product">Semua</router-link>
-			</li>
-			<li v-for="item in categories" class="topbar-item">
-				<router-link :to="'/product/category/' + item.id">{{ item.name }}</router-link>
-			</li>
-		</ul>
-	</nav>
+	<div v-if="showTopbar" class="topbar">
+		<div class="container flex gap-4 py-4">
+			<div class="input-group flex items-center">
+				<label class="mr-2 hidden md:block">Kategori</label>
+				<Dropdown v-if="showTopbar" :options="categories" :value="-1" labelKey="name" valueKey="id" @change="onDropdownChange" />
+			</div>
+			<div class="input-group flex items-center ml-auto">
+				<label class="hidden-md mr-2">Sexing</label>
+				<label class="hidden-sm mr-2">Unsexing</label>
+				<SwitchToggle :value="isSexing" @toggle="onSexingToggle" />
+				<label class="hidden-sm ml-2">Sexing</label>
+			</div>
+		</div>
+	</div>
 </template>
 <style scoped>
 	
 .topbar {
-	@apply bg-green-600 shadow-sm w-full overflow-x-auto border-t;
+	@apply bg-white border-t;
 }
 
-.scroll-icon {
-	@apply flex justify-center items-center h-full md:hidden px-6 text-lg;
+.topbar label {
+	@apply mb-0;
 }
 
-.topbar-item a {
-	@apply block px-6 py-4 text-sm font-medium whitespace-nowrap transition-colors hover:bg-white/10;
+.hidden-sm {
+	@apply hidden md:block;
 }
 
-.scroll-icon,
-.topbar-item a {
-	@apply text-gray-100;
-}
-
-.topbar-item a.active {
-	@apply text-primary-700;
+.hidden-md {
+	@apply md:hidden;
 }
 
 </style>

@@ -141,6 +141,7 @@ data.forEach(item => {
 	productId++;
 
 	const unsexingProduct = {
+		id: productId,
 		...item,
 		price: [1, 2, 3].indexOf(item.category) >= 0 ? 7500 : 45000,
 		type: "Unsexing"

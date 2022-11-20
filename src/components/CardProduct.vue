@@ -17,7 +17,7 @@ const props = defineProps({
 	type: String,
 	category: { default: null },
 	description: String,
-	available: Boolean
+	stock: Number
 });
 
 const productStore = useProductStore();
@@ -30,10 +30,9 @@ const categoryName = computed(() => {
 		return null;
 	
 	return currCategory.name;
-})
+});
 
 const textPrice = computed(() => formatIdr(props.price));
-// const textDescription = computed(() => props.description.slice(0, 50) + "...");
 const isTypeSexing = computed(() => props.type == "Sexing");
 
 const showModal = ref(false);
@@ -59,6 +58,7 @@ const openModal = id => {
 			</div>
 			<div class="py-4 px-2">
 				<p class="text-sm text-gray-600 mb-4">{{ description }}</p>
+				<p class="text-sm text-gray-600 mb-4">Stok Tersedia: <b>{{ stock }}</b></p>
 				<div class="flex items-center mb-4 gap-2">
 					<span v-if="isTypeSexing" class="card-badge bg-gray-700 text-white">Sexing</span>
 					<span v-else class="card-badge bg-gray-700 text-white">Unsexing</span>

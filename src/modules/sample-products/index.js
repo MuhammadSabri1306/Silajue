@@ -1,6 +1,7 @@
 import product from "./product";
 import post from "./post";
 import category from "./category";
+import feedback from "./feedback";
 
 const buildResponse = responseData => {
 	const response = { success: true, ...responseData };
@@ -61,4 +62,9 @@ export const getPostSuggestions = (currentId = 1, maxLength = 4) => {
 
 export const getSampleCategories = () => {
 	return buildResponse({ categories: category });
+};
+
+export const getFeedbackOnProduct = productId => {
+	const data = feedback.filter(item => item.productId === productId);
+	return buildResponse({ feedback: data });
 };

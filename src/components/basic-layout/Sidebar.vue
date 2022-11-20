@@ -66,7 +66,7 @@ const onNavigate = (emitKey, param = null) => {
 				</li>
 			</ul>
 			<ul class="nav-menu items-start px-4 gap-2">
-				<a v-if="isRolePublic" role="button" class="nav-btn" @click="onNavigate('login')">Log In</a>
+				<a v-if="isRolePublic" role="button" class="nav-btn" @click="onNavigate('/login')">Log In</a>
 			</ul>
 		</div>
 	</nav>

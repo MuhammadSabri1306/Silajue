@@ -6,6 +6,7 @@ export const useProductStore = defineStore("product", {
 	state: () => ({
 		categories: [],
 		carts: [],
+		isSexing: true,
 		currProduct: {},
 		invoice: [
 			{
@@ -55,16 +56,12 @@ export const useProductStore = defineStore("product", {
 			return getSampleProduct();
 		},
 
-		async fetchCategories() {
-			try {
+		setupCategories(categories) {
+			this.categories = categories;
+		},
 
-				// const response = await http.post('/login', { email, password, role: "user" });
-				const response = await getSampleCategories();
-				this.categories = response.categories;
-
-			} catch(err) {
-				console.error(err);
-			}
+		setSexing(isSexing) {
+			this.isSexing = isSexing;
 		},
 
 		async fetchCurrProduct(id) {

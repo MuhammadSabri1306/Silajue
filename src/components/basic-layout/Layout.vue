@@ -41,10 +41,10 @@ const useTopbarSlot = computed(() => !!slots.topbar);
 </script>
 <template>
 	<div id="basicWrapper" class="w-full max-w-[100vw] overflow-x-hidden relative">
-		<nav :style="{ marginLeft: contentLeft }" class="navbar">
-			<Navbar :navItems="navItems" @navigate="navigateTo" class="border-b" >
+		<nav :style="{ marginLeft: contentLeft }" class="navbar border-b shadow-lg">
+			<Navbar :navItems="navItems" @navigate="navigateTo">
 				<div class="mx-2 lg:mx-6 flex">
-					<a v-if="isRolePublic" role="button" class="nav-btn my-auto" @click="navigateTo('/login')">Log In</a>
+					<a v-if="isRolePublic" role="button" class="nav-btn hidden md:inline my-auto" @click="navigateTo('/login')">Log In</a>
 					<CollapseUser v-else class="my-auto" @logout="logout" @navigate="navigateTo" />
 				</div>
 			</Navbar>
@@ -80,12 +80,12 @@ body > #app > div,
 	transition: margin-left .3s;
 }
 
-.navbar {
+#basicWrapper .navbar {
 	@apply bg-white z-[2] sticky top-0 w-screen shadow-sm grid grid-cols-1;
 	transition: margin-left 0.3s;
 }
 
-.nav-btn {
+#basicWrapper .nav-btn {
 	@apply whitespace-nowrap rounded py-2 px-6 text-white font-medium text-sm xl:text-base transition-colors bg-primary-600 hover:bg-gray-900;
 }
 
