@@ -9,32 +9,38 @@ import Modal from "@/components/ui/Modal.vue";
 
 const emit = defineEmits(["cancel"]);
 const props = defineProps({
-	id: Number,
-	name: String,
-	price: Number,
-	type: String,
-	category: String
+	id: { required: true },
 });
-
-const { data, v$ } = useDataForm({
-	itemCount: { required, minLength: minLength(1) }
-});
-data.itemCount = 1;
-
-const modal = ref(null);
-const textPrice = computed(() => formatIdr(props.price));
-const textTotal = computed(() => formatIdr(props.price * data.itemCount));
 
 const productStore = useProductStore();
-const viewStore = useViewStore();
+const product = computed(() => productStore.productById(props.id));
 
+const { data, v$ } = useDataForm({
+	itemCount: { value: 1, required, minLength: minLength(1) }
+});
+
+const modal = ref(null);
+const textPrice = computed(() => product.value.price ? formatIdr(product.value.price) : formatIdr(0));
+const textTotal = computed(() => product.value.price ? formatIdr(product.value.price * data.itemCount) : formatIdr(0));
+const categoryName = computed(() => {
+	if(!productStore.categories)
+		return null;
+	
+	const currCategory = productStore.categories.find(item => item.id == product.value.category);
+	if(!currCategory)
+		return null;
+	
+	return currCategory.name;
+});
+
+const viewStore = useViewStore();
 const addToCart = () => {
 	const cartData = {
-		id: props.id,
-		name: props.name,
-		price: props.price,
-		type: props.type,
-		category: props.category,
+		id: product.value.id,
+		name: product.value.name,
+		price: product.value.price,
+		type: product.value.type,
+		category: product.value.category,
 		itemCount: data.itemCount
 	};
 	const isSuccess = productStore.addToCart(cartData);
@@ -58,11 +64,11 @@ const addToCart = () => {
 				<div class="px-8 py-4">
 					<div class="grid grid-cols-[auto_1fr] text-gray-700 text-sm font-medium mb-4 gap-2">
 						<span>Nama</span>
-						<span class="font-bold">: {{ name }}</span>
+						<span class="font-bold">: {{ product.name }}</span>
 						<span>Kategori</span>
-						<span class="font-bold">: {{ category }}</span>
+						<span class="font-bold">: {{ categoryName }}</span>
 						<span>Tipe</span>
-						<span class="font-bold">: {{ type }}</span>
+						<span class="font-bold">: {{ product.type }}</span>
 					</div>
 					<div class="flex items-center gap-x-4 gap-y-2 my-8">
 						<label for="inputCount" class="text-sm font-medium text-gray-700 whitespace-nowrap">Jumlah item</label>

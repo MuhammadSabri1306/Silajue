@@ -71,7 +71,7 @@ const openModal = id => {
 			</router-link>
 		</div>
 
-		<ModalProduct v-if="showModal" @close="showModal = false" :id="id" :name="title" :price="price" :type="type" :category="category" />
+		<ModalProduct v-if="showModal" @close="showModal = false" :id="id" />
 
 	</div>
 </template>

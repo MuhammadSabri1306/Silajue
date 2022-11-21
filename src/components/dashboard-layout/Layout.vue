@@ -90,15 +90,15 @@ const onLogout = () => {
 					</Transition>
 				</div>
 				<router-link to="/" class="ml-auto navbar-item flex items-center">
-					<span class="icon"><font-awesome-icon icon="fa-regular fa-newspaper" fixed-width /></span>
-					<span class="text-xs font-medium ml-2">Buka Beranda</span>
+					<span class="text-xs font-medium mr-2">Menuju Beranda</span>
+					<font-awesome-icon icon="fa-solid fa-arrow-right-long" fixed-width />
 				</router-link>
 			</nav>
 			<main class="grow p-8">
 				<slot name="main"></slot>
 			</main>
-			<footer class="px-8 py-4">
-				<p class="text-sm font-medium text-gray-600 text-center md:text-end"><span class="whitespace-nowrap">&copy; Liny Jaya Informatika 2022.</span> <span class="whitespace-nowrap">All Rights Reserved.</span></p>
+			<footer class="px-8 pt-8 pb-16">
+				<p class="text-sm font-medium text-gray-600 text-center md:text-end"><span class="whitespace-nowrap font-medium">&copy; Dinas Peternakan dan Kesehatan Hewan Sulawesi Selatan 2022.</span> <span class="whitespace-nowrap">All Rights Reserved.</span></p>
 			</footer>
 		</div>
 	</div>
@@ -113,7 +113,7 @@ body,
 body > #app,
 body > #app > div,
 #dashbWrapper {
-	@apply h-screen bg-gray-100;
+	@apply h-screen bg-white;
 }
 
 #dashbWrapper {
@@ -150,7 +150,7 @@ body > #app > div,
 }
 
 .sidebar-menu a.active {
-	@apply text-primary-600 text-base whitespace-nowrap;
+	@apply text-primary-600 text-sm whitespace-nowrap;
 }
 
 .sidebar-menu .icon {
@@ -158,7 +158,7 @@ body > #app > div,
 }
 
 #content {
-	@apply w-screen md:w-auto md:grow ml-0 h-screen text-gray-800 flex flex-col items-stretch relative;
+	@apply w-screen md:w-auto h-screen overflow-y-auto md:grow ml-0 h-screen text-gray-800 flex flex-col items-stretch relative;
 	transition: margin-left 0.3s;
 }
 
@@ -167,7 +167,7 @@ body > #app > div,
 }
 
 .navbar {
-	@apply flex sticky top-0 left-0 bg-white px-4 border-b;
+	@apply flex sticky top-0 left-0 bg-white px-4 border-b z-[8888];
 }
 
 .navbar-item {
@@ -210,6 +210,10 @@ body > #app > div,
 .fade-enter-from,
 .fade-leave-to {
 	@apply opacity-0 -mt-4 mb-4;
+}
+
+#dashbWrapper :deep(.page-title) {
+	@apply text-2xl font-bold text-gray-900 mb-8;
 }
 
 </style>

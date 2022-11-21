@@ -5,64 +5,31 @@ import { useProductStore } from "@/stores/product";
 import { buildCardProps } from "@/modules/build-card-props";
 import CardProduct from "@/components/CardProduct.vue";
 
-const errMessage = ref(null);
 const productStore = useProductStore();
-
-const products = reactive([]);
-const isSexing = computed(() => productStore.isSexing);
-const productsByType = computed(() => {
-
-	return products.filter(item => {
-		if(isSexing.value)
-			return item.type == "Sexing";
-		return item.type == "Unsexing"; 
-	});
-
-});
+productStore.fetchProducts();
 
 const route = useRoute();
 const categoryId = computed(() => route.params.categoryId);
 
-const onFetchSuccess = response => {
-	products.splice(0, products.length);
-	errMessage.value = null;
+const isSexing = computed(() => productStore.isSexing);
+const products = computed(() => {
 
-	if(!response.products)
-		return console.warn(response);
-
-	response.products.forEach(item => {
-		if(!categoryId.value)
-			products.push(item);
-		else if(categoryId.value && item.category == categoryId.value)
-			products.push(item);
+	return productStore.products.filter(item => {
+		const typeFilter = isSexing.value && item.type == "Sexing" || !isSexing.value && item.type == "Unsexing";
+		const categoryFilter = !categoryId.value ? true : (item.category == categoryId.value);
+		return typeFilter && categoryFilter;
 	});
 
-	if(products.length < 1) {
-		errMessage.value = "Belum ada produk.";
-		return;
-	}
-};
-
-const onFetchError = err => {
-	errMessage.value = "Terjadi kasalahan saat hendak menghubungi server.";
-	products.splice(0, products.length);
-};
-
-productStore.fetchProducts().then(onFetchSuccess).catch(onFetchError);
-
-watch(
-	() => route.params.categoryId,
-	() => productStore.fetchProducts().then(onFetchSuccess).catch(onFetchError)
-);
+});
 </script>
 <template>
 	<div>
-		<div v-if="errMessage && products.length < 1">
-			<h3 class="text-2xl text-black/60 font-semibold text-center">{{ errMessage }}</h3>
+		<div v-if="products.length < 1">
+			<h3 class="text-2xl text-black/60 font-semibold text-center">Belum ada produk.</h3>
 		</div>
 		<div v-if="products.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 py-16">
 			
-			<CardProduct v-for="(item, index) in productsByType" :key="item.id" v-bind="buildCardProps(item)" class="shadow-sm" />
+			<CardProduct v-for="(item, index) in products" :key="item.id" v-bind="buildCardProps(item)" class="shadow-sm" />
 		
 		</div>
 	</div>

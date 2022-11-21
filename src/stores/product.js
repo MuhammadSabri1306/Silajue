@@ -4,6 +4,7 @@ import { getSampleProduct, getSampleCategories } from "@/modules/sample-products
 
 export const useProductStore = defineStore("product", {
 	state: () => ({
+		products: [],
 		categories: [],
 		carts: [],
 		isSexing: true,
@@ -33,6 +34,13 @@ export const useProductStore = defineStore("product", {
 	}),
 	getters: {
 
+		productById: state => {
+			return id => {
+				const index = state.products.findIndex(item => item.id == id);
+				return index >= 0 ? state.products[index] : {};
+			}
+		},
+
 		invoiceByTimeAsc: state => {
 			if(!state.invoice)
 				return [];
@@ -52,12 +60,40 @@ export const useProductStore = defineStore("product", {
 			this.invoice.push({ id, name, price, type, category, itemCount, timestamp, status });
 		},
 
-		fetchProducts() {
-			return getSampleProduct();
+		async fetchProducts(force = false) {
+			if(this.products.length > 0 && !force)
+				return;
+
+			try {
+
+				const response = await getSampleProduct();
+				const data = response.products;
+
+				if(!data)
+					return console.warn(response);
+				this.products = data;
+
+			} catch(err) {
+				console.error(err);
+			}
 		},
 
-		setupCategories(categories) {
-			this.categories = categories;
+		async fetchCategories(force = false) {
+			if(this.categories.length > 0 && !force)
+				return;
+
+			try {
+
+				const response = await getSampleCategories();
+				const data = response.categories;
+
+				if(!data)
+					return console.warn(response);
+				this.categories = data;
+
+			} catch(err) {
+				console.error(err);
+			}
 		},
 
 		setSexing(isSexing) {

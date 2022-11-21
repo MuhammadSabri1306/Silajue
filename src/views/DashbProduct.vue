@@ -1,10 +1,118 @@
 <script setup>
+import { ref, reactive, computed } from "vue";
+import { useProductStore } from "@/stores/product";
+import { getSampleCategories } from "@/modules/sample-products";
 import DashbLayout from "@/components/dashboard-layout/Layout.vue";
+import Dropdown from "@/components/ui/Dropdown.vue";
+import SwitchToggle from "@/components/ui/SwitchToggle.vue";
+import CardTable from "@/components/ui/CardTable.vue";
+import SectionProductEdit from "@/components/SectionProductEdit.vue";
+
+const productStore = useProductStore();
+productStore.fetchCategories();
+productStore.fetchProducts();
+
+const isSexing = ref(true);
+const categoryId = ref(null);
+
+const categories = computed(() => {
+	if(!productStore.categories)
+		return [];
+
+	const all = { id: -1, name: "Semua" };
+	return [ all, ...productStore.categories ];
+});
+
+const products = computed(() => {
+	return productStore.products
+		.filter(item => {
+
+			const typeFilter = isSexing.value && item.type == "Sexing" || !isSexing.value && item.type == "Unsexing";
+			const categoryFilter = categoryId.value < 1 ? true : (item.category === categoryId.value);
+			return typeFilter && categoryFilter;
+
+		})
+		.map((item, index) => {
+
+			const no = index + 1;
+			const cIndex = categories.value.findIndex(cItem => cItem.id == item.category);
+			const categoryName = cIndex >= 0 ? categories.value[cIndex].name : null;
+
+			return { no, categoryName, ...item };
+
+		});
+});
+
+const productIdEdit = ref(null);
 </script>
 <template>
 	<DashbLayout>
 		<template #main>
-			<p>CONTENT</p>
+			<div>
+				<h3 class="page-title">Data Produk</h3>
+				<Transition name="fade">
+					<section v-if="productIdEdit" class="section-edit">
+						<SectionProductEdit :id="productIdEdit" @cancel="productIdEdit = null" />
+					</section>
+				</Transition>
+				<section>
+					<div class="flex justify-end gap-4 mb-8">
+						<div class="input-group table-filter">
+							<label class="mr-2 mb-0">Kategori</label>
+							<Dropdown v-if="categories.length > 0" :options="categories" :value="-1" labelKey="name" valueKey="id" @change="val => categoryId = val" />
+						</div>
+						<div class="input-group table-filter">
+							<label class="mr-2 mb-0">Sexing</label>
+							<SwitchToggle :value="isSexing" @toggle="val => isSexing = val" />
+						</div>
+					</div>
+					<CardTable :hoverable="true">
+						<template #thead>
+							<tr>
+								<th>No</th>
+								<th>Produk</th>
+								<th>Kategori</th>
+								<th>Tipe</th>
+								<th>Stok</th>
+							</tr>
+						</template>
+						<template #tbody>
+							<tr v-for="item in products" @click="productIdEdit = item.id">
+								<td>{{ item.no }}</td>
+								<td>{{ item.name }}</td>
+								<td>{{ item.categoryName }}</td>
+								<td>{{ item.type }}</td>
+								<td>{{ item.stock }}</td>
+							</tr>
+						</template>
+					</CardTable>
+				</section>
+			</div>
 		</template>
 	</DashbLayout>
 </template>
+<style scoped>
+	
+.table-filter {
+	@apply flex items-center;
+}
+
+.table-filter label {
+	@apply mb-0;
+}
+
+.section-edit {
+	@apply overflow-y-hidden max-h-full border-b pb-8 mb-8;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: max-height 0.3s, margin-bottom 0.3s, opacity 0.3s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+	@apply max-h-0 mb-0 opacity-0;
+}
+
+</style>

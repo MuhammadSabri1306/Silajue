@@ -7,6 +7,8 @@ import Dropdown from "@/components/ui/Dropdown.vue";
 import SwitchToggle from "@/components/ui/SwitchToggle.vue";
 
 const productStore = useProductStore();
+productStore.fetchCategories();
+
 const showTopbar = computed(() => productStore.categories && productStore.categories.length > 0);
 const categories = computed(() => {
 	if(!productStore.categories)
@@ -15,14 +17,6 @@ const categories = computed(() => {
 	const all = { id: -1, name: "Semua" };
 	return [ all, ...productStore.categories ];
 });
-
-if(!showTopbar.value) {
-
-	getSampleCategories()
-		.then(response => productStore.setupCategories(response.categories))
-		.catch(err => console.error(err));
-
-}
 
 const router = useRouter();
 const onDropdownChange = categoryId => {

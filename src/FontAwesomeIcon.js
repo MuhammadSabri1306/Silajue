@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import { faFacebook, faInstagram, faTwitter, faWhatsapp, faFacebookF } from "@fortawesome/free-brands-svg-icons";
 
-import { faFaceSmile, faShareFromSquare, faLemon, faClock, faCircleQuestion, faIdCard, faPaperPlane, faNewspaper } from "@fortawesome/free-regular-svg-icons";
+import { faFaceSmile, faShareFromSquare, faLemon, faClock, faCircleQuestion, faIdCard, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 
-import { faBars, faBarsStaggered, faMagnifyingGlass, faPlus, faPen, faTrashCan, faUserCircle, faUser, faAngleUp, faAngleDown, faAngleLeft, faCartShopping, faCartPlus, faX, faCircleXmark, faSearch, faArrowsLeftRight, faReceipt, faImage, faBuildingColumns, faKey, faStar, faTags, faBookmark, faThumbtack, faThumbsUp, faPowerOff, faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faBarsStaggered, faMagnifyingGlass, faPlus, faPen, faTrashCan, faUserCircle, faUser, faAngleUp, faAngleDown, faAngleLeft, faCartShopping, faCartPlus, faX, faCircleXmark, faSearch, faArrowsLeftRight, faReceipt, faImage, faBuildingColumns, faKey, faStar, faTags, faBookmark, faThumbtack, faThumbsUp, faPowerOff, faCaretUp, faCaretDown, faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faFacebook, faInstagram, faTwitter, faWhatsapp, faBars, faBarsStaggered, faMagnifyingGlass, faPlus, faPen, faTrashCan, faUserCircle, faUser, faFaceSmile, faShareFromSquare, faLemon, faAngleUp, faCartShopping, faCartPlus, faAngleDown, faAngleLeft, faX, faCircleXmark, faArrowsLeftRight, faReceipt, faImage, faClock, faFacebookF, faCircleQuestion, faBuildingColumns, faIdCard, faKey, faStar, faTags, faBookmark, faThumbtack, faThumbsUp, faPowerOff, faNewspaper, faCaretUp, faCaretDown, faPaperPlane);
+library.add(faFacebook, faInstagram, faTwitter, faWhatsapp, faBars, faBarsStaggered, faMagnifyingGlass, faPlus, faPen, faTrashCan, faUserCircle, faUser, faFaceSmile, faShareFromSquare, faLemon, faAngleUp, faCartShopping, faCartPlus, faAngleDown, faAngleLeft, faX, faCircleXmark, faArrowsLeftRight, faReceipt, faImage, faClock, faFacebookF, faCircleQuestion, faBuildingColumns, faIdCard, faKey, faStar, faTags, faBookmark, faThumbtack, faThumbsUp, faPowerOff, faArrowRightLong, faCaretUp, faCaretDown, faPaperPlane);
 
 export default FontAwesomeIcon;

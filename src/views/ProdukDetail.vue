@@ -11,37 +11,29 @@ import BgImageAsync from "@/components/BgImageAsync.vue";
 import CardProduct from "@/components/CardProduct.vue";
 import ModalProduct from "@/components/ModalProduct.vue";
 import ProductFeedback from "@/components/ProductFeedback.vue";
+import FabProduct from "@/components/FabProduct.vue";
 
-const errMessage = ref(null);
-const isProductLoaded = ref(false);
 const isSuggestLoaded = ref(false);
 const productStore = useProductStore();
 
+productStore.fetchProducts()
+productStore.fetchCategories();
+
 const route = useRoute();
-const product = reactive({
-	id: null,
-	name: null,
-	price: null,
-	img: null,
-	type: null,
-	category: null,
-	description: null,
-	stock: null,
-	available: null
-});
+const product = computed(() => productStore.productById(route.params.id));
 
 const categoryName = computed(() => {
 	if(!productStore.categories)
 		return null;
 	
-	const currCategory = productStore.categories.find(item => item.id == product.category);
+	const currCategory = productStore.categories.find(item => item.id == product.value.category);
 	if(!currCategory)
 		return null;
 	
 	return currCategory.name;
 });
 
-const textPrice = computed(() => formatIdr(product.price));
+const textPrice = computed(() => product.value.price ? formatIdr(product.value.price) : formatIdr(0));
 const suggests = reactive([]);
 const showModal = ref(false);
 
@@ -50,34 +42,8 @@ const openModal = id => {
 };
 
 const setupData = id => {
-	errMessage.value = null;
-	isProductLoaded.value = false;
 	isSuggestLoaded.value = false;
 	showModal.value = false;
-
-	getSampleProduct(id)
-		.then(response => {
-			if(!response.product) {
-				return console.warn(response);
-			}
-
-			product.id = response.product.id;
-			product.name = response.product.name;
-			product.price = response.product.price;
-			product.img = response.product.img;
-			product.type = response.product.type;
-			product.category = response.product.category;
-			product.description = response.product.description;
-			product.stock = response.product.stock;
-			product.available = response.product.stock > 0;
-
-			productStore.setSexing(response.product.type == "Sexing");
-			isProductLoaded.value = true;
-		})
-		.catch(err => {
-			isProductLoaded.value = true;
-			errMessage.value = "Terjadi kasalahan saat hendak menghubungi server.";
-		});
 
 	suggests.splice(0, suggests.length);
 	getProductSuggestions(id, 4)
@@ -102,15 +68,9 @@ watch(() => route.params.id, id => setupData(id));
 		<template #main>
 			<div>
 				<div class="bg-white py-16">
-					<div v-if="errMessage" class="container mb-16">
-						<h6 class="text-2xl font-semibold text-center text-gray-800">{{ errMessage }}</h6>
-					</div>
-					<div v-if="isProductLoaded" class="container mb-16">
+					<div class="container mb-16">
 						<h6 class="text-2xl font-bold mb-4">Detail Produk</h6>
-						<div v-if="isProductLoaded && errMessage">
-							<h3 class="text-2xl text-black/60 font-semibold text-center">{{ errMessage }}</h3>
-						</div>
-						<div v-if="isProductLoaded && !errMessage" class="grid gap-4 grid-cols-1 md:grid-cols-[1.5fr_1fr] lg:grid-cols-[2fr_1fr] mb-16">
+						<div class="grid gap-4 grid-cols-1 md:grid-cols-[1.5fr_1fr] lg:grid-cols-[2fr_1fr] mb-16">
 							<div>
 								<div class="rounded-2xl overflow-hidden">
 									<BgImageAsync class="aspect-video" :src="product.img" />
@@ -158,8 +118,9 @@ watch(() => route.params.id, id => setupData(id));
 						</div>
 					</div>
 				</div>
-
-				<ModalProduct v-if="showModal" @close="showModal = false" :id="product.id" :name="product.name" :price="product.price" :type="product.type" :category="product.category" />
+				
+				<FabProduct />
+				<ModalProduct v-if="showModal" @close="showModal = false" :id="product.id" />
 
 			</div>
 		</template>
