@@ -10,11 +10,14 @@ import BasicLayout from "@/components/basic-layout/Layout.vue";
 					<div class="border-t py-4 mt-4">
 						<div class="bg-gray-100 px-12 py-16 rounded-sm">
 							<h6 class="text-lg font-semibold mb-2 text-black/90">Apa itu Silajue?</h6>
-							<p class="mb-8 text-black/80">Lorem ipsum dolor sit amet consectetur, adipisicing, elit. Velit aliquam repellendus quae, sunt rem voluptatem accusamus quo temporibus officia distinctio culpa nulla fugiat, repellat? Harum, veritatis sed odit consequuntur illo.</p>
+							<p class="mb-8 text-black/80">Sistem Silajue adalah sebuah sistem layanan penjualan digital yang dibangun khusus untuk pejualan semen beku di Dinas Kesehatan Hewan Dan Peternakan Provinsi Sulawesi Selatan.</p>
 							<h6 class="text-lg font-semibold mb-2 text-black/90">Target pengguna</h6>
-							<p class="mb-8 text-black/80">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde nam iure omnis veritatis, recusandae, deserunt itaque deleniti sit sapiente nihil.</p>
+							<p class="mb-8 text-black/80">Target pengguna kami adalah para peternak yang membutuhkan semen beku.</p>
 							<h6 class="text-lg font-semibold mb-2 text-black/90">Visi Kami</h6>
-							<p class="text-black/80">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate iure magnam, amet earum tenetur iste suscipit deleniti eligendi a sequi soluta, odit ipsam, nam voluptatibus sapiente itaque totam. Hic perferendis distinctio a eius id reprehenderit similique eligendi illum doloribus dicta, optio voluptatum velit consequuntur, illo provident necessitatibus perspiciatis, maxime ad.</p>
+							<p class="text-black/80">Visi kami adalah mewujudkan pelayanan yang prima dan meningkatkan produksi ternak di Sulawesi Selatan.</p>
+							<div class="flex mt-16 justify-center items-center">
+								<img src="/assets/img/logo.png" class="w-[20rem]">
+							</div>
 						</div>
 					</div>
 				</div>
