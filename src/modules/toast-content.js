@@ -34,6 +34,30 @@ const toastContent = {
 			summary: "Keranjang",
 			detail:"Terjadi masalah saat menghubungi server."
 		}
+	},
+	saveCategory: {
+		success: {
+			severity:"success",
+			summary: "Kategori",
+			detail:"Berhasil menyimpan kategori."
+		},
+		error: {
+			severity:"error",
+			summary: "Kategori",
+			detail:"Terjadi masalah saat menghubungi server."
+		}
+	},
+	deleteCategory: {
+		success: {
+			severity:"success",
+			summary: "Kategori",
+			detail:"Berhasil menghapus kategori."
+		},
+		error: {
+			severity:"error",
+			summary: "Kategori",
+			detail:"Terjadi masalah saat menghubungi server."
+		}
 	}
 };
 

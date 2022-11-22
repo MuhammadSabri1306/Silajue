@@ -33,10 +33,6 @@ defineProps({
 	@apply bg-white px-6 lg:px-8 py-6 lg:py-4 text-left font-medium text-gray-700;
 }
 
-.card-table-hoverable :deep(td) {
-	@apply cursor-pointer;
-}
-
 .card-table-hoverable :deep(tr):hover td {
 	@apply bg-gray-100/70;
 }

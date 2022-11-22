@@ -10,7 +10,10 @@ import BlogDetail from "./views/BlogDetail.vue";
 import Account from "./views/Account.vue";
 import Panduan from "./views/Panduan.vue";
 import Invoice from "./views/Invoice.vue";
+
 import DashbProduct from  "./views/DashbProduct.vue";
+import DashbProductForm from "./views/DashbProductForm.vue";
+import DashbProductCategory from "./views/DashbProductCategory.vue";
 
 const useBuildPath = true;
 const routes = {
@@ -26,7 +29,10 @@ const routes = {
     panduan: { path: "/guide", component: Panduan },
     invoice: { path: "/invoice", component: Invoice },
     dashboard: { path: "/app", component: DashbProduct },
-    dashbProduct: { path: "/app/product", component: DashbProduct }
+    dashbProduct: { path: "/app/product", component: DashbProduct },
+    dashbProductNew: { path: "/app/product/new", component: DashbProductForm },
+    dashbProductEdit: { path: "/app/product/edit/:id", component: DashbProductForm },
+    dashbProductCategory: { path: "/app/product/category", component: DashbProductCategory }
 };
 
 const defineMyRouter = routesObj => {

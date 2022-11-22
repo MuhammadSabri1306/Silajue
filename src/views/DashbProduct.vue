@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive, computed } from "vue";
+import { useRouter } from "vue-router";
 import { useProductStore } from "@/stores/product";
 import { getSampleCategories } from "@/modules/sample-products";
 import DashbLayout from "@/components/dashboard-layout/Layout.vue";
@@ -43,18 +44,14 @@ const products = computed(() => {
 		});
 });
 
-const productIdEdit = ref(null);
+const router = useRouter();
+const toEditPage = productId => router.push("/app/product/edit/" + productId);
 </script>
 <template>
 	<DashbLayout>
 		<template #main>
 			<div>
 				<h3 class="page-title">Data Produk</h3>
-				<Transition name="fade">
-					<section v-if="productIdEdit" class="section-edit">
-						<SectionProductEdit :id="productIdEdit" @cancel="productIdEdit = null" />
-					</section>
-				</Transition>
 				<section>
 					<div class="flex justify-end gap-4 mb-8">
 						<div class="input-group table-filter">
@@ -77,7 +74,7 @@ const productIdEdit = ref(null);
 							</tr>
 						</template>
 						<template #tbody>
-							<tr v-for="item in products" @click="productIdEdit = item.id">
+							<tr v-for="item in products" @click="toEditPage(item.id)">
 								<td>{{ item.no }}</td>
 								<td>{{ item.name }}</td>
 								<td>{{ item.categoryName }}</td>

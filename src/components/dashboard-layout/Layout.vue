@@ -9,7 +9,7 @@ defineProps({
 
 const sidebarItem = [
 	{ to: "/app", title: "Data Produk", icon: "fa-solid fa-star" },
-	{ to: "/app", title: "Kategori Produk", icon: "fa-solid fa-tags" },
+	{ to: "/app/product/category", title: "Kategori Produk", icon: "fa-solid fa-tags" },
 	{ to: "/app", title: "Invoice", icon: "fa-solid fa-bookmark" },
 	{ to: "/app", title: "Halaman Blog", icon: "fa-solid fa-thumbtack" },
 	{ to: "/app", title: "Data Pengguna", icon: "fa-solid fa-user" },
@@ -97,7 +97,7 @@ const onLogout = () => {
 			<main class="grow p-8">
 				<slot name="main"></slot>
 			</main>
-			<footer class="px-8 pt-8 pb-16">
+			<footer class="px-8 py-8 bg-gray-100">
 				<p class="text-sm font-medium text-gray-600 text-center md:text-end"><span class="whitespace-nowrap font-medium">&copy; Dinas Peternakan dan Kesehatan Hewan Sulawesi Selatan 2022.</span> <span class="whitespace-nowrap">All Rights Reserved.</span></p>
 			</footer>
 		</div>
@@ -158,7 +158,7 @@ body > #app > div,
 }
 
 #content {
-	@apply w-screen md:w-auto h-screen overflow-y-auto md:grow ml-0 h-screen text-gray-800 flex flex-col items-stretch relative;
+	@apply w-screen md:w-min h-screen overflow-y-auto md:grow ml-0 h-screen text-gray-800 flex flex-col items-stretch relative;
 	transition: margin-left 0.3s;
 }
 

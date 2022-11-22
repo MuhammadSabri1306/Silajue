@@ -4,15 +4,20 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-
+@layer base {
 	body {
 		@apply font-sans text-gray-800;
 	}
 
-	button, input, textarea, select {
+	/*button, input, textarea, select {
 		@apply focus:outline-none transition-shadow shadow-none focus:shadow-[0_0_0.3rem_0.15rem_#4490b4];
+	}*/
+	button, input, textarea, select {
+		@apply focus:outline-none;
 	}
+}
+
+@layer components {
 
 	.basic-wrapper {
 		@apply min-h-screen flex flex-col;
@@ -74,10 +79,6 @@
 		@apply absolute top-0 left-0 h-10 w-full px-6 text-sm rounded-lg bg-primary-500 font-semibold inline-flex items-center;
 	}
 
-	.input-group label {
-		@apply block mb-2;
-	}
-
 	.input-group input,
 	.input-group textarea {
 		@apply block w-full px-4 py-2 text-sm focus:shadow-none rounded transition-colors bg-gray-100 border;
@@ -87,8 +88,8 @@
 		@apply border-danger-500;
 	}
 
-	.input-group > label {
-		@apply block text-sm text-black/80;
+	.input-group label {
+		@apply block text-sm text-gray-800 mb-2;
 	}
 
 	.dropdown button {

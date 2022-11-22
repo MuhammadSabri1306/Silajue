@@ -84,8 +84,8 @@ export const useProductStore = defineStore("product", {
 
 			try {
 
-				const response = await getSampleCategories();
-				const data = response.categories;
+				const response = await http.get("/category");
+				const data = response.data.data;
 
 				if(!data)
 					return console.warn(response);

@@ -135,7 +135,7 @@ data.forEach(item => {
 		id: productId,
 		...item,
 		price: [1, 2, 3].indexOf(item.category) >= 0 ? 36000 : 75000,
-		type: "Sexing"
+		type: "sexing"
 	};
 	product.push(sexingProduct);
 	productId++;
@@ -144,7 +144,7 @@ data.forEach(item => {
 		id: productId,
 		...item,
 		price: [1, 2, 3].indexOf(item.category) >= 0 ? 7500 : 45000,
-		type: "Unsexing"
+		type: "unsexing"
 	};
 	product.push(unsexingProduct);
 	productId++;
