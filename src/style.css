@@ -112,4 +112,12 @@
 		@apply bg-gray-100;
 	}
 
+	.btn {
+		@apply px-4 py-2 rounded;
+	}
+
+	.btn-icon {
+		@apply flex justify-center items-center;
+	}
+
 }

@@ -58,6 +58,30 @@ const toastContent = {
 			summary: "Kategori",
 			detail:"Terjadi masalah saat menghubungi server."
 		}
+	},
+	saveProduct: {
+		success: {
+			severity:"success",
+			summary: "Produk",
+			detail:"Berhasil menyimpan produk."
+		},
+		error: {
+			severity:"error",
+			summary: "Produk",
+			detail:"Terjadi masalah saat menghubungi server."
+		}
+	},
+	deleteProduct: {
+		success: {
+			severity:"success",
+			summary: "Produk",
+			detail:"Berhasil menghapus produk."
+		},
+		error: {
+			severity:"error",
+			summary: "Produk",
+			detail:"Terjadi masalah saat menghubungi server."
+		}
 	}
 };
 

@@ -63,7 +63,7 @@ const toEditPage = productId => router.push("/app/product/edit/" + productId);
 							<label class="mr-2 mb-0">Kategori</label>
 							<Dropdown v-if="categories.length > 0" :options="categories" :value="-1" labelKey="name" valueKey="id" @change="val => categoryId = val" />
 						</div>
-						<button type="button" @click="" class="ml-auto px-4 py-2 rounded text-white hover-margin bg-primary-600 hover:bg-primary-500">Tambah Produk</button>
+						<router-link to="/app/product/new" class="ml-auto px-4 py-2 rounded text-white hover-margin bg-primary-600 hover:bg-primary-500">Tambah Produk</router-link>
 					</div>
 					<h6 v-if="products.length < 1" class="text-xl font-semibold text-gray-600 text-center">Belum ada produk.</h6>
 					<CardTable v-else :hoverable="true">

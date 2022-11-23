@@ -25,6 +25,7 @@ const routes = {
     produkKategori: { path: "/product/category/:categoryId", component: Produk },
     produkDetail: { path: "/product/detail/:id", component: ProdukDetail },
     blog: { path: "/blog", component: Blog },
+    blogDetail: { path: "/blog/detail/:id", component: BlogDetail },
     login: { path: "/login", component: Account },
     register: { path: "/register", component: Account },
     panduan: { path: "/guide", component: Panduan },

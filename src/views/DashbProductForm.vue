@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { required } from "@vuelidate/validators";
 import { useProductStore } from "@/stores/product";
 import { useUserStore } from "@/stores/user";
@@ -13,6 +13,7 @@ import Dropdown from "@/components/ui/Dropdown.vue";
 import SwitchToggle from "@/components/ui/SwitchToggle.vue";
 import ModalUploadProductImg from "@/components/ModalUploadProductImg.vue";
 import BgImageAsync from "@/components/BgImageAsync.vue";
+import ConfirmDialog from "@/components/ui/ConfirmDialog.vue";
 
 const productStore = useProductStore();
 productStore.fetchCategories();
@@ -21,9 +22,14 @@ const isLoaded = ref(false);
 const showImgModal = ref(false);
 const hasSubmitted = ref(false);
 const route = useRoute();
+const router = useRouter();
+
+const imgSrc = ref(null);
+const newImg = ref(null);
+const newImgThumb = ref(null);
+const showLoadingIcon = ref(false);
 
 const productId = computed(() => route.params.id);
-const imgSrc = ref(null);
 const { data, v$ } = useDataForm({
 	name: { value: null, required },
 	stock: { value: null, required },
@@ -31,26 +37,33 @@ const { data, v$ } = useDataForm({
 	description: { value: null, required }
 });
 
-if(!productId.value)
-	isLoaded.value = true;
-else {
+const initData = () => {
 
 	http.get("/produk/" + productId.value)
 		.then(response => {
 			const dataProduct = response.data.data;
 
 			data.name = dataProduct.name;
-			imgSrc.value = dataProduct.img;
+			imgSrc.value = dataProduct.image;
 			data.stock = dataProduct.stock;
 			data.categoryId = dataProduct.category.id;
 			data.description = dataProduct.description;
 			isLoaded.value = true;
+
+			newImg.value = null;
+			newImgThumb.value = null;
+
 		})
 		.catch(err => {
 			console.error(err)
 		});
 
-}
+};
+
+if(!productId.value)
+	isLoaded.value = true;
+else
+	initData();
 
 const categories = computed(() => {
 	return productStore.categories
@@ -70,8 +83,6 @@ const textPrice = computed(() => {
 	return index >= 0 ? categories.value[index].price : 0;
 });
 
-const newImg = ref(null);
-const newImgThumb = ref(null);
 const changeImg = file => {
 	newImg.value = file;
 	showImgModal.value = false;
@@ -82,38 +93,39 @@ const changeImg = file => {
 };
 
 const getImgThumb = computed(() => newImgThumb.value || imgSrc.value);
+const hasImg = computed(() => !imgSrc.value && !newImg.value ? false : true);
 
-const hasImg = computed(() => imgSrc.value || newImg.value);
 const getInvalidClass = key => {
 	if(key == "img")
-		return { 'invalid': hasSubmitted.value && hasImg.value };
-
+		return { 'invalid-img': hasSubmitted.value && !hasImg.value };
 	return { 'invalid': hasSubmitted.value && v$.value[key].$invalid };
 };
 
 const userStore = useUserStore();
 const viewStore = useViewStore();
+
 const sendRequest = body => {
 	const url = productId.value ? "/produk/" + productId.value : "/produk";
-	const headers = {
-		"Authorization": "Bearer " + userStore.token,
-		"Content-Type": "multipart/form-data"
-	};
+	const headers = { "Authorization": "Bearer " + userStore.token };
 
 	const formData = new FormData();
 	for(let key in body) {
 		formData.append(key, body[key]);
 	}
 
+	showLoadingIcon.value = true;
 	http.post(url, formData, { headers })
-		.then(() => {
-			productStore.fetchCategories(true);
-			editCategoryForm.show = false;
-			viewStore.showToast("saveCategory", true);
+		.then(response => {
+			viewStore.showToast("saveProduct", true);
+			showLoadingIcon.value = false;
+
+			if(!productId.value)
+				router.push("/app/product");
 		})
 		.catch(err => {
 			console.error(err);
-			viewStore.showToast("saveCategory", false);
+			viewStore.showToast("saveProduct", false);
+			showLoadingIcon.value = false;
 		});
 };
 
@@ -140,22 +152,53 @@ const onSubmit = async () => {
 		reqBody.image = newImg.value;
 	sendRequest(reqBody);
 };
-// formdata.append("name", "Sinyo");
-// formdata.append("code", "11522");
-// formdata.append("stock", "123");
-// formdata.append("category_id", "1");
-// formdata.append("date_birth", "2022-11-12");
-// formdata.append("sire", "10823-Bravo");
-// formdata.append("dam", "PC 113");
-// formdata.append("straw_color", "Merah");
-// formdata.append("description", "Bobot Badan 496 kg, Tinggi Gumba 136 cm");
-// formdata.append("image", fileInput.files[0], "[PROXY]");
+
+const back = () => router.back();
+
+const deleteProduct = () => {
+	const url = "/produk/" + productId.value;
+	const headers = { "Authorization": "Bearer " + userStore.token };
+
+	http.delete(url, { headers })
+		.then(() => {
+			productStore.fetchProducts(true);
+			viewStore.showToast("deleteProduct", true);
+			router.push("/app/product");
+		})
+		.catch(err => {
+			console.error(err);
+			viewStore.showToast("deleteProduct", false);
+		});
+};
+
+const confirmDialog = ref(null);
+const deleteConfirm = async () => {
+	if(!productId.value)
+		return;
+
+	try {
+		const confirm = await confirmDialog.value.confirm();
+		confirm && deleteProduct(productId.value);
+	} catch(err) {
+		console.log(err);
+	}
+};
 </script>
 <template>
 	<DashbLayout>
 		<template #main>
 			<div>
 				<h3 class="page-title">Data Produk</h3>
+				<div class="flex items-end mb-8">
+					<button type="button" @click="back" class="btn-icon text-gray-600 rounded px-3 py-2 mr-auto transition-colors bg-white hover:bg-gray-100">
+						<font-awesome-icon icon="fa-solid fa-arrow-left-long" fixed-width />
+						<span class="text-sm ml-2">Kembali</span>
+					</button>
+					<button v-if="productId" type="button" @click="deleteConfirm" class="pl-2 pr-3 py-1 rounded text-red-100 border flex items-center justify-center transition-colors bg-red-500 hover:bg-red-600">
+						<span class="text-lg"><font-awesome-icon icon="fa-solid fa-xmark" fixed-width /></span>
+						<span class="text-xs font-semibold">Hapus</span>
+					</button>
+				</div>
 				<form v-if="isLoaded" @submit.prevent="onSubmit" class="grid grid-cols-2 gap-4">
 					<div class="flex justify-center items-start">
 						<a role="button" v-if="getImgThumb" @click="showImgModal = true" :class="getInvalidClass('img')" class="rounded-xl border bg-gray-100 overflow-hidden block w-full relative group aspect-video">
@@ -169,7 +212,7 @@ const onSubmit = async () => {
 						</a>
 					</div>
 					<div class="px-8">
-						<div class="input-group">
+						<div class="input-group mb-8">
 							<label for="inputName">Nama Produk</label>
 							<input type="text" v-model="v$.name.$model" :class="getInvalidClass('name')" id="inputName">
 						</div>
@@ -192,12 +235,22 @@ const onSubmit = async () => {
 							<textarea v-model="v$.description.$model" :class="getInvalidClass('description')" id="textDescription" rows="4"></textarea>
 						</div>
 						<div class="flex justify-end items-center gap-8 px-4 pt-8">
-							<button type="button" @click="$emit('cancel')" class="text-white text-sm rounded px-3 py-2 hover-margin bg-gray-600 hover:bg-gray-500">Kembali</button>
-							<button type="submit" class="text-white rounded px-3 py-2 hover-margin bg-primary-600 hover:bg-primary-500">Simpan Perubahan</button>
+							<button type="submit" :class="{ 'py-2': !showLoadingIcon, 'py-3': showLoadingIcon }" class="btn-icon px-4 text-white gap-1 hover-margin bg-primary-600 hover:bg-primary-500">
+								<span v-show="showLoadingIcon"><font-awesome-icon icon="fa-solid fa-circle-notch" spin fixed-width /></span>
+								<span>Simpan</span>
+							</button>
 						</div>
 					</div>
 				</form>
 				<ModalUploadProductImg v-if="showImgModal" @close="showImgModal = false" @change="changeImg" />
+				<ConfirmDialog ref="confirmDialog" icon="fa-solid fa-circle-exclamation">
+					<template #text>
+						<p class="text-sm font-medium text-gray-700">Anda akan menghapus Produk. Lanjutkan?</p>
+					</template>
+					<template #btnConfirm="{ clicked }">
+						<button type="button" @click="clicked" class="px-4 py-2 text-sm text-white rounded transition-colors bg-red-500 hover:bg-red-600">Hapus Produk</button>
+					</template>
+				</ConfirmDialog>
 			</div>
 		</template>
 	</DashbLayout>
@@ -218,8 +271,13 @@ input:read-only {
 }
 
 .invalid,
+.invalid-img,
 .invalid :deep(.dropdown-toggler) {
 	@apply border-red-400;
+}
+
+.invalid-img {
+	@apply border-2;
 }
 
 </style>
