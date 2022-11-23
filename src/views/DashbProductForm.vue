@@ -3,7 +3,9 @@ import { ref, computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import { required } from "@vuelidate/validators";
 import { useProductStore } from "@/stores/product";
+import { useUserStore } from "@/stores/user";
 import { useViewStore } from "@/stores/view";
+import http from "@/modules/http-common";
 import { formatIdr } from "@/modules/currency-format";
 import { useDataForm } from "@/modules/data-form";
 import DashbLayout from "@/components/dashboard-layout/Layout.vue";
@@ -14,43 +16,130 @@ import BgImageAsync from "@/components/BgImageAsync.vue";
 
 const productStore = useProductStore();
 productStore.fetchCategories();
-productStore.fetchProducts();
 
 const isLoaded = ref(false);
 const showImgModal = ref(false);
-
+const hasSubmitted = ref(false);
 const route = useRoute();
-const productId = computed(() => route.params.id);
 
+const productId = computed(() => route.params.id);
+const imgSrc = ref(null);
 const { data, v$ } = useDataForm({
 	name: { value: null, required },
-	img: { value: null, required },
 	stock: { value: null, required },
-	category: { value: null, required },
-	price: { value: 0, required },
-	type: { value: "Sexing", required },
+	categoryId: { value: null, required },
 	description: { value: null, required }
 });
 
 if(!productId.value)
 	isLoaded.value = true;
+else {
 
-watch(() => productStore.products, () => {
-	if(!productId.value)
-		return;
+	http.get("/produk/" + productId.value)
+		.then(response => {
+			const dataProduct = response.data.data;
 
-	const product = productStore.productById(productId.value);
-	data.name = product.name;
-	data.img = product.img;
-	data.stock = product.stock;
-	data.category = product.category.id;
-	data.price = product.category.price;
-	data.type = product.category.type;
-	data.description = product.description;
+			data.name = dataProduct.name;
+			imgSrc.value = dataProduct.img;
+			data.stock = dataProduct.stock;
+			data.categoryId = dataProduct.category.id;
+			data.description = dataProduct.description;
+			isLoaded.value = true;
+		})
+		.catch(err => {
+			console.error(err)
+		});
 
-	isLoaded.value = true;
+}
+
+const categories = computed(() => {
+	return productStore.categories
+		.map(item => {
+			const title = `${ item.type } - ${ item.name }`;
+			return { title, ...item };
+		})
+		.sort((a, b) =>{
+			const x = a.type.toLowerCase();
+			const y = b.type.toLowerCase();
+			return (x < y) ? -1 : (x > y) ? 1 : 0;
+		});
 });
 
+const textPrice = computed(() => {
+	const index = categories.value.findIndex(item => item.id == data.categoryId);
+	return index >= 0 ? categories.value[index].price : 0;
+});
+
+const newImg = ref(null);
+const newImgThumb = ref(null);
+const changeImg = file => {
+	newImg.value = file;
+	showImgModal.value = false;
+
+	const reader = new FileReader();
+	reader.onload = event => newImgThumb.value = event.target.result;
+	reader.readAsDataURL(newImg.value);
+};
+
+const getImgThumb = computed(() => newImgThumb.value || imgSrc.value);
+
+const hasImg = computed(() => imgSrc.value || newImg.value);
+const getInvalidClass = key => {
+	if(key == "img")
+		return { 'invalid': hasSubmitted.value && hasImg.value };
+
+	return { 'invalid': hasSubmitted.value && v$.value[key].$invalid };
+};
+
+const userStore = useUserStore();
+const viewStore = useViewStore();
+const sendRequest = body => {
+	const url = productId.value ? "/produk/" + productId.value : "/produk";
+	const headers = {
+		"Authorization": "Bearer " + userStore.token,
+		"Content-Type": "multipart/form-data"
+	};
+
+	const formData = new FormData();
+	for(let key in body) {
+		formData.append(key, body[key]);
+	}
+
+	http.post(url, formData, { headers })
+		.then(() => {
+			productStore.fetchCategories(true);
+			editCategoryForm.show = false;
+			viewStore.showToast("saveCategory", true);
+		})
+		.catch(err => {
+			console.error(err);
+			viewStore.showToast("saveCategory", false);
+		});
+};
+
+const onSubmit = async () => {
+	const isValid = await v$.value.$validate();
+	hasSubmitted.value = true;
+
+	if(!isValid || !hasImg.value)
+		return;
+
+	const reqBody = {
+		name: data.name,
+		code: "11522",
+		stock: data.stock,
+		category_id: data.categoryId,
+		date_birth: "2022-11-12",
+		sire: "10823-Bravo",
+		dam: "PC 113",
+		straw_color: "Merah",
+		description: data.description
+	};
+
+	if(newImg.value)
+		reqBody.image = newImg.value;
+	sendRequest(reqBody);
+};
 // formdata.append("name", "Sinyo");
 // formdata.append("code", "11522");
 // formdata.append("stock", "123");
@@ -61,72 +150,76 @@ watch(() => productStore.products, () => {
 // formdata.append("straw_color", "Merah");
 // formdata.append("description", "Bobot Badan 496 kg, Tinggi Gumba 136 cm");
 // formdata.append("image", fileInput.files[0], "[PROXY]");
-
-const textPrice = computed(() => formatIdr(data.price));
-const categories = computed(() => productStore.categories);
-const categoryList = computed(() => {
-	return categories.value.map(item => {
-		const title = `${ item.name } (${ item.type })`;
-		return { title, ...item };
-	});
-});
-
-const onSexingToggle = isSexing => {
-	if(isSexing)
-		data.type = "sexing";
-	else
-		data.type = "unsexing";
-};
 </script>
 <template>
 	<DashbLayout>
 		<template #main>
 			<div>
 				<h3 class="page-title">Data Produk</h3>
-				<div v-if="isLoaded" class="grid grid-cols-2 gap-4">
+				<form v-if="isLoaded" @submit.prevent="onSubmit" class="grid grid-cols-2 gap-4">
 					<div class="flex justify-center items-start">
-						<a role="button" v-if="data.img" @click="showImgModal = true" class="rounded-xl border bg-gray-100 overflow-hidden block w-full relative group aspect-video">
-							<BgImageAsync :src="data.img" class="w-full h-full" />
+						<a role="button" v-if="getImgThumb" @click="showImgModal = true" :class="getInvalidClass('img')" class="rounded-xl border bg-gray-100 overflow-hidden block w-full relative group aspect-video">
+							<BgImageAsync :src="getImgThumb" class="w-full h-full" />
 							<div class="absolute w-full h-full top-0 left-0 bg-gray-300/90 flex transition-opacity opacity-0 group-hover:opacity-100">
 								<span class="font-semibold text-gray-700 m-auto">Ganti</span>
 							</div>
 						</a>
-						<a role="button" v-else @click="showImgModal = true" class="rounded-xl border bg-gray-100 flex justify-center items-center aspect-video w-full font-semibold text-gray-700 p-4 transition-colors bg-gray-100 hover:bg-gray-300">
+						<a role="button" v-else @click="showImgModal = true" :class="getInvalidClass('img')" class="input-img">
 							<span class=" m-auto">Upload Gambar Produk</span>
 						</a>
 					</div>
-					<form class="px-8">
-						<div class="input-group mb-8">
+					<div class="px-8">
+						<div class="input-group">
 							<label for="inputName">Nama Produk</label>
-							<input type="text" v-model="v$.name.$model" id="inputName">
+							<input type="text" v-model="v$.name.$model" :class="getInvalidClass('name')" id="inputName">
 						</div>
-						<div class="input-group grid grid-cols-1 gap-4 mb-8">
+						<div class="input-group input-group-category grid grid-cols-1 mb-8">
 							<label class="mr-2 mb-0">Kategori</label>
-							<Dropdown v-if="categoryList.length > 0" :options="categoryList" :value="data.category" labelKey="title" valueKey="id" @change="val => data.category = val" />
+							<Dropdown v-if="categories.length > 0" :options="categories" :value="data.categoryId" labelKey="title" valueKey="id" @change="val => data.categoryId = val" :class="getInvalidClass('categoryId')" />
 						</div>
 						<div class="grid grid-cols-2 gap-4 mb-8">
 							<div class="input-group">
 								<label for="inputPrice">Harga (IDR)</label>
-								<input type="number" v-model="v$.price.$model" id="inputPrice">
+								<input type="number" :value="textPrice" id="inputPrice" readonly>
 							</div>
 							<div class="input-group">
 								<label for="inputStock">Jumlah Stok</label>
-								<input type="number" v-model="v$.stock.$model" id="inputStock">
+								<input type="number" v-model="v$.stock.$model" :class="getInvalidClass('stock')" id="inputStock">
 							</div>
+						</div>
+						<div class="input-group">
+							<label for="textDescription">Deskripsi</label>
+							<textarea v-model="v$.description.$model" :class="getInvalidClass('description')" id="textDescription" rows="4"></textarea>
 						</div>
 						<div class="flex justify-end items-center gap-8 px-4 pt-8">
 							<button type="button" @click="$emit('cancel')" class="text-white text-sm rounded px-3 py-2 hover-margin bg-gray-600 hover:bg-gray-500">Kembali</button>
-							<button type="button" class="text-white rounded px-3 py-2 hover-margin bg-primary-600 hover:bg-primary-500">Simpan Perubahan</button>
+							<button type="submit" class="text-white rounded px-3 py-2 hover-margin bg-primary-600 hover:bg-primary-500">Simpan Perubahan</button>
 						</div>
-					</form>
-				</div>
-				<ModalUploadProductImg v-if="showImgModal" @close="showImgModal = false" />
+					</div>
+				</form>
+				<ModalUploadProductImg v-if="showImgModal" @close="showImgModal = false" @change="changeImg" />
 			</div>
 		</template>
 	</DashbLayout>
 </template>
 <style scoped>
 	
+.input-group-category :deep(.dropdown-toggler),
+.input-group-category :deep(.dropdown-item) {
+	@apply capitalize;
+}
 
+input:read-only {
+	@apply cursor-default;
+}
+
+.input-img {
+	@apply rounded-xl border bg-gray-100 flex justify-center items-center aspect-video w-full font-semibold text-gray-700 p-4 transition-colors bg-gray-100 hover:bg-gray-300;
+}
+
+.invalid,
+.invalid :deep(.dropdown-toggler) {
+	@apply border-red-400;
+}
 
 </style>

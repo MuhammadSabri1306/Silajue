@@ -13,8 +13,6 @@ const onUploadChange = files => {
 	img.value = files[0];
 	showFileUpload.value = false;
 	updateThumbImg();
-
-	emit("change", img.value);
 };
 
 const updateThumbImg = () => {
@@ -24,6 +22,8 @@ const updateThumbImg = () => {
 	};
 	reader.readAsDataURL(img.value);
 };
+
+const update = () => emit("change", img.value);
 </script>
 <template>
 	<Modal ref="modal">
@@ -45,7 +45,7 @@ const updateThumbImg = () => {
 					<button type="button" class="text-primary-700 rounded px-2 py-2 text-xs font-medium border border-primary-600 bg-white hover:bg-gray-100">Ganti Gambar</button>
 				</div>
 				<div class="flex justify-end">
-					<button type="button" class="text-white rounded px-3 py-2 hover-margin bg-primary-600 hover:bg-primary-500">Upload</button>
+					<button type="button" @click="update" class="text-white rounded px-3 py-2 hover-margin bg-primary-600 hover:bg-primary-500">Upload</button>
 				</div>
 			</div>
 		</template>

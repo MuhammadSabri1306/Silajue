@@ -152,8 +152,8 @@ const deleteConfirm = async (productId) => {
 						<template #tbody>
 							<tr v-for="item in data" @click="showCategoryForm(item.id)" class="cursor-pointer">
 								<td>{{ item.no }}</td>
-								<td>{{ item.name }}</td>
-								<td>{{ item.type }}</td>
+								<td class="capitalize">{{ item.name }}</td>
+								<td class="capitalize">{{ item.type }}</td>
 								<td>{{ item.priceText }}</td>
 								<td>
 									<button type="button" @click.stop="deleteConfirm(item.id)" class="pl-2 pr-3 py-1 rounded text-red-100 border flex items-center justify-center transition-colors bg-red-500 hover:bg-red-600">

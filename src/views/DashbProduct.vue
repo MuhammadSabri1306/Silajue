@@ -16,12 +16,13 @@ productStore.fetchProducts();
 const isSexing = ref(true);
 const categoryId = ref(null);
 
-const categories = computed(() => {
-	if(!productStore.categories)
-		return [];
+const sexingCategories = computed(() => productStore.sexingCategories);
+const unsexingCategories = computed(() => productStore.unsexingCategories);
 
-	const all = { id: -1, name: "Semua" };
-	return [ all, ...productStore.categories ];
+const categories = computed(() => {
+	const data = isSexing.value ? sexingCategories.value : unsexingCategories.value;
+	const all = { id: -1, name: "semua" };
+	return [ all, ...data ];
 });
 
 const products = computed(() => {
@@ -79,8 +80,8 @@ const toEditPage = productId => router.push("/app/product/edit/" + productId);
 							<tr v-for="item in products" @click="toEditPage(item.id)">
 								<td>{{ item.no }}</td>
 								<td>{{ item.name }}</td>
-								<td>{{ item.category.name }}</td>
-								<td>{{ item.category.type }}</td>
+								<td class="capitalize">{{ item.category.name }}</td>
+								<td class="capitalize">{{ item.category.type }}</td>
 								<td>{{ item.stock }}</td>
 							</tr>
 						</template>
@@ -116,6 +117,11 @@ const toEditPage = productId => router.push("/app/product/edit/" + productId);
 
 .card-table td {
 	@apply cursor-pointer;
+}
+
+.table-filter :deep(.dropdown-toggler),
+.table-filter :deep(.dropdown-item) {
+	@apply capitalize;
 }
 
 </style>
