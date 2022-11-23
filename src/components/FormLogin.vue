@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { required, email } from "@vuelidate/validators";
 import { useUserStore } from "@/stores/user";
 import { useViewStore } from "@/stores/view";
@@ -16,6 +16,7 @@ const { data, v$ } = useDataForm({
 const userStore = useUserStore();
 const viewStore = useViewStore();
 const router = useRouter();
+const route = useRoute();
 
 const showLoader = ref(false);
 const hasSubmitted = ref(false);
@@ -40,7 +41,7 @@ const onLogin = async () => {
 			let { id, name, token, role } = response.data.success;
 			userStore.updateUser({ id, name, token, role });
 			viewStore.showToast("login", true);
-			setTimeout(() => router.push("/"), 500);
+			setTimeout(() => router.push(route.query.redirect || "/"), 500);
 
 		})
 		.catch(err => {

@@ -1,5 +1,6 @@
 <script setup>
 import { watch } from "vue";
+import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import { useViewStore } from "@/stores/view";
 import { useToast } from "primevue/usetoast";
@@ -13,6 +14,13 @@ watch(watcherSrc, watcherCall);
 
 const userStore = useUserStore();
 userStore.checkUserCookie();
+
+const router = useRouter();
+router.beforeEach((to, from) => {
+    const needLogin = (to.meta.needAdminRole && !userStore.isRoleAdmin) || (to.meta.needLogin && userStore.isRolePublic);
+    if(needLogin)
+        return { path: "/login", query: { redirect: to.fullPath } };
+});
 </script>
 <template>
     <div>

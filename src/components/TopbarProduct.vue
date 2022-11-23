@@ -9,13 +9,16 @@ import SwitchToggle from "@/components/ui/SwitchToggle.vue";
 const productStore = useProductStore();
 productStore.fetchCategories();
 
+const isSexing = ref(productStore.isSexing);
 const showTopbar = computed(() => productStore.categories && productStore.categories.length > 0);
-const categories = computed(() => {
-	if(!productStore.categories)
-		return [];
+const sexingCategories = computed(() => productStore.sexingCategories);
+const unsexingCategories = computed(() => productStore.unsexingCategories);
 
+const categories = computed(() => {
+	const temp = isSexing.value ? sexingCategories.value : unsexingCategories.value;
 	const all = { id: -1, name: "Semua" };
-	return [ all, ...productStore.categories ];
+
+	return [ all, ...temp ];
 });
 
 const router = useRouter();
@@ -26,7 +29,6 @@ const onDropdownChange = categoryId => {
 		router.push("/product/category/" + categoryId);
 };
 
-const isSexing = ref(productStore.isSexing);
 const onSexingToggle = value => {
 	isSexing.value = value;
 	productStore.setSexing(value);

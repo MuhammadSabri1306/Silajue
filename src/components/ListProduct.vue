@@ -15,8 +15,8 @@ const isSexing = computed(() => productStore.isSexing);
 const products = computed(() => {
 
 	return productStore.products.filter(item => {
-		const typeFilter = isSexing.value && item.type == "Sexing" || !isSexing.value && item.type == "Unsexing";
-		const categoryFilter = !categoryId.value ? true : (item.category == categoryId.value);
+		const typeFilter = isSexing.value && item.category.type == "sexing" || !isSexing.value && item.category.type == "unsexing";
+		const categoryFilter = !categoryId.value ? true : (item.category.id == categoryId.value);
 		return typeFilter && categoryFilter;
 	});
 

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+
 import Beranda from "./views/Beranda.vue";
 import Profil from "./views/Profil.vue";
 import Tentang from "./views/Tentang.vue";
@@ -18,7 +19,7 @@ import DashbProductCategory from "./views/DashbProductCategory.vue";
 const useBuildPath = true;
 const routes = {
     beranda: { path: "/", component: Beranda },
-    profil: { path: "/user", component: Profil },
+    profil: { path: "/user", component: Profil, meta: { needLogin: true } },
     tentang: { path: "/about", component: Tentang },
     produk: { path: "/product", component: Produk },
     produkKategori: { path: "/product/category/:categoryId", component: Produk },
@@ -27,12 +28,12 @@ const routes = {
     login: { path: "/login", component: Account },
     register: { path: "/register", component: Account },
     panduan: { path: "/guide", component: Panduan },
-    invoice: { path: "/invoice", component: Invoice },
-    dashboard: { path: "/app", component: DashbProduct },
-    dashbProduct: { path: "/app/product", component: DashbProduct },
-    dashbProductNew: { path: "/app/product/new", component: DashbProductForm },
-    dashbProductEdit: { path: "/app/product/edit/:id", component: DashbProductForm },
-    dashbProductCategory: { path: "/app/product/category", component: DashbProductCategory }
+    invoice: { path: "/invoice", component: Invoice, meta: { needLogin: true } },
+    dashboard: { path: "/app", component: DashbProduct, meta: { needAdminRole: true } },
+    dashbProduct: { path: "/app/product", component: DashbProduct, meta: { needAdminRole: true } },
+    dashbProductNew: { path: "/app/product/new", component: DashbProductForm, meta: { needAdminRole: true } },
+    dashbProductEdit: { path: "/app/product/edit/:id", component: DashbProductForm, meta: { needAdminRole: true } },
+    dashbProductCategory: { path: "/app/product/category", component: DashbProductCategory, meta: { needAdminRole: true } }
 };
 
 const defineMyRouter = routesObj => {

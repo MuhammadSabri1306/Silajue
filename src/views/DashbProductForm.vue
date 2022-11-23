@@ -36,7 +36,6 @@ if(!productId.value)
 	isLoaded.value = true;
 
 watch(() => productStore.products, () => {
-	console.log(productId.value);
 	if(!productId.value)
 		return;
 
@@ -44,22 +43,39 @@ watch(() => productStore.products, () => {
 	data.name = product.name;
 	data.img = product.img;
 	data.stock = product.stock;
-	data.category = product.category;
-	data.price = product.price;
-	data.type = product.type;
+	data.category = product.category.id;
+	data.price = product.category.price;
+	data.type = product.category.type;
 	data.description = product.description;
 
 	isLoaded.value = true;
 });
 
+// formdata.append("name", "Sinyo");
+// formdata.append("code", "11522");
+// formdata.append("stock", "123");
+// formdata.append("category_id", "1");
+// formdata.append("date_birth", "2022-11-12");
+// formdata.append("sire", "10823-Bravo");
+// formdata.append("dam", "PC 113");
+// formdata.append("straw_color", "Merah");
+// formdata.append("description", "Bobot Badan 496 kg, Tinggi Gumba 136 cm");
+// formdata.append("image", fileInput.files[0], "[PROXY]");
+
 const textPrice = computed(() => formatIdr(data.price));
 const categories = computed(() => productStore.categories);
+const categoryList = computed(() => {
+	return categories.value.map(item => {
+		const title = `${ item.name } (${ item.type })`;
+		return { title, ...item };
+	});
+});
 
 const onSexingToggle = isSexing => {
 	if(isSexing)
-		data.type = "Sexing";
+		data.type = "sexing";
 	else
-		data.type = "Unsexing";
+		data.type = "unsexing";
 };
 </script>
 <template>
@@ -84,15 +100,9 @@ const onSexingToggle = isSexing => {
 							<label for="inputName">Nama Produk</label>
 							<input type="text" v-model="v$.name.$model" id="inputName">
 						</div>
-						<div class="grid grid-cols-[repeat(2,auto)] gap-4 mb-8">
-							<div class="input-group">
-								<label class="mr-2 mb-0">Kategori</label>
-								<Dropdown v-if="categories.length > 0" :options="categories" :value="data.category" labelKey="name" valueKey="id" @change="val => data.category = val" />
-							</div>
-							<div class="input-group">
-								<label class="mr-2 mb-0">Sexing</label>
-								<SwitchToggle :value="data.type == 'Sexing'" @toggle="onSexingToggle" />
-							</div>
+						<div class="input-group grid grid-cols-1 gap-4 mb-8">
+							<label class="mr-2 mb-0">Kategori</label>
+							<Dropdown v-if="categoryList.length > 0" :options="categoryList" :value="data.category" labelKey="title" valueKey="id" @change="val => data.category = val" />
 						</div>
 						<div class="grid grid-cols-2 gap-4 mb-8">
 							<div class="input-group">

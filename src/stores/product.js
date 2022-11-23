@@ -45,6 +45,18 @@ export const useProductStore = defineStore("product", {
 			if(!state.invoice)
 				return [];
 			return state.invoice.sort((a, b) => b.timestamp - a.timestamp);
+		},
+
+		sexingCategories: state => {
+			if(!state.categories)
+				return [];
+			return state.categories.filter(item => item.type == "sexing");
+		},
+
+		unsexingCategories: state => {
+			if(!state.categories)
+				return [];
+			return state.categories.filter(item => item.type == "unsexing");
 		}
 	
 	},
@@ -66,8 +78,8 @@ export const useProductStore = defineStore("product", {
 
 			try {
 
-				const response = await getSampleProduct();
-				const data = response.products;
+				const response = await http.get("/produk");
+				const data = response.data.data;
 
 				if(!data)
 					return console.warn(response);
