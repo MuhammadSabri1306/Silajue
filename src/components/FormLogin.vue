@@ -41,7 +41,9 @@ const onLogin = async () => {
 			let { id, name, token, role } = response.data.success;
 			userStore.updateUser({ id, name, token, role });
 			viewStore.showToast("login", true);
-			setTimeout(() => router.push(route.query.redirect || "/"), 500);
+
+			const baseRedirect = role === "admin" ? "/app" : "/";
+			setTimeout(() => router.push(route.query.redirect || baseRedirect), 500);
 
 		})
 		.catch(err => {

@@ -139,7 +139,7 @@ const profileSection = ref(1);
 					<div class="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-16">
 						<div class="flex justify-center items-start">
 							<div class="relative profile-avatar-wrapper">
-								<BgImageAsync :src="profileImg" class="profile-avatar" />
+								<BgImageAsync :src="data.avatar" class="profile-avatar" />
 								<button type="button" class="absolute top-0 left-0 w-full h-full text-gray-100 bg-gray-400/40 text-4xl flex justify-center items-center transition-opacity opacity-0 hover:opacity-100 focus:opacity-100">
 									<font-awesome-icon icon="fa-solid fa-image" />
 								</button>

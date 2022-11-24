@@ -187,7 +187,7 @@ const deleteConfirm = async () => {
 };
 </script>
 <template>
-	<DashbLayout>
+	<DashbLayout :activeNav="1">
 		<template #main>
 			<div>
 				<h3 class="page-title">Data Produk</h3>

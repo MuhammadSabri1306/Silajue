@@ -82,6 +82,25 @@ const toastContent = {
 			summary: "Produk",
 			detail:"Terjadi masalah saat menghubungi server."
 		}
+	},
+	addInvoice: {
+		success: {
+			severity:"success",
+			summary: "Invoice",
+			detail:"Produk berhasil ditambahkan ke invoice."
+		},
+		error: {
+			severity:"error",
+			summary: "Invoice",
+			detail:"Terjadi masalah saat menghubungi server."
+		}
+	},
+	fetchData: {
+		error: {
+			severity:"error",
+			summary: "Koneksi gagal",
+			detail:"Terjadi masalah saat menghubungi server. Coba lagi beberapa saat atau anda bisa menghubungi admin web."
+		}
 	}
 };
 

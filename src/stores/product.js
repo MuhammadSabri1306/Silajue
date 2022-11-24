@@ -65,10 +65,11 @@ export const useProductStore = defineStore("product", {
 		readCartCookie() {
 			const cartData = getCart();
 			if(cartData)
-				this.carts = cardData;
+				this.carts = cartData;
 		},
 
-		addToCart(data) {
+		addToCart({ itemCount, product }) {
+			const data = { itemCount, ...product };
 			pushCart(data);
 			this.carts.push(data);
 			return true;

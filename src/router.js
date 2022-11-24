@@ -12,9 +12,12 @@ import Account from "./views/Account.vue";
 import Panduan from "./views/Panduan.vue";
 import Invoice from "./views/Invoice.vue";
 
+import DashbHome from "./views/DashbHome.vue";
 import DashbProduct from  "./views/DashbProduct.vue";
 import DashbProductForm from "./views/DashbProductForm.vue";
 import DashbProductCategory from "./views/DashbProductCategory.vue";
+import DashbUser from "./views/DashbUser.vue";
+import DashbSocial from "./views/DashbSocial.vue";
 
 const useBuildPath = true;
 const routes = {
@@ -30,11 +33,13 @@ const routes = {
     register: { path: "/register", component: Account },
     panduan: { path: "/guide", component: Panduan },
     invoice: { path: "/invoice", component: Invoice, meta: { needLogin: true } },
-    dashboard: { path: "/app", component: DashbProduct, meta: { needAdminRole: true } },
+    dashboard: { path: "/app", component: DashbHome, meta: { needAdminRole: true } },
     dashbProduct: { path: "/app/product", component: DashbProduct, meta: { needAdminRole: true } },
     dashbProductNew: { path: "/app/product/new", component: DashbProductForm, meta: { needAdminRole: true } },
     dashbProductEdit: { path: "/app/product/edit/:id", component: DashbProductForm, meta: { needAdminRole: true } },
-    dashbProductCategory: { path: "/app/product/category", component: DashbProductCategory, meta: { needAdminRole: true } }
+    dashbProductCategory: { path: "/app/product/category", component: DashbProductCategory, meta: { needAdminRole: true } },
+    dashbUser: { path: "/app/users", component: DashbUser, meta: { needAdminRole: true } },
+    dashbSocial: { path: "/app/social", component: DashbSocial, meta: { needAdminRole: true } }
 };
 
 const defineMyRouter = routesObj => {

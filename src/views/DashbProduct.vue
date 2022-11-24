@@ -49,7 +49,7 @@ const router = useRouter();
 const toEditPage = productId => router.push("/app/product/edit/" + productId);
 </script>
 <template>
-	<DashbLayout>
+	<DashbLayout :activeNav="1">
 		<template #main>
 			<div>
 				<h3 class="page-title">Data Produk</h3>

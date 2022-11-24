@@ -1,9 +1,10 @@
 <script setup>
 import { reactive, computed } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useProductStore } from "@/stores/product";
 import { useUserStore } from "@/stores/user";
 import { formatIdr } from "@/modules/currency-format";
+import http from "@/modules/http-common";
 
 const productStore = useProductStore();
 productStore.readCartCookie();
@@ -15,22 +16,41 @@ const disableSubmit = computed(() => data.length < 1);
 
 const userStore = useUserStore();
 const isRolePublic = computed(() => userStore.isRolePublic);
-
 const router = useRouter();
+const route = useRoute();
+
+const newInvoice = body => {
+	const headers = { "Authorization": "Bearer " + userStore.token };
+
+	http.post("/invoice", body, { headers })
+		.then(() => {
+			router.push("/invoice");
+			viewStore.showToast("addInvoice", true);
+		})
+		.catch(err => {
+			console.error(err);
+			viewStore.showToast("addInvoice", false);
+		});
+};
+
 const submitInvoice = () => {
-	if(isRolePublic.value)
-		return router.push("/login");
+	if(isRolePublic.value) {
+		const currPath = route.fullPath;
+		return router.push({ path: "/login", query: { redirect: currPath } });
+	}
 
-	data.forEach(productId => {
-		const index = carts.value.findIndex(cartItem => cartItem.id === productId);
-		if(index < 0)
-			return;
+	const dataInvoice = data
+		.map(productId => {
+			const index = carts.value.findIndex(cartItem => cartItem.id === productId);
+			if(index < 0)
+				return null;
 
-		const { id, name, price, type, category, itemCount } = carts.value[index];
-		productStore.addToInvoice({ id, name, price, type, category, itemCount });
-	});
-
-	router.push("/invoice");
+			const { id, itemCount, category } = carts.value[index];
+			const totalPrice = category.price * itemCount;
+			return { id, itemCount, totalPrice };
+		})
+		.filter(item => item !== null);
+	newInvoice(dataInvoice);
 };
 
 const toggleData = productId => {
@@ -42,15 +62,15 @@ const toggleData = productId => {
 };
 
 const formatPrice = item => {
-	if(!item.product)
+	if(!item.category)
 		return formatIdr(0);
-	return formatIdr(item.product.category.price);
+	return formatIdr(item.category.price);
 };
 
 const formatTotalPrice = item => {
-	if(!item.product || !item.itemCount)
+	if(!item.category || !item.itemCount)
 		return formatIdr(0);
-	return formatIdr(item.itemCount * item.product.category.price);
+	return formatIdr(item.itemCount * item.category.price);
 };
 
 
@@ -75,8 +95,8 @@ const formatTotalPrice = item => {
 						<input type="checkbox" v-model="data" :value="item.id" :id="'product'+item.id">
 					</div>
 					<div class="grow">
-						<label :for="'product'+item.id" class="text-center block text-gray-900 text-lg font-bold mb-8">{{ item.product.name }}</label>
-						<p class="text-gray-700 mb-2 text-xs font-medium">Tipe/Jenis: <span class="font-semibold text-gray-900 capitalize">{{ item.product.category.type }} / {{ item.product.category.name }}</span></p>
+						<label :for="'product'+item.id" class="text-center block text-gray-900 text-lg font-bold mb-8">{{ item.name }}</label>
+						<p class="text-gray-700 mb-2 text-xs font-medium">Tipe/Jenis: <span class="font-semibold text-gray-900 capitalize">{{ item.category.type }} / {{ item.category.name }}</span></p>
 						<p class="text-gray-700 mb-2 text-xs font-medium">Harga: <span class="font-semibold text-gray-800">{{ formatPrice(item) }}</span></p>
 						<p class="text-gray-700 mb-4 text-xs font-medium">Jumlah: <span class="font-semibold text-gray-800">{{ item.itemCount }}</span></p>
 						<p class="text-gray-700 text-xs font-medium">Total: <span class="font-semibold text-lg text-gray-800">{{ formatTotalPrice(item) }}</span></p>
