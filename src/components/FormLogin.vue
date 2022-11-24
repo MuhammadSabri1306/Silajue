@@ -21,7 +21,23 @@ const route = useRoute();
 const showLoader = ref(false);
 const hasSubmitted = ref(false);
 
+const getProfileAvatar = token => {
+
+	const headers = { "Authorization": "Bearer " + token };
+	http.get("/user", { headers })
+		.then(response => {
+			const detailUser = response.data.data;
+			if(!detailUser)
+				return console.warn(response.data);
+
+			userStore.updateUser({ avatar: detailUser.avatar });
+		})
+		.catch(err => console.error(err));
+
+};
+
 const onLogin = async () => {
+
 	hasSubmitted.value = true;
 	const ready = await v$.value.$validate();
 
@@ -40,6 +56,7 @@ const onLogin = async () => {
 
 			let { id, name, token, role } = response.data.success;
 			userStore.updateUser({ id, name, token, role });
+			getProfileAvatar(token);
 			viewStore.showToast("login", true);
 
 			const baseRedirect = role === "admin" ? "/app" : "/";
@@ -50,6 +67,7 @@ const onLogin = async () => {
 			console.error(err);
 			viewStore.showToast("login", false);
 		});
+
 };
 
 </script>

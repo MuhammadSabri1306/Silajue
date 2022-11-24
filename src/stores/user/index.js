@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import http from "@/modules/http-common";
 import { getSession, setSession, deleteSession } from "@/modules/session";
 
 export const useUserStore = defineStore("user", {
@@ -31,6 +32,8 @@ export const useUserStore = defineStore("user", {
 				this.profile.id = params.id;
 			if(params.name)
 				this.profile.name = params.name;
+			if(params.avatar)
+				this.profile.avatar = params.avatar;
 			if(params.token)
 				this.token = params.token;
 			if(params.role)

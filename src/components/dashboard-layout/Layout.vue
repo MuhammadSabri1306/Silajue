@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
+import Avatar from "@/components/ui/Avatar.vue";
 
 defineProps({
 	activeNav: { type: Number, default: 0 }
@@ -38,6 +39,9 @@ const onLogout = () => {
 	userStore.logout();
 	router.push("/");
 };
+
+const profileName = computed(() => userStore.profile.name);
+const profileAvatar = computed(() => userStore.profile.avatar);
 </script>
 <template>
 	<div id="dashbWrapper" :class="{ 'toggle-sidebar': toggleSidebar }">
@@ -64,8 +68,11 @@ const onLogout = () => {
 					</span>
 				</button>
 				<div class="relative">
-					<button @click.stop="expandUserMenu = !expandUserMenu" class="navbar-item">
+					<!-- <button @click.stop="expandUserMenu = !expandUserMenu" class="navbar-item">
 						<span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 m-auto"><path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" /></svg></span>
+					</button> -->
+					<button @click.stop="expandUserMenu = !expandUserMenu" class="navbar-item">
+						<Avatar :name="profileName" :img="profileAvatar" />
 					</button>
 					<Transition name="fade">
 						<div v-show="expandUserMenu" class="navbar-collapse">
@@ -180,7 +187,7 @@ body > #app > div,
 }
 
 .navbar-collapse {
-	@apply absolute top-full right-0 min-w-[16rem] mt-2 bg-white rounded border shadow-lg overflow-hidden grid grid-cols-1;
+	@apply absolute top-full left-0 min-w-[16rem] mt-2 bg-white rounded border shadow-lg overflow-hidden grid grid-cols-1;
 }
 
 .navbar-collapse > *:not(:last-child) {
