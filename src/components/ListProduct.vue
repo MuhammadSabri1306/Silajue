@@ -29,7 +29,7 @@ const products = computed(() => {
 		</div>
 		<div v-if="products.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 py-16">
 			
-			<CardProduct v-for="(item, index) in products" :key="item.id" v-bind="buildCardProps(item)" class="shadow-sm" />
+			<CardProduct v-for="item in products" :key="item.id" :id="item.id" class="shadow-sm" />
 		
 		</div>
 	</div>

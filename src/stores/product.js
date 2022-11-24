@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import http from "@/modules/http-common";
+import { pushCart, getCart } from "@/modules/cart-cookie";
 import { getSampleProduct, getSampleCategories } from "@/modules/sample-products";
 
 export const useProductStore = defineStore("product", {
@@ -61,8 +62,15 @@ export const useProductStore = defineStore("product", {
 	
 	},
 	actions: {
-		addToCart({ id, name, price, type, category, itemCount }) {
-			this.carts.push({ id, name, price, type, category, itemCount });
+		readCartCookie() {
+			const cartData = getCart();
+			if(cartData)
+				this.carts = cardData;
+		},
+
+		addToCart(data) {
+			pushCart(data);
+			this.carts.push(data);
 			return true;
 		},
 
@@ -72,7 +80,7 @@ export const useProductStore = defineStore("product", {
 			this.invoice.push({ id, name, price, type, category, itemCount, timestamp, status });
 		},
 
-		async fetchProducts(force = false) {
+		async fetchProducts(force = false, callback = null) {
 			if(this.products.length > 0 && !force)
 				return;
 
@@ -84,9 +92,11 @@ export const useProductStore = defineStore("product", {
 				if(!data)
 					return console.warn(response);
 				this.products = data;
+				callback && callback();
 
 			} catch(err) {
 				console.error(err);
+				callback && callback()
 			}
 		},
 

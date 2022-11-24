@@ -20,8 +20,8 @@ const { data, v$ } = useDataForm({
 });
 
 const modal = ref(null);
-const textPrice = computed(() => product.value.price ? formatIdr(product.value.price) : formatIdr(0));
-const textTotal = computed(() => product.value.price ? formatIdr(product.value.price * data.itemCount) : formatIdr(0));
+const textPrice = computed(() => product.value.category.price ? formatIdr(product.value.category.price) : formatIdr(0));
+const textTotal = computed(() => product.value.category.price ? formatIdr(product.value.category.price * data.itemCount) : formatIdr(0));
 const categoryName = computed(() => {
 	if(!productStore.categories)
 		return null;
@@ -36,13 +36,10 @@ const categoryName = computed(() => {
 const viewStore = useViewStore();
 const addToCart = () => {
 	const cartData = {
-		id: product.value.id,
-		name: product.value.name,
-		price: product.value.price,
-		type: product.value.type,
-		category: product.value.category,
-		itemCount: data.itemCount
+		itemCount: data.itemCount,
+		product: product.value
 	};
+	
 	const isSuccess = productStore.addToCart(cartData);
 	modal.value && modal.value.hide();
 	
@@ -66,9 +63,9 @@ const addToCart = () => {
 						<span>Nama</span>
 						<span class="font-bold">: {{ product.name }}</span>
 						<span>Kategori</span>
-						<span class="font-bold">: {{ categoryName }}</span>
+						<span class="font-bold capitalize">: {{ product.category.name }}</span>
 						<span>Tipe</span>
-						<span class="font-bold">: {{ product.type }}</span>
+						<span class="font-bold capitalize">: {{ product.category.type }}</span>
 					</div>
 					<div class="flex items-center gap-x-4 gap-y-2 my-8">
 						<label for="inputCount" class="text-sm font-medium text-gray-700 whitespace-nowrap">Jumlah item</label>

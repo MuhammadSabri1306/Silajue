@@ -119,8 +119,10 @@ const sendRequest = body => {
 			viewStore.showToast("saveProduct", true);
 			showLoadingIcon.value = false;
 
-			if(!productId.value)
+			if(!productId.value) {
+				productStore.fetchProducts(true);
 				router.push("/app/product");
+			}
 		})
 		.catch(err => {
 			console.error(err);

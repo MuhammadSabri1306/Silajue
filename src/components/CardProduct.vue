@@ -10,30 +10,16 @@ const routeDetail = computed(() => "/product/detail/" + props.id);
 const routeEdit = computed(() => "/product/form/" + props.id);
 
 const props = defineProps({
-	id: Number,
-	title: String,
-	price: Number,
-	img: String,
-	type: String,
-	category: { default: null },
-	description: String,
-	stock: Number
+	id: { required: true }
 });
 
 const productStore = useProductStore();
-const categoryName = computed(() => {
-	if(!productStore.categories)
-		return null;
-	
-	const currCategory = productStore.categories.find(item => item.id == props.category);
-	if(!currCategory)
-		return null;
-	
-	return currCategory.name;
+const currProduct = computed(() => productStore.productById(props.id));
+const textPrice = computed(() => {
+	if(!currProduct.value.category.price)
+		return formatIdr(0);
+	return formatIdr(currProduct.value.category.price);
 });
-
-const textPrice = computed(() => formatIdr(props.price));
-const isTypeSexing = computed(() => props.type == "Sexing");
 
 const showModal = ref(false);
 const openModal = id => {
@@ -43,13 +29,13 @@ const openModal = id => {
 <template>
 	<div class="card-product">
 		<div>
-			<BgImageAsync class="aspect-video" :src="img" />
+			<BgImageAsync class="aspect-video" :src="currProduct.image" />
 		</div>
 		<div class="p-4">
 			<div class="flex items-start">
 				<div class="mr-auto">
-					<h6 class="text-2xl font-bold text-gray-900">{{ title }}</h6>
-					<p class="text-xs font-semibold text-gray-600">{{ categoryName }}</p>
+					<h6 class="text-2xl font-bold text-gray-900">{{ currProduct.name }}</h6>
+					<p class="text-xs font-semibold text-gray-600 capitalize">{{ currProduct.category.name }}</p>
 				</div>
 				<button type="button" @click="openModal(id)" class="flex justify-center items-center text-white rounded px-3 py-1 hover-margin bg-green-600 hover:bg-green-500">
 					<span class="text-lg mr-2"><font-awesome-icon icon="fa-solid fa-cart-plus" /></span>
@@ -57,11 +43,10 @@ const openModal = id => {
 				</button>
 			</div>
 			<div class="py-4 px-2">
-				<p class="text-sm text-gray-600 mb-4">{{ description }}</p>
-				<p class="text-sm text-gray-600 mb-4">Stok Tersedia: <b>{{ stock }}</b></p>
+				<p class="text-sm text-gray-600 mb-4">{{ currProduct.description }}</p>
+				<p class="text-sm text-gray-600 mb-4">Stok Tersedia: <b>{{ currProduct.stock }}</b></p>
 				<div class="flex items-center mb-4 gap-2">
-					<span v-if="isTypeSexing" class="card-badge bg-gray-700 text-white">Sexing</span>
-					<span v-else class="card-badge bg-gray-700 text-white">Unsexing</span>
+					<span class="card-badge bg-gray-700 text-white capitalize">{{ currProduct.category.type }}</span>
 				</div>
 				<p class="font-bold text-2xl whitespace-nowrap text-green-600 text-right">{{ textPrice }}</p>
 			</div>

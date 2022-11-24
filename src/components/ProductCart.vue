@@ -6,6 +6,7 @@ import { useUserStore } from "@/stores/user";
 import { formatIdr } from "@/modules/currency-format";
 
 const productStore = useProductStore();
+productStore.readCartCookie();
 const carts = computed(() => productStore.carts);
 
 defineEmits(["hide"]);
@@ -40,6 +41,18 @@ const toggleData = productId => {
 		data.splice(index, 1);
 };
 
+const formatPrice = item => {
+	if(!item.product)
+		return formatIdr(0);
+	return formatIdr(item.product.category.price);
+};
+
+const formatTotalPrice = item => {
+	if(!item.product || !item.itemCount)
+		return formatIdr(0);
+	return formatIdr(item.itemCount * item.product.category.price);
+};
+
 
 /*
  * { id, name, price, type, category, itemCount }
@@ -62,11 +75,11 @@ const toggleData = productId => {
 						<input type="checkbox" v-model="data" :value="item.id" :id="'product'+item.id">
 					</div>
 					<div class="grow">
-						<label :for="'product'+item.id" class="text-center block text-gray-900 text-lg font-bold mb-8">{{ item.name }}</label>
-						<p class="text-gray-700 mb-2 text-xs font-medium">Tipe/Jenis: <span class="font-semibold text-gray-900">{{ item.type }} / {{ item.category }}</span></p>
-						<p class="text-gray-700 mb-2 text-xs font-medium">Harga: <span class="font-semibold text-gray-800">{{ formatIdr(item.price) }}</span></p>
+						<label :for="'product'+item.id" class="text-center block text-gray-900 text-lg font-bold mb-8">{{ item.product.name }}</label>
+						<p class="text-gray-700 mb-2 text-xs font-medium">Tipe/Jenis: <span class="font-semibold text-gray-900 capitalize">{{ item.product.category.type }} / {{ item.product.category.name }}</span></p>
+						<p class="text-gray-700 mb-2 text-xs font-medium">Harga: <span class="font-semibold text-gray-800">{{ formatPrice(item) }}</span></p>
 						<p class="text-gray-700 mb-4 text-xs font-medium">Jumlah: <span class="font-semibold text-gray-800">{{ item.itemCount }}</span></p>
-						<p class="text-gray-700 text-xs font-medium">Total: <span class="font-semibold text-lg text-gray-800">{{ formatIdr(item.price * item.itemCount) }}</span></p>
+						<p class="text-gray-700 text-xs font-medium">Total: <span class="font-semibold text-lg text-gray-800">{{ formatTotalPrice(item) }}</span></p>
 					</div>
 					<a role="button" @click="toggleData(item.id)" class="absolute left-0 top-0 w-full h-full"></a>
 				</div>
