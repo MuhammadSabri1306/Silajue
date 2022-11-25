@@ -7,11 +7,7 @@ import SectionBlogSuggest from "@/components/SectionBlogSuggest.vue";
 
 const blogStore = useBlogStore();
 
-const blogList = computed(() => {
-	if(!blogStore.blogs)
-		return [];
-	return blogStore.blogs;
-});
+const blogList = computed(() => blogStore.blogs);
 
 if(blogList.value.length < 1)
 	blogStore.fetchBlog();
@@ -42,7 +38,7 @@ if(blogList.value.length < 1)
 							<div class="pb-8 md:pr-8">
 								<p class="text-2xl font-semibold text-gray-900 mb-4 md:bg-yellow-400/50 py-4 px-8 md:px-12 text-center">Artikel terbaru</p>
 								<div class="grid grid-cols-1 gap-12">
-									<CardBlog v-for="item in blogList" :id="item.id" :date="item.date" :title="item.title" :img="item.img" :desc="item.description" />
+									<CardBlog v-for="item in blogList" :id="item.id" :date="item.created_at" :title="item.title" :img="item.image" :desc="item.description" :slug="item.slug" />
 								</div>
 							</div>
 							<div class="flex flex-col pb-8 md:pt-8">

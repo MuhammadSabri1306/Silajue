@@ -62,8 +62,10 @@ export const useProductStore = defineStore("product", {
 		},
 
 		async fetchProducts(force = false, callback = null) {
-			if(this.products.length > 0 && !force)
+			if(this.products.length > 0 && !force) {
+				callback && callback();
 				return;
+			}
 
 			try {
 
@@ -81,9 +83,11 @@ export const useProductStore = defineStore("product", {
 			}
 		},
 
-		async fetchCategories(force = false) {
-			if(this.categories.length > 0 && !force)
+		async fetchCategories(force = false, callback = null) {
+			if(this.categories.length > 0 && !force) {
+				callback && callback();
 				return;
+			}
 
 			try {
 
@@ -93,6 +97,7 @@ export const useProductStore = defineStore("product", {
 				if(!data)
 					return console.warn(response);
 				this.categories = data;
+				callback && callback();
 
 			} catch(err) {
 				console.error(err);
@@ -100,8 +105,10 @@ export const useProductStore = defineStore("product", {
 		},
 
 		async fetchInvoice(force = false, callback = null) {
-			if(this.invoice.length > 0 && !force)
+			if(this.invoice.length > 0 && !force) {
+				callback && callback();
 				return;
+			}
 
 			const userStore = useUserStore();
 			try {

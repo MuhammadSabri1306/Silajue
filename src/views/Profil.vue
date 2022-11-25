@@ -7,7 +7,8 @@ import { useDataForm } from "@/modules/data-form";
 import { useRegion } from "@/modules/region-id";
 import BasicLayout from "@/components/basic-layout/Layout.vue";
 import BgImageAsync from "@/components/BgImageAsync.vue";
-import UploadIdCard from "@/components/UploadIdCard.vue";
+// import UploadIdCard from "@/components/UploadIdCard.vue";
+import ModalUploadImg from "@/components/ModalUploadImg.vue";
 
 const { data, v$ } = useDataForm({
 	name: { value: null },
@@ -127,6 +128,63 @@ watch(
 
 const onSave = event => null;
 const profileSection = ref(1);
+
+const uploadIdCardElm = ref(null);
+const showUploadIdCard = ref(false);
+const updateIdCard = idCardImg => {
+	const formData = new FormData();
+	formData.append("identity_card", idCardImg);
+	const headers = { "Authorization": "Bearer " + userStore.token };
+
+	uploadIdCardElm.value.isLoading(true);
+	http.post("/user/image", formData, { headers })
+		.then(response => {
+			data.identityCard = null;
+			const dataUser = response.data.data;
+
+			if(!dataUser.identity_card)
+				return console.log(response.data);
+
+			data.identityCard = dataUser.identity_card;
+			uploadIdCardElm.value.isLoading(false);
+			showUploadIdCard.value = false;
+			console.log(dataUser.identity_card);
+		})
+		.catch(err => {
+			console.error(err);
+			viewStore.showToast("fetchData", false);
+			uploadIdCardElm.value.isLoading(false);
+		});
+};
+
+const uploadAvatarElm = ref(null);
+const showUploadAvatar = ref(false);
+const updateAvatar = avatarImg => {
+	const formData = new FormData();
+	formData.append("avatar", avatarImg);
+	const headers = { "Authorization": "Bearer " + userStore.token };
+
+	uploadAvatarElm.value.isLoading(true);
+	http.post("/user/avatar", formData, { headers })
+		.then(response => {
+			data.avatar = null;
+			const dataUser = response.data.data;
+
+			if(!dataUser.avatar)
+				return console.log(response.data);
+
+			data.avatar = dataUser.avatar;
+			userStore.updateUser({ avatar: dataUser.avatar });
+
+			uploadAvatarElm.value.isLoading(false);
+			showUploadAvatar.value = false;
+		})
+		.catch(err => {
+			console.error(err);
+			viewStore.showToast("fetchData", false);
+			uploadIdCardElm.value.isLoading(false);
+		});
+};
 </script>
 <template>
 	<BasicLayout>
@@ -140,7 +198,7 @@ const profileSection = ref(1);
 						<div class="flex justify-center items-start">
 							<div class="relative profile-avatar-wrapper">
 								<BgImageAsync :src="data.avatar" class="profile-avatar" />
-								<button type="button" class="absolute top-0 left-0 w-full h-full text-gray-100 bg-gray-400/40 text-4xl flex justify-center items-center transition-opacity opacity-0 hover:opacity-100 focus:opacity-100">
+								<button type="button" @click="showUploadAvatar = true" class="absolute top-0 left-0 w-full h-full text-gray-100 bg-gray-400/40 text-4xl flex justify-center items-center transition-opacity opacity-0 hover:opacity-100 focus:opacity-100">
 									<font-awesome-icon icon="fa-solid fa-image" />
 								</button>
 							</div>
@@ -236,8 +294,14 @@ const profileSection = ref(1);
 											<label for="inputNric">No. NIK</label>
 											<input type="tele" v-model="v$.nric.$model" id="inputNric">
 										</div>
-										<div class="input-group">
-											<UploadIdCard />
+										<div>
+											<button v-if="!data.identityCard" type="button" @click="showUploadIdCard = true" class="btn text-sm font-medium text-white transition-colors bg-gray-500 hover:bg-gray-400">Verifikasi Akun</button>
+											<div v-else>
+												<div class="aspect-video rounded-2xl overflow-hidden mb-4">
+													<BgImageAsync :src="data.identityCard" class="w-full h-full" />
+												</div>
+												<button type="button" @click="showUploadIdCard = true" class="btn text-sm font-medium text-white transition-colors bg-gray-500 hover:bg-gray-400">Ganti</button>
+											</div>
 										</div>
 										<div class="flex justify-end pt-12">
 											<button type="button" @click="onSave" class="py-2 px-4 rounded font-medium text-white hover-margin bg-primary-600 hover:bg-primary-500">Simpan Perubahan</button>
@@ -248,6 +312,8 @@ const profileSection = ref(1);
 						</div>
 					</div>
 				</div>
+				<ModalUploadImg v-if="showUploadIdCard" ref="uploadIdCardElm" title="Verifikasi Akun" label="Upload Foto KTP" @change="updateIdCard" />
+				<ModalUploadImg v-if="showUploadAvatar" ref="uploadAvatarElm" title="Foto Profil" label="Upload Foto Profil" @change="updateAvatar" />
 			</div>
 		</template>
 	</BasicLayout>

@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from "vue";
+import { useDateId } from "@/modules/date-id";
 import BgImageAsync from "@/components/BgImageAsync.vue";
 
 const props = defineProps({
@@ -7,10 +8,19 @@ const props = defineProps({
 	date: { type: String },
 	title: { type: String },
 	img: { type: String },
-	desc: { type: String }
+	desc: { type: String },
+	slug: { type: String }
 });
 
-const url = computed(() => "/blog/detail/" + props.id);
+const url = computed(() => "/blog/detail/" + props.slug);
+const formatDate = computed(() => {
+	const dateId = useDateId(new Date(props.date));
+	return dateId.toDateStr();
+});
+
+const shortDesc = computed(() => {
+	return props.desc.replace(/(<([^>]+)>)/gi, "").slice(0, 200) + "...";
+});
 
 </script>
 <template>
@@ -24,9 +34,9 @@ const url = computed(() => "/blog/detail/" + props.id);
 		<div class="h-padding">
 			<p class="text-sm font-medium text-gray-700 mb-2">
 				<font-awesome-icon icon="fa-regular fa-clock" />
-				<span class="ml-2">{{ date }}</span>
+				<span class="ml-2">{{ formatDate }}</span>
 			</p>
-			<p class="mb-4 text-gray-700">{{ desc }}</p>
+			<div class="mb-4 text-gray-700" v-html="shortDesc"></div>
 			<div class="flex">
 				<router-link :to="url" class="card-link">
 					<span>Selengkapnya</span>

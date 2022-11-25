@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import http from "@/modules/http-common";
+import { useUserStore } from "@/stores/user";
 import { getSamplePost } from "@/modules/sample-products";
 
 export const useBlogStore = defineStore("blog", {
@@ -23,19 +24,30 @@ export const useBlogStore = defineStore("blog", {
 			blogs.forEach(item => this.blogs.push(item));
 		},
 	
-		async fetchBlog() {
+		async fetchBlog(force = false, callback = null) {
+			if(this.blogs.length > 0 && !force) {
+				callback && callback();
+				return;
+			}
+
+			const userStore = useUserStore();
+			const headers = { "Authorization": "Bearer " + userStore.token };
+
 			try {
 
-				const response = await getSamplePost();
-				if(response.blog && response.blog.length > 0) {
-					this.blogs = response.blog;
-					return true;
+				const response = await http.get("/blog", { headers });
+				const data = response.data.data.data;
+				if(!data) {
+					console.warn(data);
+					return;
 				}
-				return false;
+
+				this.blogs = data;
+				console.log(data);
+				callback && callback();
 
 			} catch(err) {
 				console.error(err);
-				return false;
 			}
 		},
 

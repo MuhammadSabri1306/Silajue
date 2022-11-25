@@ -17,6 +17,9 @@ import DashbProduct from  "./views/DashbProduct.vue";
 import DashbProductForm from "./views/DashbProductForm.vue";
 import DashbProductCategory from "./views/DashbProductCategory.vue";
 import DashbInvoice from "./views/DashbInvoice.vue";
+import DashbBlog from "@/views/DashbBlog.vue";
+import DashbBlogNew from "@/views/DashbBlogNew.vue";
+import DashbBlogEdit from "@/views/DashbBlogEdit.vue";
 import DashbUser from "./views/DashbUser.vue";
 import DashbSocial from "./views/DashbSocial.vue";
 
@@ -29,17 +32,21 @@ const routes = {
     produkKategori: { path: "/product/category/:categoryId", component: Produk },
     produkDetail: { path: "/product/detail/:id", component: ProdukDetail },
     blog: { path: "/blog", component: Blog },
-    blogDetail: { path: "/blog/detail/:id", component: BlogDetail },
+    blogDetail: { path: "/blog/detail/:slug", component: BlogDetail },
     login: { path: "/login", component: Account },
     register: { path: "/register", component: Account },
     panduan: { path: "/guide", component: Panduan },
     invoice: { path: "/invoice", component: Invoice, meta: { needLogin: true } },
+
     dashboard: { path: "/app", component: DashbHome, meta: { needAdminRole: true } },
     dashbProduct: { path: "/app/product", component: DashbProduct, meta: { needAdminRole: true } },
     dashbProductNew: { path: "/app/product/new", component: DashbProductForm, meta: { needAdminRole: true } },
     dashbProductEdit: { path: "/app/product/edit/:id", component: DashbProductForm, meta: { needAdminRole: true } },
     dashbProductCategory: { path: "/app/product/category", component: DashbProductCategory, meta: { needAdminRole: true } },
     dashbInvoice: { path: "/app/invoice", component: DashbInvoice, meta: { needAdminRole: true } },
+    dashbBlog: { path: "/app/blog", component: DashbBlog, meta: { needAdminRole: true } },
+    dashbBlogNew: { path: "/app/blog/new", component: DashbBlogNew, meta: { needAdminRole: true } },
+    dashbBlogEdit: { path: "/app/blog/edit/:id", component: DashbBlogEdit, meta: { needAdminRole: true } },
     dashbUser: { path: "/app/users", component: DashbUser, meta: { needAdminRole: true } },
     dashbSocial: { path: "/app/social", component: DashbSocial, meta: { needAdminRole: true } }
 };

@@ -13,7 +13,7 @@ const sidebarItem = [
 	{ to: "/app/product", title: "Data Produk", icon: "fa-solid fa-star" },
 	{ to: "/app/product/category", title: "Kategori Produk", icon: "fa-solid fa-tags" },
 	{ to: "/app/invoice", title: "Invoice", icon: "fa-solid fa-bookmark" },
-	{ to: "/app", title: "Halaman Blog", icon: "fa-solid fa-thumbtack" },
+	{ to: "/app/blog", title: "Halaman Blog", icon: "fa-solid fa-thumbtack" },
 	{ to: "/app/users", title: "Data Pengguna", icon: "fa-solid fa-user" },
 	{ to: "/app/social", title: "Sosial", icon: "fa-solid fa-thumbs-up" }
 ];
@@ -68,9 +68,6 @@ const profileAvatar = computed(() => userStore.profile.avatar);
 					</span>
 				</button>
 				<div class="relative">
-					<!-- <button @click.stop="expandUserMenu = !expandUserMenu" class="navbar-item">
-						<span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 m-auto"><path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" /></svg></span>
-					</button> -->
 					<button @click.stop="expandUserMenu = !expandUserMenu" class="navbar-item">
 						<Avatar :name="profileName" :img="profileAvatar" />
 					</button>
@@ -85,7 +82,7 @@ const profileAvatar = computed(() => userStore.profile.avatar);
 									<p>Lihat Profil saya</p>
 								</div>
 							</router-link>
-							<a role="button" @click.stop="logout" class="collapse-item">
+							<a role="button" @click.stop="onLogout" class="collapse-item">
 								<div class="icon text-red-500">
 									<font-awesome-icon icon="fa-regular fa-share-from-square" fixed-width />
 								</div>

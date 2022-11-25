@@ -31,7 +31,7 @@ const fetchDataUser = () => {
 			}
 
 			data.value = response.data.data;
-			console.log(data.value);
+			// console.log(data.value);
 		})
 		.catch(err => {
 			console.error(err);

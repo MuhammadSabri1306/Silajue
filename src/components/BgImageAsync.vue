@@ -1,15 +1,16 @@
 <script setup>
-import { ref, computed, watch, onMounted } from "vue";
+import { ref, computed, watch } from "vue";
 
 const emit = defineEmits(["loaded"]);
 const props = defineProps({
 	src: { type: String, default: "" },
 });
 
-const imgSrc = ref("");
+const imgSrc = ref(null);
 const styleImg = computed(() => ({ backgroundImage: `url('${ imgSrc.value }')` }));
 
 const load = src => {
+	imgSrc.value = null;
 	const targetImg = new Image();
 	targetImg.onload = () => {
 		imgSrc.value = props.src;
@@ -19,10 +20,7 @@ const load = src => {
 	targetImg.src = src;
 }
 
-onMounted(() => {
-	load(props.src);
-});
-
+load(props.src);
 watch(() => props.src, load);
 
 </script>

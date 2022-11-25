@@ -113,6 +113,18 @@ const toastContent = {
 			summary: "Bukti transfer tidak terkirim",
 			detail:"Terjadi masalah saat menghubungi server."
 		}
+	},
+	saveBlog: {
+		success: {
+			severity:"success",
+			summary: "Blog",
+			detail:"Data berhasil disimpan."
+		},
+		error: {
+			severity:"error",
+			summary: "Blog",
+			detail:"Terjadi masalah saat menghubungi server."
+		}
 	}
 };
 

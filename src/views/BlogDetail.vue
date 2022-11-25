@@ -2,6 +2,9 @@
 import { ref, computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useBlogStore } from "@/stores/blog";
+import { useViewStore } from "@/stores/view";
+import http from "@/modules/http-common";
+import { useDateId } from "@/modules/date-id";
 import BasicLayout from "@/components/basic-layout/Layout.vue";
 import BgImageAsync from "@/components/BgImageAsync.vue";
 import SectionBlogShare from "@/components/SectionBlogShare.vue";
@@ -12,20 +15,30 @@ const isBlogLoaded = ref(false);
 const isSuggestLoaded = ref(false);
 
 const route = useRoute();
-const blogId = computed(() => route.params.id);
-const currBlog = ref(null);
+const blogSlug = computed(() => route.params.slug);
 
-const blogStore = useBlogStore();
 const blog = ref(null);
+const blogDate = computed(() => {
+	if(!blog.value)
+		return null;
 
-blogStore.fetchBlogById(blogId.value)
+	const dateId = useDateId(new Date(blog.created_at));
+	return dateId.toDateStr();
+});
+
+const viewStore = useViewStore();
+http.get("/blog/" + blogSlug)
 	.then(response => {
-		blog.value = response.blog;
+		const currBlog = response.data.data;
+		if(!currBlog)
+			return console.log(response.data);
+
+		blog.value = currBlog;
 		isBlogLoaded.value = true;
 	})
 	.catch(err => {
 		console.error(err);
-		showErrMessage.value = true;
+		viewStore.showToast("fetchData", false);
 	});
 </script>
 <template>
@@ -53,7 +66,7 @@ blogStore.fetchBlogById(blogId.value)
 						<h3 class="text-4xl font-semibold text-gray-700">Terdapat kesalahan saat menghubungi server.</h3>
 					</div>
 				</div>
-				<div v-if="blog" class="md:container py-16">
+				<div v-if="isBlogLoaded" class="md:container py-16">
 					<div class="bg-white grid grid-cols-1 md:grid-cols-[2fr_1fr]">
 						<div class="grid-cols-1 py-4">
 							<article class="bg-white py-16 px-4 md:px-8">
@@ -63,7 +76,7 @@ blogStore.fetchBlogById(blogId.value)
 								</div>
 								<p class="font-medium text-gray-700 mb-2">
 									<font-awesome-icon icon="fa-regular fa-clock" />
-									<span class="ml-2">{{ blog.date }}</span>
+									<span class="ml-2">{{ blogDate }}</span>
 								</p>
 								<div v-html="blog.content" class="blog-content"></div>
 							</article>
@@ -75,7 +88,7 @@ blogStore.fetchBlogById(blogId.value)
 							</div>
 							<div class="pr-4 md:pr-8 pl-4 md:pl-0">
 								<p class="text-xl font-semibold text-gray-900 mb-4">Artikel terkait</p>
-								<SectionBlogSuggest :id="blogId" />
+								<SectionBlogSuggest :id="1" />
 							</div>
 						</div>
 					</div>
