@@ -14,7 +14,7 @@ const errMessage = ref(null);
 const isInvoiceLoaded = ref(false);
 
 const productStore = useProductStore();
-productStore.fetchInvoice(false, () => isInvoiceLoaded.value = true);
+productStore.fetchInvoiceUser(false, () => isInvoiceLoaded.value = true);
 
 const verfProductId = ref(null);
 const showVerfModal = ref(false);

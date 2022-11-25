@@ -9,7 +9,7 @@ defineEmits(["verify"]);
 const productStore = useProductStore();
 
 const invoices = computed(() => {
-	return productStore.invoice.map(item => {
+	return productStore.invoiceUser.map(item => {
 		const date = new Date(item.created_at);
 		const dateTime = `${ date.getDate() }/${ date.getMonth() }/${ date.getFullYear() } ${ toTimeStr(date, ":").time }`;
 

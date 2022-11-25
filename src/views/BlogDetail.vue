@@ -22,12 +22,12 @@ const blogDate = computed(() => {
 	if(!blog.value)
 		return null;
 
-	const dateId = useDateId(new Date(blog.created_at));
+	const dateId = useDateId(new Date(blog.value.created_at));
 	return dateId.toDateStr();
 });
 
 const viewStore = useViewStore();
-http.get("/blog/" + blogSlug)
+http.get("/blog/" + blogSlug.value)
 	.then(response => {
 		const currBlog = response.data.data;
 		if(!currBlog)
@@ -72,13 +72,13 @@ http.get("/blog/" + blogSlug)
 							<article class="bg-white py-16 px-4 md:px-8">
 								<h1 class="text-4xl font-semibold text-gray-900 mb-8">{{ blog.title }}</h1>
 								<div class="mb-8 -ml-4 md:-ml-8 -mr-4 md:mr-0">
-									<BgImageAsync class="aspect-video" :src="blog.img" />
+									<BgImageAsync class="aspect-video" :src="blog.image" />
 								</div>
-								<p class="font-medium text-gray-700 mb-2">
+								<p class="font-medium text-gray-700 mb-8">
 									<font-awesome-icon icon="fa-regular fa-clock" />
 									<span class="ml-2">{{ blogDate }}</span>
 								</p>
-								<div v-html="blog.content" class="blog-content"></div>
+								<div v-html="blog.description" class="blog-content"></div>
 							</article>
 						</div>
 						<div class="pb-8 md:pt-8">

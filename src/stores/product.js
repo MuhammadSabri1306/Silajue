@@ -11,7 +11,8 @@ export const useProductStore = defineStore("product", {
 		carts: [],
 		isSexing: true,
 		currProduct: {},
-		invoice: []
+		invoice: [],
+		invoiceUser: []
 	}),
 	getters: {
 
@@ -121,6 +122,29 @@ export const useProductStore = defineStore("product", {
 				if(!data)
 					return console.warn(response);
 				this.invoice = data;
+
+			} catch(err) {
+				console.error(err);
+			}
+		},
+
+		async fetchInvoiceUser(force = false, callback = null) {
+			if(this.invoice.length > 0 && !force) {
+				callback && callback();
+				return;
+			}
+
+			const userStore = useUserStore();
+			try {
+
+				const headers = { "Authorization": "Bearer " + userStore.token };
+				const response = await http.get("/invoice/user", { headers });
+				const data = response.data.data;
+				callback && callback();
+
+				if(!data)
+					return console.warn(response);
+				this.invoiceUser = data;
 
 			} catch(err) {
 				console.error(err);
