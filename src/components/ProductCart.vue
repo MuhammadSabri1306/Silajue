@@ -3,6 +3,7 @@ import { reactive, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useProductStore } from "@/stores/product";
 import { useUserStore } from "@/stores/user";
+import { useViewStore } from "@/stores/view";
 import { formatIdr } from "@/modules/currency-format";
 import http from "@/modules/http-common";
 
@@ -18,14 +19,16 @@ const userStore = useUserStore();
 const isRolePublic = computed(() => userStore.isRolePublic);
 const router = useRouter();
 const route = useRoute();
+const viewStore = useViewStore();
 
 const newInvoice = body => {
 	const headers = { "Authorization": "Bearer " + userStore.token };
 
 	http.post("/invoice", body, { headers })
 		.then(() => {
-			router.push("/invoice");
 			viewStore.showToast("addInvoice", true);
+			router.push("/invoice");
+			productStore.deleteCartItem(data);
 		})
 		.catch(err => {
 			console.error(err);
@@ -47,7 +50,11 @@ const submitInvoice = () => {
 
 			const { id, itemCount, category } = carts.value[index];
 			const totalPrice = category.price * itemCount;
-			return { id, itemCount, totalPrice };
+			return {
+				item_count: itemCount,
+				total_price: category.price * itemCount,
+				produk_id: id
+			};
 		})
 		.filter(item => item !== null);
 	newInvoice(dataInvoice);

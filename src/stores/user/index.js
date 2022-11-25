@@ -39,8 +39,15 @@ export const useUserStore = defineStore("user", {
 			if(params.role)
 				this.role = params.role;
 
-			if(saveLocally)
-				setSession("user", params);
+			if(saveLocally) {
+				setSession("user", {
+					id: this.profile.id,
+					name: this.profile.name,
+					avatar: this.profile.avatar,
+					token: this.token,
+					role: this.role
+				});
+			}
 		},
 
 		checkUserCookie() {

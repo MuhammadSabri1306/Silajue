@@ -12,7 +12,7 @@ const sidebarItem = [
 	{ to: "/app", title: "Dashboard", icon: "fa-solid fa-laptop" },
 	{ to: "/app/product", title: "Data Produk", icon: "fa-solid fa-star" },
 	{ to: "/app/product/category", title: "Kategori Produk", icon: "fa-solid fa-tags" },
-	{ to: "/app", title: "Invoice", icon: "fa-solid fa-bookmark" },
+	{ to: "/app/invoice", title: "Invoice", icon: "fa-solid fa-bookmark" },
 	{ to: "/app", title: "Halaman Blog", icon: "fa-solid fa-thumbtack" },
 	{ to: "/app/users", title: "Data Pengguna", icon: "fa-solid fa-user" },
 	{ to: "/app/social", title: "Sosial", icon: "fa-solid fa-thumbs-up" }

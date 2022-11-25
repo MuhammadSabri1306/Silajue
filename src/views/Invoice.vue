@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import { useProductStore } from "@/stores/product";
 import BasicLayout from "@/components/basic-layout/Layout.vue";
 import TopbarProduct from "@/components/TopbarProduct.vue";
 import SectionInvoiceLg from "@/components/SectionInvoiceLg.vue";
@@ -10,14 +11,24 @@ import ModalBankList from "@/components/ModalBankList.vue";
 import FabProduct from "@/components/FabProduct.vue";
 
 const errMessage = ref(null);
-const isProductLoaded = ref(true);
+const isInvoiceLoaded = ref(false);
+
+const productStore = useProductStore();
+productStore.fetchInvoice(false, () => isInvoiceLoaded.value = true);
 
 const verfProductId = ref(null);
 const showVerfModal = ref(false);
 
-const openVerfModal = id => {
-	verfProductId.value = id;
+const openVerfModal = invoiceId => {
+	verfProductId.value = invoiceId;
 	showVerfModal.value = true;
+};
+
+const onInvoiceVerified = () => {
+	isInvoiceLoaded.value = false;
+	productStore.fetchInvoice(true, () => isInvoiceLoaded.value = true);
+	showVerfModal.value = false;
+	verfProductId.value = null;
 };
 
 const showGuideModal = ref(false);
@@ -46,11 +57,11 @@ const showBankListModal = ref(false);
 				<div v-if="errMessage" class="container">
 					<h6 class="text-2xl font-semibold text-center text-gray-800">{{ errMessage }}</h6>
 				</div>
-				<div v-if="isProductLoaded">
+				<div v-if="isInvoiceLoaded">
 					<SectionInvoiceLg class="hidden lg:block" @verify="openVerfModal" />
 					<SectionInvoiceSm class="lg:hidden" @verify="openVerfModal" />
 				</div>
-				<ModalInvoiceVerification v-if="showVerfModal" :id="verfProductId" @close="showVerfModal = false" />
+				<ModalInvoiceVerification v-if="showVerfModal" :invoiceId="verfProductId" @close="showVerfModal = false" @verified="onInvoiceVerified" />
 				<ModalInvoiceGuide v-if="showGuideModal" @close="showGuideModal = false" />
 				<ModalBankList v-if="showBankListModal" @close="showBankListModal = false" />
 				<FabProduct />

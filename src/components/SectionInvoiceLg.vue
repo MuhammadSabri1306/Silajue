@@ -6,15 +6,24 @@ import { formatIdr } from "@/modules/currency-format";
 import CardTable from "@/components/ui/CardTable.vue";
 
 defineEmits(["verify"]);
-
 const productStore = useProductStore();
+
 const invoices = computed(() => {
-	return productStore.invoiceByTimeAsc.map(item => {
-		const date = new Date(item.timestamp);
+	return productStore.invoice.map(item => {
+		const date = new Date(item.created_at);
 		const dateTime = `${ date.getDate() }/${ date.getMonth() }/${ date.getFullYear() } ${ toTimeStr(date, ":").time }`;
 
-		const total = item.price * item.itemCount;
-		return { ...item, dateTime, total };
+		return {
+			dateTime,
+			id: item.id,
+			status: item.status,
+			productName: item.produk.name,
+			typeName: item.produk.category.type,
+			categoryName: item.produk.category.name,
+			itemCount: item.item_count,
+			productPrice: item.produk.category.price,
+			totalPrice: item.total_price,
+		};
 	});
 });
 </script>
@@ -35,19 +44,19 @@ const invoices = computed(() => {
 				<tr v-for="item in invoices">
 					<td>{{ item.dateTime }}</td>
 					<td>
-						<span v-if="item.status == 'Selesai'" class="bg-green-300 cursor-default">{{ item.status }}</span>
-						<span v-if="item.status == 'Pengiriman'" class="bg-gray-300 cursor-default">{{ item.status }}</span>
-						<button v-if="item.status == 'Verifikasi'" type="button" @click="$emit('verify', item.id)" class="bg-yellow-200 hover-margin">{{ item.status }}</button>
+						<span v-if="item.status == 'selesai'" class="bg-green-300 cursor-default capitalize">{{ item.status }}</span>
+						<span v-if="item.status == 'pengiriman'" class="bg-gray-300 cursor-default capitalize">{{ item.status }}</span>
+						<button v-if="item.status == 'verifikasi'" type="button" @click="$emit('verify', item.id)" class="bg-yellow-200 hover-margin capitalize">{{ item.status }}</button>
 					</td>
 					<td>
-						<p class="text-xs mb-2">Nama: <b>{{ item.name }}</b></p>
-						<p class="text-xs mb-2">Tipe: <b>{{ item.type }}</b></p>
-						<p class="text-xs">Kategori: <b>{{ item.category }}</b></p>
+						<p class="text-xs mb-2">Produk: <b>{{ item.productName }}</b></p>
+						<p class="text-xs mb-2 capitalize">Tipe: <b>{{ item.typeName }}</b></p>
+						<p class="text-xs capitalize">Kategori: <b>{{ item.categoryName }}</b></p>
 					</td>
 					<td>
 						<p class="text-xs mb-2">Jumlah: <b>{{ item.itemCount }}</b></p>
-						<p class="text-xs mb-4">Harga: <b>{{ formatIdr(item.price) }}</b></p>
-						<p class="text-xs flex items-center gap-2">Total: <b class="text-lg font-bold text-gray-800">{{ formatIdr(item.total) }}</b></p>
+						<p class="text-xs mb-4">Harga: <b>{{ formatIdr(item.productPrice) }}</b></p>
+						<p class="text-xs flex items-center gap-2">Total: <b class="text-lg font-bold text-gray-800">{{ formatIdr(item.totalPrice) }}</b></p>
 					</td>
 				</tr>
 			</template>

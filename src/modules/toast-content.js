@@ -101,6 +101,18 @@ const toastContent = {
 			summary: "Koneksi gagal",
 			detail:"Terjadi masalah saat menghubungi server. Coba lagi beberapa saat atau anda bisa menghubungi admin web."
 		}
+	},
+	sendInvoiceVerification: {
+		success: {
+			severity:"success",
+			summary: "Bukti transfer berhasil dikirim",
+			detail:"Kami akan segera melakukan verifikasi terhadap invoice anda."
+		},
+		error: {
+			severity:"error",
+			summary: "Bukti transfer tidak terkirim",
+			detail:"Terjadi masalah saat menghubungi server."
+		}
 	}
 };
 

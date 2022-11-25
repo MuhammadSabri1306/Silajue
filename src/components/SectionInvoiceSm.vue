@@ -5,15 +5,24 @@ import { toTimeStr } from "@/modules/date-id";
 import { formatIdr } from "@/modules/currency-format";
 
 defineEmits(["verify"]);
-
 const productStore = useProductStore();
+
 const invoices = computed(() => {
-	return productStore.invoiceByTimeAsc.map(item => {
-		const date = new Date(item.timestamp);
+	return productStore.invoice.map(item => {
+		const date = new Date(item.created_at);
 		const dateTime = `${ date.getDate() }/${ date.getMonth() }/${ date.getFullYear() } ${ toTimeStr(date, ":").time }`;
 
-		const total = item.price * item.itemCount;
-		return { ...item, dateTime, total };
+		return {
+			dateTime,
+			id: item.id,
+			status: item.status,
+			productName: item.produk.name,
+			typeName: item.produk.category.type,
+			categoryName: item.produk.category.name,
+			itemCount: item.item_count,
+			productPrice: item.produk.category.price,
+			totalPrice: item.total_price,
+		};
 	});
 });
 </script>
@@ -31,18 +40,18 @@ const invoices = computed(() => {
 								<p class="text-gray-700 font-semibold text-sm">{{ item.dateTime }}</p>
 							</div>
 							<div class="px-8 pb-8">
-								<h6 class="text-gray-900 text-2xl font-bold mb-4 mr-auto">{{ item.name }}</h6>
-								<p class="text-gray-700 mb-2 text-sm">Tipe: <span class="font-semibold text-gray-900">{{ item.type }}</span></p>
-								<p class="text-gray-700 mb-2 text-sm">Kategori: <span class="font-semibold text-gray-900">{{ item.category }}</span></p>
-								<p class="text-gray-700 mb-2 text-sm">Harga: <span class="font-semibold text-gray-800">{{ formatIdr(item.price) }}</span></p>
+								<h6 class="text-gray-900 text-2xl font-bold mb-4 mr-auto">{{ item.productName }}</h6>
+								<p class="text-gray-700 mb-2 text-sm">Tipe: <span class="font-semibold text-gray-900 capitalize">{{ item.typeName }}</span></p>
+								<p class="text-gray-700 mb-2 text-sm capitalize">Kategori: <span class="font-semibold text-gray-900">{{ item.categoryName }}</span></p>
+								<p class="text-gray-700 mb-2 text-sm">Harga: <span class="font-semibold text-gray-800">{{ formatIdr(item.productPrice) }}</span></p>
 								<p class="text-gray-700 mb-4">Jumlah: <span class="font-semibold text-gray-800">{{ item.itemCount }}</span></p>
-								<p class="text-gray-700 mb-8">Total: <span class="font-semibold text-lg text-gray-800">{{ formatIdr(item.total) }}</span></p>
-								<div v-if="item.status == 'Verifikasi'" class="flex justify-end">
+								<p class="text-gray-700 mb-8">Total: <span class="font-semibold text-lg text-gray-800">{{ formatIdr(item.totalPrice) }}</span></p>
+								<div v-if="item.status == 'verifikasi'" class="flex justify-end">
 									<button type="button" @click="$emit('verify', item.id)" class="text-white bg-primary-700 hover:bg-primary-600 px-4 py-2 rounded">Verifikasi</button>
 								</div>
 							</div>
 							<div class="absolute top-0 right-0">
-								<span :class="{ 'bg-yellow-200': item.status == 'Verifikasi', 'bg-gray-300': item.status == 'Pengiriman', 'bg-green-300': item.status == 'Selesai' }" class="text-gray-900 text-sm font-medium px-2">{{ item.status }}</span>
+								<span :class="{ 'bg-yellow-200': item.status == 'verifikasi', 'bg-gray-300': item.status == 'pengiriman', 'bg-green-300': item.status == 'selesai' }" class="text-gray-900 text-sm font-medium px-2 capitalize">{{ item.status }}</span>
 							</div>
 						</div>
 					</div>

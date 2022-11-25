@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import http from "@/modules/http-common";
-import { pushCart, getCart } from "@/modules/cart-cookie";
+import { pushCart, getCart, setCart } from "@/modules/cart-cookie";
+import { useUserStore } from "@/stores/user";
 import { getSampleProduct, getSampleCategories } from "@/modules/sample-products";
 
 export const useProductStore = defineStore("product", {
@@ -10,28 +11,7 @@ export const useProductStore = defineStore("product", {
 		carts: [],
 		isSexing: true,
 		currProduct: {},
-		invoice: [
-			{
-			    "id": 3,
-			    "name": "Buyung",
-			    "price": 7500,
-			    "type": "Sexing",
-			    "category": "Simental",
-			    "itemCount": 1,
-			    "timestamp": 1668396679741,
-			    "status": "Pengiriman"
-			},
-			{
-			    "id": 3,
-			    "name": "Buyung",
-			    "price": 7500,
-			    "type": "Sexing",
-			    "category": "Simental",
-			    "itemCount": 1,
-			    "timestamp": 1668396679741,
-			    "status": "Selesai"
-			}
-		]
+		invoice: []
 	}),
 	getters: {
 
@@ -75,10 +55,10 @@ export const useProductStore = defineStore("product", {
 			return true;
 		},
 
-		addToInvoice({ id, name, price, type, category, itemCount }) {
-			const status = "Verifikasi";
-			const timestamp = Date.now();
-			this.invoice.push({ id, name, price, type, category, itemCount, timestamp, status });
+		deleteCartItem(itemsId) {
+			const cartData = this.carts.filter(item => itemsId.indexOf(item.id) < 0);
+			setCart(cartData);
+			this.carts = cartData;
 		},
 
 		async fetchProducts(force = false, callback = null) {
@@ -113,6 +93,27 @@ export const useProductStore = defineStore("product", {
 				if(!data)
 					return console.warn(response);
 				this.categories = data;
+
+			} catch(err) {
+				console.error(err);
+			}
+		},
+
+		async fetchInvoice(force = false, callback = null) {
+			if(this.invoice.length > 0 && !force)
+				return;
+
+			const userStore = useUserStore();
+			try {
+
+				const headers = { "Authorization": "Bearer " + userStore.token };
+				const response = await http.get("/invoice", { headers });
+				const data = response.data.data;
+				callback && callback();
+
+				if(!data)
+					return console.warn(response);
+				this.invoice = data;
 
 			} catch(err) {
 				console.error(err);

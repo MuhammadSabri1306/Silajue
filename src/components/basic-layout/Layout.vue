@@ -51,7 +51,7 @@ const useTopbarSlot = computed(() => !!slots.topbar);
 			<slot name="topbar"></slot>
 		</nav>
 		<div :style="{ marginLeft: contentLeft }" class="flex flex-col content-wrapper w-screen">
-			<main class="grow">
+			<main class="bg-white grow">
 				<slot name="main"></slot>
 			</main>
 			<Footer />
@@ -69,14 +69,15 @@ body,
 body > #app,
 body > #app > div,
 #basicWrapper {
-	@apply max-h-screen;
+	@apply h-screen;
 }
 
 #basicWrapper {
-	@apply text-gray-900;
+	@apply text-gray-900 flex flex-col;
 }
 
 #basicWrapper .content-wrapper {
+	@apply grow;
 	transition: margin-left .3s;
 }
 
