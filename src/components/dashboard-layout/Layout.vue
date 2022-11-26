@@ -27,6 +27,7 @@ const onUserMenuLostFocus = event => {
 
 onMounted(() => {
 	document.addEventListener("click", onUserMenuLostFocus);
+	document.body.classList.add("bg-white");
 });
 
 onUnmounted(() => {

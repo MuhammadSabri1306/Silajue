@@ -180,7 +180,7 @@ const deleteConfirm = async () => {
 
 	try {
 		const confirm = await confirmDialog.value.confirm();
-		confirm && deleteProduct(productId.value);
+		confirm && deleteProduct();
 	} catch(err) {
 		console.log(err);
 	}

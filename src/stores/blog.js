@@ -43,7 +43,6 @@ export const useBlogStore = defineStore("blog", {
 				}
 
 				this.blogs = data;
-				console.log(data);
 				callback && callback();
 
 			} catch(err) {

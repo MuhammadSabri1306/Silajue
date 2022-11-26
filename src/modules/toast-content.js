@@ -117,12 +117,24 @@ const toastContent = {
 	saveBlog: {
 		success: {
 			severity:"success",
-			summary: "Blog",
+			summary: "Artikel",
 			detail:"Data berhasil disimpan."
 		},
 		error: {
 			severity:"error",
-			summary: "Blog",
+			summary: "Artikel",
+			detail:"Terjadi masalah saat menghubungi server."
+		}
+	},
+	deleteBlog: {
+		success: {
+			severity:"success",
+			summary: "Artikel",
+			detail:"Berhasil menghapus artikel."
+		},
+		error: {
+			severity:"error",
+			summary: "Artikel tidak terhapus.",
 			detail:"Terjadi masalah saat menghubungi server."
 		}
 	}

@@ -54,7 +54,6 @@ const statusBgClass = {
 							<th>Customer</th>
 							<th>Produk</th>
 							<th>Tagihan</th>
-							<th></th>
 						</tr>
 					</template>
 					<template #tbody>
