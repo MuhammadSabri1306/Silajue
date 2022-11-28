@@ -137,6 +137,18 @@ const toastContent = {
 			summary: "Artikel tidak terhapus.",
 			detail:"Terjadi masalah saat menghubungi server."
 		}
+	},
+	deleteInvoice: {
+		success: {
+			severity:"success",
+			summary: "Invoice",
+			detail:"Berhasil menghapus invoice."
+		},
+		error: {
+			severity:"error",
+			summary: "Invoice tidak terhapus.",
+			detail:"Terjadi masalah saat menghubungi server."
+		}
 	}
 };
 

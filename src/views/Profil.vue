@@ -148,7 +148,7 @@ const updateIdCard = idCardImg => {
 			data.identityCard = dataUser.identity_card;
 			uploadIdCardElm.value.isLoading(false);
 			showUploadIdCard.value = false;
-			console.log(dataUser.identity_card);
+			// console.log(dataUser.identity_card);
 		})
 		.catch(err => {
 			console.error(err);

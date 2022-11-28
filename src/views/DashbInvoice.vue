@@ -1,84 +1,52 @@
 <script setup>
 import { computed } from "vue";
+import { useRouter } from "vue-router";
 import { useProductStore } from "@/stores/product";
-import { toTimeStr } from "@/modules/date-id";
-import { formatIdr } from "@/modules/currency-format";
 import DashbLayout from "@/components/dashboard-layout/Layout.vue";
 import CardTable from "@/components/ui/CardTable.vue";
 
 const productStore = useProductStore();
 productStore.fetchInvoice();
 
-const invoices = computed(() => {
-	return productStore.invoice.map(item => {
-		const date = new Date(item.created_at);
-		const dateTime = `${ date.getDate() }/${ date.getMonth() }/${ date.getFullYear() } ${ toTimeStr(date, ":").time }`;
-
-		return {
-			dateTime,
-			id: item.id,
-			status: item.status,
-			transferNote: item.proof_payment,
-			userName: item.user.name,
-			userAddress: item.user.address,
-			userVillageId: item.user.village_id,
-			userPhoneNumber: item.user.phone_number,
-			userEmail: item.user.email,
-			userIdCard: item.user.identity_card,
-			productName: item.produk.name,
-			typeName: item.produk.category.type,
-			categoryName: item.produk.category.name,
-			itemCount: item.item_count,
-			productPrice: item.produk.category.price,
-			totalPrice: item.total_price,
-		};
-	});
-});
+const invoices = computed(() => productStore.invoiceFormat);
 
 const statusBgClass = {
 	"selesai": "bg-green-300",
 	"pengiriman": "bg-gray-300",
-	"verifikasi": "bg-yellow-200"
+	"pengajuan verifikasi": "bg-yellow-200",
+	"belum verifikasi": "bg-red-200"
 };
+
+const router = useRouter();
+const toEditPage = id => router.push("/app/invoice/" + id);
 </script>
 <template>
 	<DashbLayout :activeNav="3">
 		<template #main>
 			<div>
 				<h3 class="page-title">Invoice</h3>
-				<CardTable v-if="invoices.length > 0">
+				<p v-if="invoices.length < 1" class="text-xl font-semibold text-gray-600 text-center">Belum ada invoice.</p>
+				<CardTable v-else :hoverable="true">
 					<template #thead>
 						<tr>
 							<th>Waktu</th>
-							<th>Status</th>
+							<th>Invoice</th>
 							<th>Customer</th>
-							<th>Produk</th>
-							<th>Tagihan</th>
 						</tr>
 					</template>
 					<template #tbody>
-						<tr v-for="item in invoices">
+						<tr v-for="item in invoices" @click="toEditPage(item.id)">
 							<td>{{ item.dateTime }}</td>
 							<td>
-								<p>
-									<span :class="statusBgClass[item.status]" class="cursor-default capitalize">{{ item.status }}</span>
+								<p class="mb-6">No. Invoice : <b class="text-lg">{{ item.noInvoice }}</b></p>
+								<p>Status: <span :class="statusBgClass[item.status]" class="cursor-default capitalize">{{ item.status }}</span>
 								</p>
 							</td>
 							<td>
-								<p class="font-bold mb-2">{{ item.userName }}</p>
-								<p class="mb-6">{{ item.userAddress }}</p>
-								<p class="mb-2">{{ item.userPhoneNumber }}</p>
-								<p class="mb-2">{{ item.userEmail }}</p>
-							</td>
-							<td>
-								<p class="text-xs mb-2">Produk: <b>{{ item.productName }}</b></p>
-								<p class="text-xs mb-2 capitalize">Tipe: <b>{{ item.typeName }}</b></p>
-								<p class="text-xs capitalize">Kategori: <b>{{ item.categoryName }}</b></p>
-							</td>
-							<td>
-								<p class="text-xs mb-2">Jumlah: <b>{{ item.itemCount }}</b></p>
-								<p class="text-xs mb-4">Harga: <b>{{ formatIdr(item.productPrice) }}</b></p>
-								<p class="text-xs flex items-center gap-2">Total: <b class="text-base font-bold text-gray-800">{{ formatIdr(item.totalPrice) }}</b></p>
+								<p class="font-bold">{{ item.userName }}</p>
+								<p class="mb-6">{{ item.userAddress.full }}</p>
+								<p>{{ item.userPhoneNumber }}</p>
+								<p>{{ item.userEmail }}</p>
 							</td>
 						</tr>
 					</template>
@@ -91,6 +59,10 @@ const statusBgClass = {
 	
 .card-table {
 	@apply text-xs;
+}
+
+.card-table td {
+	@apply cursor-pointer;
 }
 
 </style>

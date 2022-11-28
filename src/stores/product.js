@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import http from "@/modules/http-common";
 import { pushCart, getCart, setCart } from "@/modules/cart-cookie";
 import { useUserStore } from "@/stores/user";
+import { formatInvoice } from "@/modules/invoice";
 import { getSampleProduct, getSampleCategories } from "@/modules/sample-products";
 
 export const useProductStore = defineStore("product", {
@@ -39,6 +40,40 @@ export const useProductStore = defineStore("product", {
 			if(!state.categories)
 				return [];
 			return state.categories.filter(item => item.type == "unsexing");
+		},
+
+		invoiceFormat: state => {
+			if(!state.invoice)
+				return [];
+			return formatInvoice(state.invoice);
+		},
+
+		invoiceById(state) {
+			const dataInvoices = this.invoiceFormat;
+
+			return id => {
+				if(!state.invoice)
+					return [];
+				const invoice = dataInvoices.find(item => item.id == id);
+				return invoice === undefined ? null : invoice;
+			};
+		},
+
+		invoiceUserFormat: state => {
+			if(!state.invoiceUser)
+				return [];
+			return formatInvoice(state.invoiceUser);
+		},
+
+		invoiceUserById(state) {
+			const dataInvoices = this.invoiceUserFormat;
+
+			return id => {
+				if(!state.invoice)
+					return [];
+				const invoice = dataInvoices.find(item => item.id == id);
+				return invoice === undefined ? null : invoice;
+			};
 		}
 	
 	},
@@ -56,8 +91,8 @@ export const useProductStore = defineStore("product", {
 			return true;
 		},
 
-		deleteCartItem(itemsId) {
-			const cartData = this.carts.filter(item => itemsId.indexOf(item.id) < 0);
+		deleteCartItem(itemId) {
+			const cartData = this.carts.filter(item => item.id !== itemId);
 			setCart(cartData);
 			this.carts = cartData;
 		},

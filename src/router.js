@@ -17,6 +17,7 @@ import DashbProduct from  "./views/DashbProduct.vue";
 import DashbProductForm from "./views/DashbProductForm.vue";
 import DashbProductCategory from "./views/DashbProductCategory.vue";
 import DashbInvoice from "./views/DashbInvoice.vue";
+import DashbInvoiceDetail from "./views/DashbInvoiceDetail.vue";
 import DashbBlog from "@/views/DashbBlog.vue";
 import DashbBlogNew from "@/views/DashbBlogNew.vue";
 import DashbBlogEdit from "@/views/DashbBlogEdit.vue";
@@ -44,6 +45,7 @@ const routes = {
     dashbProductEdit: { path: "/app/product/edit/:id", component: DashbProductForm, meta: { needAdminRole: true } },
     dashbProductCategory: { path: "/app/product/category", component: DashbProductCategory, meta: { needAdminRole: true } },
     dashbInvoice: { path: "/app/invoice", component: DashbInvoice, meta: { needAdminRole: true } },
+    dashbInvoiceDetail: { path: "/app/invoice/:id", component: DashbInvoiceDetail, meta: { needAdminRole: true } },
     dashbBlog: { path: "/app/blog", component: DashbBlog, meta: { needAdminRole: true } },
     dashbBlogNew: { path: "/app/blog/new", component: DashbBlogNew, meta: { needAdminRole: true } },
     dashbBlogEdit: { path: "/app/blog/edit/:id", component: DashbBlogEdit, meta: { needAdminRole: true } },

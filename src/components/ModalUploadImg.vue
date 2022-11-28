@@ -46,11 +46,11 @@ const update = () => emit("change", img.value);
 					<label for="inputImg" class="text-sm font-medium text-gray-600 whitespace-nowrap block mb-2">{{ label }}</label>
 					<FileUpload fieldId="inputImg" fieldAccept="image/*" regexAccept="image.*" @change="onUploadChange" />
 				</div>
-				<div v-show="thumbImg" class="mb-4 flex justify-center items-center">
+				<div v-show="thumbImg && !showFileUpload" class="mb-4 flex justify-center items-center">
 					<img :src="thumbImg" class="max-h-[20rem] w-auto">
 				</div>
 				<div v-show="!showFileUpload" class="mb-8">
-					<button type="button" class="text-primary-700 rounded px-2 py-2 text-xs font-medium border border-primary-600 bg-white hover:bg-gray-100">Ganti Gambar</button>
+					<button type="button" @click="showFileUpload = true" class="text-primary-700 rounded px-2 py-2 text-xs font-medium border border-primary-600 bg-white hover:bg-gray-100">Ganti Gambar</button>
 				</div>
 				<div class="flex justify-end">
 					<button type="button" @click="update" :class="{ 'py-2': !showLoadingIcon, 'py-3': showLoadingIcon }" class="btn-icon px-4 text-white gap-1 hover-margin bg-primary-600 hover:bg-primary-500">

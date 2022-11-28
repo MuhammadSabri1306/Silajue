@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import { useViewStore } from "@/stores/view";
 
-const emit = defineEmits(['navigate', 'login', 'logout', 'toProfile']);
+const emit = defineEmits(['navigate']);
 const props = defineProps({
 	navItems: { type: Array, required: true }
 });
@@ -44,13 +44,7 @@ const navLeft = computed(() => {
 
 const hideSidebar = () => viewStore.toggleShowSidebar(false);
 
-const onNavigate = (emitKey, param = null) => {
-	hideSidebar();
-
-	if(!param)
-		return emits(emitKey);
-	emit(emitKey, param);
-};
+const onNavigate = to => emit("navigate", to);
 </script>
 <template>
 	<nav :style="{ left: navLeft, width: sidebarWidth }" class="sidebar">

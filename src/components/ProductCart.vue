@@ -6,6 +6,7 @@ import { useUserStore } from "@/stores/user";
 import { useViewStore } from "@/stores/view";
 import { formatIdr } from "@/modules/currency-format";
 import http from "@/modules/http-common";
+import { createInvoiceCode } from "@/modules/invoice";
 
 const productStore = useProductStore();
 productStore.readCartCookie();
@@ -21,14 +22,23 @@ const router = useRouter();
 const route = useRoute();
 const viewStore = useViewStore();
 
-const newInvoice = body => {
+const removeItem = itemId => {
+	productStore.deleteCartItem(itemId);
+};
+
+const newInvoice = (dataInvoice, totalPrice) => {
 	const headers = { "Authorization": "Bearer " + userStore.token };
+	const body = {
+		"no_invoice": createInvoiceCode(userStore.profile.id),
+		"total_price": totalPrice,
+		"produk": dataInvoice
+	};
 
 	http.post("/invoice", body, { headers })
 		.then(() => {
 			viewStore.showToast("addInvoice", true);
 			router.push("/invoice");
-			productStore.deleteCartItem(data);
+			data.forEach(itemId => removeItem(itemId));
 		})
 		.catch(err => {
 			console.error(err);
@@ -42,22 +52,23 @@ const submitInvoice = () => {
 		return router.push({ path: "/login", query: { redirect: currPath } });
 	}
 
-	const dataInvoice = data
+	let totalPrice = 0;
+	const productInvoice = data
 		.map(productId => {
 			const index = carts.value.findIndex(cartItem => cartItem.id === productId);
 			if(index < 0)
 				return null;
 
 			const { id, itemCount, category } = carts.value[index];
-			const totalPrice = category.price * itemCount;
+			totalPrice += (category.price * itemCount);
 			return {
 				item_count: itemCount,
-				total_price: category.price * itemCount,
 				produk_id: id
 			};
 		})
 		.filter(item => item !== null);
-	newInvoice(dataInvoice);
+	// console.log(dataInvoice);
+	newInvoice(productInvoice, totalPrice);
 };
 
 const toggleData = productId => {
@@ -109,6 +120,9 @@ const formatTotalPrice = item => {
 						<p class="text-gray-700 text-xs font-medium">Total: <span class="font-semibold text-lg text-gray-800">{{ formatTotalPrice(item) }}</span></p>
 					</div>
 					<a role="button" @click="toggleData(item.id)" class="absolute left-0 top-0 w-full h-full"></a>
+					<a role="button" @click="removeItem(item.id)" class="absolute right-0 top-0 p-4 text-xs transition-colors text-gray-500 hover:text-red-700">
+						<font-awesome-icon icon="fa-solid fa-x" fixed-width />
+					</a>
 				</div>
 			</div>
 			<div>

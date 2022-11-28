@@ -9,22 +9,8 @@ defineEmits(["verify"]);
 const productStore = useProductStore();
 
 const invoices = computed(() => {
-	return productStore.invoiceUser.map(item => {
-		const date = new Date(item.created_at);
-		const dateTime = `${ date.getDate() }/${ date.getMonth() }/${ date.getFullYear() } ${ toTimeStr(date, ":").time }`;
-
-		return {
-			dateTime,
-			id: item.id,
-			status: item.status,
-			productName: item.produk.name,
-			typeName: item.produk.category.type,
-			categoryName: item.produk.category.name,
-			itemCount: item.item_count,
-			productPrice: item.produk.category.price,
-			totalPrice: item.total_price,
-		};
-	});
+	console.log(productStore.invoiceUserFormat)
+	return productStore.invoiceUserFormat;
 });
 </script>
 <template>
@@ -35,7 +21,7 @@ const invoices = computed(() => {
 				<tr>
 					<th>Waktu</th>
 					<th>Status</th>
-					<th>Produk</th>
+					<th>No. Invoice</th>
 					<th>Tagihan</th>
 					<th></th>
 				</tr>
@@ -49,13 +35,12 @@ const invoices = computed(() => {
 						<button v-if="item.status == 'verifikasi'" type="button" @click="$emit('verify', item.id)" class="bg-yellow-200 hover-margin capitalize">{{ item.status }}</button>
 					</td>
 					<td>
-						<p class="text-xs mb-2">Produk: <b>{{ item.productName }}</b></p>
-						<p class="text-xs mb-2 capitalize">Tipe: <b>{{ item.typeName }}</b></p>
-						<p class="text-xs capitalize">Kategori: <b>{{ item.categoryName }}</b></p>
+						<p>{{ item.noInvoice }}</p>
 					</td>
 					<td>
-						<p class="text-xs mb-2">Jumlah: <b>{{ item.itemCount }}</b></p>
-						<p class="text-xs mb-4">Harga: <b>{{ formatIdr(item.productPrice) }}</b></p>
+						<ol class="text-xs list-decimal mb-4">
+							<li v-for="productItem in item.product" class="capitalize mb-2"><b>{{ productItem.name }}</b>({{ productItem.category.type }}-{{ productItem.category.name }}) <b> X {{ productItem.itemCount }}</b></li>
+						</ol>
 						<p class="text-xs flex items-center gap-2">Total: <b class="text-lg font-bold text-gray-800">{{ formatIdr(item.totalPrice) }}</b></p>
 					</td>
 				</tr>

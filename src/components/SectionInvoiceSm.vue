@@ -40,12 +40,12 @@ const invoices = computed(() => {
 								<p class="text-gray-700 font-semibold text-sm">{{ item.dateTime }}</p>
 							</div>
 							<div class="px-8 pb-8">
-								<h6 class="text-gray-900 text-2xl font-bold mb-4 mr-auto">{{ item.productName }}</h6>
-								<p class="text-gray-700 mb-2 text-sm">Tipe: <span class="font-semibold text-gray-900 capitalize">{{ item.typeName }}</span></p>
-								<p class="text-gray-700 mb-2 text-sm capitalize">Kategori: <span class="font-semibold text-gray-900">{{ item.categoryName }}</span></p>
-								<p class="text-gray-700 mb-2 text-sm">Harga: <span class="font-semibold text-gray-800">{{ formatIdr(item.productPrice) }}</span></p>
-								<p class="text-gray-700 mb-4">Jumlah: <span class="font-semibold text-gray-800">{{ item.itemCount }}</span></p>
+								<h6 class="text-gray-900 text-2xl font-bold mb-4 mr-auto">{{ item.noInvoice }}</h6>
 								<p class="text-gray-700 mb-8">Total: <span class="font-semibold text-lg text-gray-800">{{ formatIdr(item.totalPrice) }}</span></p>
+								<h6 class="text-gray-900 text-2xl font-bold mb-4 mr-auto">Produk</h6>
+								<ol class="text-xs list-decimal mb-8">
+									<li v-for="productItem in item.product" class="capitalize mb-2"><b>{{ productItem.name }}</b>({{ productItem.category.type }}-{{ productItem.category.name }}) <b> X {{ productItem.itemCount }}</b></li>
+								</ol>
 								<div v-if="item.status == 'verifikasi'" class="flex justify-end">
 									<button type="button" @click="$emit('verify', item.id)" class="text-white bg-primary-700 hover:bg-primary-600 px-4 py-2 rounded">Verifikasi</button>
 								</div>
