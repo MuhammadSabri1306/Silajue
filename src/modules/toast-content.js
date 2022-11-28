@@ -149,6 +149,30 @@ const toastContent = {
 			summary: "Invoice tidak terhapus.",
 			detail:"Terjadi masalah saat menghubungi server."
 		}
+	},
+	updateInvoiceStatus: {
+		success: {
+			severity:"success",
+			summary: "Invoice",
+			detail:"Berhasil mengupdate status invoice ke Pengiriman."
+		},
+		error: {
+			severity:"error",
+			summary: "Gagal mengupdate status invoice.",
+			detail:"Terjadi masalah saat menghubungi server."
+		}
+	},
+	sendAppExp: {
+		success: {
+			severity:"success",
+			summary: "Berhasil mengirim",
+			detail:"Terima kasih telah memberikan respon anda terkait layanan Silajue."
+		},
+		error: {
+			severity:"error",
+			summary: "Gagal mengirim.",
+			detail:"Terjadi masalah saat menghubungi server."
+		}
 	}
 };
 

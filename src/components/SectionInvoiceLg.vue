@@ -9,9 +9,15 @@ defineEmits(["verify"]);
 const productStore = useProductStore();
 
 const invoices = computed(() => {
-	console.log(productStore.invoiceUserFormat)
 	return productStore.invoiceUserFormat;
 });
+
+const statusBgClass = {
+	"selesai": "bg-green-300",
+	"pengiriman": "bg-gray-300",
+	"pengajuan verifikasi": "bg-yellow-200",
+	"belum verifikasi": "bg-red-200"
+};
 </script>
 <template>
 	<section class="container py-16">
@@ -20,22 +26,20 @@ const invoices = computed(() => {
 			<template #thead>
 				<tr>
 					<th>Waktu</th>
-					<th>Status</th>
-					<th>No. Invoice</th>
+					<th>Invoice</th>
 					<th>Tagihan</th>
-					<th></th>
 				</tr>
 			</template>
 			<template #tbody>
 				<tr v-for="item in invoices">
 					<td>{{ item.dateTime }}</td>
 					<td>
-						<span v-if="item.status == 'selesai'" class="bg-green-300 cursor-default capitalize">{{ item.status }}</span>
-						<span v-if="item.status == 'pengiriman'" class="bg-gray-300 cursor-default capitalize">{{ item.status }}</span>
-						<button v-if="item.status == 'verifikasi'" type="button" @click="$emit('verify', item.id)" class="bg-yellow-200 hover-margin capitalize">{{ item.status }}</button>
-					</td>
-					<td>
-						<p>{{ item.noInvoice }}</p>
+						<p class="mb-6">No. Invoice : <b class="text-lg">{{ item.noInvoice }}</b></p>
+						<div class="flex items-center">
+							<span class="mr-2">Status :</span>
+							<span v-if="item.status != 'belum verifikasi'" :class="statusBgClass[item.status]" class="cursor-default capitalize">{{ item.status }}</span>
+							<button v-else type="button" @click="$emit('verify', item.id)" class="bg-red-200 hover-margin capitalize">{{ item.status }}</button>
+						</div>
 					</td>
 					<td>
 						<ol class="text-xs list-decimal mb-4">

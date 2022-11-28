@@ -1,11 +1,46 @@
 <script setup>
+import { ref } from "vue";
+import { useViewStore } from "@/stores/view";
+import { required } from "@vuelidate/validators";
+import { useDataForm } from "@/modules/data-form";
+import http from "@/modules/http-common";
+
 import BasicLayout from "@/components/basic-layout/Layout.vue";
 import BgImageAsync from "@/components/BgImageAsync.vue";
+
+const { data, v$ } = useDataForm({
+	name: { value: null, required },
+	email: { value: null, required },
+	comment: { value: null, required }
+});
+
+const viewStore = useViewStore();
+const hasFeedbackSubmitted = ref(false);
+
+const onFeedbackSubmit = async () => {
+	hasFeedbackSubmitted.value = true;
+	const isValid = await v$.value.$validate();
+	
+	if(!isValid)
+		return;
+	const { name, email, comment } = data;
+	http.post("/feedback", { name, email, comment })
+		.then(response => {
+			hasFeedbackSubmitted.value = false;
+			viewStore.showToast("sendAppExp", true);
+			data.comment = null;
+		}).catch(err => {
+			console.error(err);
+			hasFeedbackSubmitted.value = false;
+			viewStore.showToast("sendAppExp", false);
+		})
+};
 
 const onSearchFormSubmit = (event) => {
 	const formElm = event.target;
 	console.log(formElm["keyword"].value);
 };
+
 </script>
 <template>
 	<BasicLayout>
@@ -93,23 +128,23 @@ const onSearchFormSubmit = (event) => {
 						<div>
 							<h6 class="text-2xl text-gray-700 font-semibold my-4">Bagikan respons anda</h6>
 							<div class="px-8 py-16 bg-white shadow-lg rounded border">
-								<form>
+								<form @submit.prevent="onFeedbackSubmit">
 									<div class="grid grid-cols-1 gap-4 mb-8">
 										<div class="input-group">
 											<label for="inputName">Nama Lengkap</label>
-											<input type="text" id="inputName">
+											<input type="text" v-model="v$.name.$model" id="inputName">
 										</div>
 										<div class="input-group">
 											<label for="inputEmail">Email</label>
-											<input type="email" id="inputEmail">
+											<input type="email" v-model="v$.email.$model" id="inputEmail">
 										</div>
 										<div class="input-group">
 											<label for="inputComment">Komentar</label>
-											<textarea id="inputComment" rows="4"></textarea>
+											<textarea v-model="v$.comment.$model" id="inputComment" rows="4"></textarea>
 										</div>
 									</div>
 									<div class="flex justify-end">
-										<button type="button" class="px-4 py-2 rounded text-white font-semibold hover-margin bg-primary-600 hover:bg-primary-500">Kirim</button>
+										<button type="submit" class="px-4 py-2 rounded text-white font-semibold hover-margin bg-primary-600 hover:bg-primary-500">Kirim</button>
 									</div>
 								</form>
 							</div>

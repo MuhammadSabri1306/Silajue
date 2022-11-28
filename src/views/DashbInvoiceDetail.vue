@@ -35,16 +35,53 @@ const deleteInvoice = () => {
 		});
 };
 
-const confirmDialog = ref(null);
+const confirmDelete = ref(null);
 const deleteConfirm = async () => {
 	if(!invoiceId.value)
 		return;
 
 	try {
-		const confirm = await confirmDialog.value.confirm();
+		const confirm = await confirmDelete.value.confirm();
 		confirm && deleteInvoice();
 	} catch(err) {
-		console.log(err);
+		return;
+	}
+};
+
+const statusBgClass = {
+	"selesai": "bg-green-300",
+	"pengiriman": "bg-gray-300",
+	"pengajuan verifikasi": "bg-yellow-200",
+	"belum verifikasi": "bg-red-200"
+};
+
+const updateInvoiceStatus = () => {
+	const headers = { "Authorization": "Bearer " + userStore.token };
+	const body = { status: "pengiriman" };
+
+	http.post("/invoice/status/" + invoiceId.value, body, { headers })
+		.then(() => {
+			productStore.fetchInvoice(true);
+			viewStore.showToast("updateInvoiceStatus", true);
+			// router.push("/app/invoice");
+		})
+		.catch(err => {
+			console.error(err);
+			console.log(err);
+			viewStore.showToast("updateInvoiceStatus", false);
+		});
+};
+
+const statusConfirm = ref(null);
+const onConfirmInvoice = async () => {
+	if(!invoiceId.value)
+		return;
+
+	try {
+		const confirm = await statusConfirm.value.confirm();
+		confirm && updateInvoiceStatus();
+	} catch(err) {
+		return;
 	}
 };
 </script>
@@ -67,8 +104,9 @@ const deleteConfirm = async () => {
 					<div class="rounded-2xl bg-white shadow-lg border overflow-hidden p-8 text-gray-700">
 						<div class="flex items-start">
 							<div>
+								<h6 class="font-semibold text-lg text-gray-800 mb-2">{{ currInvoice.noInvoice }}</h6>
 								<p class="font-bold mb-2">{{ currInvoice.dateTime }}</p>
-								<p class="font-semibold">Status <span class="bg-yellow-200 cursor-default capitalize text-gray-900">{{ currInvoice.status }}</span></p>
+								<p class="font-semibold">Status <span :class="statusBgClass[currInvoice.status]" class="cursor-default capitalize text-gray-900">{{ currInvoice.status }}</span></p>
 							</div>
 							<span class="text-6xl text-gray-300 ml-auto">
 								<font-awesome-icon icon="fa-solid fa-bookmark" fixed-width />
@@ -85,7 +123,7 @@ const deleteConfirm = async () => {
 							</div>
 						</div>
 						<div v-if="currInvoice.status == 'pengajuan verifikasi'" class="mb-16 flex justify-center items-center bg-gray-100 p-8">
-							<button type="button" class="px-4 py-3 rounded btn-icon text-white hover-margin bg-green-600 hover:bg-green-500">
+							<button type="button" @click="onConfirmInvoice" class="px-4 py-3 rounded btn-icon text-white hover-margin bg-green-600 hover:bg-green-500">
 								<span class="text-2xl mr-2">
 									<font-awesome-icon icon="fa-solid fa-check" />
 								</span>
@@ -105,22 +143,29 @@ const deleteConfirm = async () => {
 								<div class="grid grid-cols-[auto_1fr] gap-2">
 									<p>Nama Produk</p><p class="font-semibold">: {{ item.name }}</p>
 									<p>Tipe Produk</p><p class="font-semibold capitalize">: {{ item.category.type }}</p>
-									<p>Kategori</p><p class="font-semibold">: {{ item.category.name }}</p>
+									<p>Kategori</p><p class="font-semibold capitalize">: {{ item.category.name }}</p>
 									<p>Jumlah Item</p><p class="font-semibold">: {{ item.itemCount }}</p>
 									<p>Harga/Item</p><p class="font-semibold">: {{ formatIdr(item.category.price) }}</p>
 								</div>
 							</div>
 						</div>
-						<h6 class="font-bold text-lg my-4"><span class="border-t-2 border-green-400/50 pr-8 py-2">Total</span></h6>
-						<p>Total Pembayaran <span class="font-semibold">: {{ formatIdr(currInvoice.totalPrice) }}</span></p>
+						<h6 class="font-bold text-lg my-4"><span class="border-t-2 border-green-400/50 pr-8 py-2">Total</span><span class="font-semibold"> : {{ formatIdr(currInvoice.totalPrice) }}</span></h6>
 					</div>
 				</div>
-				<ConfirmDialog ref="confirmDialog" icon="fa-solid fa-circle-exclamation">
+				<ConfirmDialog ref="confirmDelete" icon="fa-solid fa-circle-exclamation">
 					<template #text>
 						<p class="text-sm font-medium text-gray-700">Anda akan menghapus Invoice. Lanjutkan?</p>
 					</template>
 					<template #btnConfirm="{ clicked }">
 						<button type="button" @click="clicked" class="px-4 py-2 text-sm text-white rounded transition-colors bg-red-500 hover:bg-red-600">Hapus Invoice</button>
+					</template>
+				</ConfirmDialog>
+				<ConfirmDialog ref="statusConfirm" icon="fa-solid fa-check">
+					<template #text>
+						<p class="text-sm font-medium text-gray-700">Anda akan mengupdate status ke pengiriman. Lanjutkan?</p>
+					</template>
+					<template #btnConfirm="{ clicked }">
+						<button type="button" @click="clicked" class="px-4 py-2 text-sm text-white rounded transition-colors bg-green-600 hover:bg-green-500">Ya, lanjutkan</button>
 					</template>
 				</ConfirmDialog>
 			</div>

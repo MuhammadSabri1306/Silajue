@@ -38,7 +38,7 @@ const toEditPage = id => router.push("/app/invoice/" + id);
 						<tr v-for="item in invoices" @click="toEditPage(item.id)">
 							<td>{{ item.dateTime }}</td>
 							<td>
-								<p class="mb-6">No. Invoice : <b class="text-lg">{{ item.noInvoice }}</b></p>
+								<p class="mb-6">No. Invoice<br><b class="text-lg">{{ item.noInvoice }}</b></p>
 								<p>Status: <span :class="statusBgClass[item.status]" class="cursor-default capitalize">{{ item.status }}</span>
 								</p>
 							</td>
