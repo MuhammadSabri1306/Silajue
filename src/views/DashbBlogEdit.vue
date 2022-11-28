@@ -161,7 +161,7 @@ const deleteConfirm = async () => {
 						<QuillEditor ref="quillEditor" :content="data.description" theme="snow" toolbar="essential" contentType="html" />
 					</div>
 					<div class="flex justify-end">
-						<button type="submit" :class="{ 'py-2': !showLoadingIcon, 'py-3': showLoadingIcon }" class="btn-icon px-4 text-white gap-1 hover-margin bg-primary-600 hover:bg-primary-500">
+						<button type="submit" :class="{ 'py-2': !showLoadingIcon, 'py-3': showLoadingIcon }" class="btn-icon rounded px-4 text-white gap-1 hover-margin bg-primary-600 hover:bg-primary-500">
 							<span v-show="showLoadingIcon"><font-awesome-icon icon="fa-solid fa-circle-notch" spin fixed-width /></span>
 							<span>Simpan</span>
 						</button>

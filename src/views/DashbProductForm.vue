@@ -237,7 +237,7 @@ const deleteConfirm = async () => {
 							<textarea v-model="v$.description.$model" :class="getInvalidClass('description')" id="textDescription" rows="4"></textarea>
 						</div>
 						<div class="flex justify-end items-center gap-8 px-4 pt-8">
-							<button type="submit" :class="{ 'py-2': !showLoadingIcon, 'py-3': showLoadingIcon }" class="btn-icon px-4 text-white gap-1 hover-margin bg-primary-600 hover:bg-primary-500">
+							<button type="submit" :class="{ 'py-2': !showLoadingIcon, 'py-3': showLoadingIcon }" class="btn-icon rounded px-4 text-white gap-1 hover-margin bg-primary-600 hover:bg-primary-500">
 								<span v-show="showLoadingIcon"><font-awesome-icon icon="fa-solid fa-circle-notch" spin fixed-width /></span>
 								<span>Simpan</span>
 							</button>
