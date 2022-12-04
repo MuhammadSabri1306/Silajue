@@ -63,7 +63,7 @@ const useTopbarSlot = computed(() => !!slots.topbar);
 			</main>
 			<Footer />
 		</div>
-		<Sidebar :navItems="navItems" @navigate="navigateTo" @login="navigateTo('/login')" @logout="logout" @toProfile="navigateTo('/user')" />
+		<Sidebar :navItems="navItems" @navigate="navigateTo" @logout="logout" />
 	</div>
 </template>
 <style>

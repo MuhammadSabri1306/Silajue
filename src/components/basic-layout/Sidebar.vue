@@ -9,7 +9,6 @@ const props = defineProps({
 	navItems: { type: Array, required: true }
 });
 
-
 const route = useRoute();
 const getNavActiveClass = routeItems => {
 	if(routeItems.indexOf(route.name) >= 0)
@@ -43,8 +42,10 @@ const navLeft = computed(() => {
 });
 
 const hideSidebar = () => viewStore.toggleShowSidebar(false);
-
-const onNavigate = to => emit("navigate", to);
+const navigate = to => {
+	hideSidebar();
+	emit("navigate", to);
+};
 </script>
 <template>
 	<nav :style="{ left: navLeft, width: sidebarWidth }" class="sidebar">
@@ -56,11 +57,11 @@ const onNavigate = to => emit("navigate", to);
 		<div class="py-4">
 			<ul class="nav-menu mb-8">
 				<li v-for="item in navItems" class="nav-link">
-					<a role="button" :class="getNavActiveClass(item.routeItems)" @click="onNavigate('navigate', item.target)">{{ item.title }}</a>
+					<a role="button" :class="getNavActiveClass(item.routeItems)" @click="navigate(item.target)">{{ item.title }}</a>
 				</li>
 			</ul>
 			<ul class="nav-menu items-start px-4 gap-2">
-				<a v-if="isRolePublic" role="button" class="nav-btn" @click="onNavigate('/login')">Log In</a>
+				<a v-if="isRolePublic" role="button" class="nav-btn" @click="navigate('/login')">Log In</a>
 			</ul>
 		</div>
 	</nav>
