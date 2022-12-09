@@ -185,6 +185,8 @@ const updateAvatar = avatarImg => {
 			uploadIdCardElm.value.isLoading(false);
 		});
 };
+
+const isRoleAdmin = computed(() => userStore.isRoleAdmin);
 </script>
 <template>
 	<BasicLayout>
@@ -205,7 +207,10 @@ const updateAvatar = avatarImg => {
 						</div>
 						<div class="card-profile">
 							<div class="md:py-2 border-r bg-gray-100">
-								<ul class="profile-menu">
+								<ul v-if="isRoleAdmin" class="profile-menu">
+									<li class="hidden md:list-item"><h6 class="text-gray-900 px-4 py-2 font-semibold text-lg">Update Profil</h6></li>
+								</ul>
+								<ul v-else class="profile-menu">
 									<li class="hidden md:list-item"><h6 class="text-gray-900 px-4 py-2 font-semibold text-lg">Update Profil</h6></li>
 									<li><button type="button" :class="{ 'active': profileSection == 1 }" @click="profileSection = 1" class="profile-link">Akun</button></li>
 									<li><button type="button" :class="{ 'active': profileSection == 2 }" @click="profileSection = 2" class="profile-link">Lokasi</button></li>
@@ -214,7 +219,7 @@ const updateAvatar = avatarImg => {
 							</div>
 							<div class="relative">
 								<Transition name="fade">
-									<section v-if="profileSection == 1" class="profile-section">
+									<section v-if="profileSection == 1 || isRoleAdmin" class="profile-section">
 										<div class="input-group">
 											<label for="inputName">Nama Lengkap</label>
 											<input type="text" v-model="v$.name.$model" id="inputName">
@@ -242,7 +247,7 @@ const updateAvatar = avatarImg => {
 									</section>
 								</Transition>
 								<Transition name="fade">
-									<section v-if="profileSection == 2" class="profile-section">
+									<section v-if="profileSection == 2 && !isRoleAdmin" class="profile-section">
 										<div class="input-group">
 											<label for="inputProvinsi">Provinsi</label>
 											<div class="listbox-wrapper" @click.stop="">
@@ -289,7 +294,7 @@ const updateAvatar = avatarImg => {
 									</section>
 								</Transition>
 								<Transition name="fade">
-									<section v-if="profileSection == 3" class="profile-section">
+									<section v-if="profileSection == 3 && !isRoleAdmin" class="profile-section">
 										<div class="input-group mb-8">
 											<label for="inputNric">No. NIK</label>
 											<input type="tele" v-model="v$.nric.$model" id="inputNric">

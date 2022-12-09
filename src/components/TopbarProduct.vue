@@ -70,4 +70,9 @@ watch(() => productStore.isSexing, isProductSexing => isSexing.value = isProduct
 	@apply md:hidden;
 }
 
+.topbar :deep(.dropdown-toggler),
+.topbar :deep(.dropdown-item) {
+	@apply capitalize;
+}
+
 </style>

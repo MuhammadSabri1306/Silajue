@@ -1,4 +1,6 @@
 <script setup>
+import { ref } from "vue";
+import { useSocialStore } from "@/stores/social";
 import { required } from "@vuelidate/validators";
 import { useDataForm } from "@/modules/data-form";
 import DashbLayout from "@/components/dashboard-layout/Layout.vue";
@@ -10,13 +12,27 @@ const { data, v$ } = useDataForm({
 	whatsapp: { value: null },
 	phoneNumber: { value: null }
 });
+
+const isLoaded = ref(false);
+const socialStore = useSocialStore();
+socialStore.fetchSocial(false, () => {
+	if(!socialStore.social)
+		return;
+
+	data.facebook = socialStore.social.facebook;
+	data.instagram = socialStore.social.instagram;
+	data.twitter = socialStore.social.twitter;
+	data.whatsapp = socialStore.social.whatsapp;
+	data.phoneNumber = socialStore.social.phoneNumber;
+	isLoaded.value = true;
+})
 </script>
 <template>
 	<DashbLayout :activeNav="6">
 		<template #main>
 			<div>
 				<h3 class="page-title">Sosial</h3>
-				<form @submit.prevent="">
+				<form v-if="isLoaded" @submit.prevent="">
 					<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 						<div class="input-group">
 							<label for="inputFacebook">

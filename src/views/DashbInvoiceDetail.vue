@@ -55,9 +55,9 @@ const statusBgClass = {
 	"belum verifikasi": "bg-red-200"
 };
 
-const updateInvoiceStatus = () => {
+const updateInvoiceStatus = status => {
 	const headers = { "Authorization": "Bearer " + userStore.token };
-	const body = { status: "pengiriman" };
+	const body = { status };
 
 	http.post("/invoice/status/" + invoiceId.value, body, { headers })
 		.then(() => {
@@ -67,21 +67,22 @@ const updateInvoiceStatus = () => {
 		})
 		.catch(err => {
 			console.error(err);
-			console.log(err);
 			viewStore.showToast("updateInvoiceStatus", false);
 		});
 };
 
 const statusConfirm = ref(null);
-const onConfirmInvoice = async () => {
+const confirmMessage = ref(null);
+const onConfirmInvoice = async (status) => {
 	if(!invoiceId.value)
 		return;
 
 	try {
+		confirmMessage.value = status;
 		const confirm = await statusConfirm.value.confirm();
-		confirm && updateInvoiceStatus();
+		confirm && updateInvoiceStatus(status);
 	} catch(err) {
-		return;
+		confirmMessage.value = null;
 	}
 };
 </script>
@@ -123,11 +124,25 @@ const onConfirmInvoice = async () => {
 							</div>
 						</div>
 						<div v-if="currInvoice.status == 'pengajuan verifikasi'" class="mb-16 flex justify-center items-center bg-gray-100 p-8">
-							<button type="button" @click="onConfirmInvoice" class="px-4 py-3 rounded btn-icon text-white hover-margin bg-green-600 hover:bg-green-500">
+							<button type="button" @click="onConfirmInvoice('pengiriman')" class="px-4 py-3 rounded btn-icon text-white hover-margin bg-green-600 hover:bg-green-500">
 								<span class="text-2xl mr-2">
 									<font-awesome-icon icon="fa-solid fa-check" />
 								</span>
 								<span>Lanjutkan ke Pengiriman</span>
+							</button>
+						</div>
+						<div v-if="currInvoice.status == 'pengiriman'" class="mb-16 flex justify-center items-center bg-gray-100 p-8 gap-8">
+							<button type="button" @click="onConfirmInvoice('verifikasi')" class="px-4 py-3 rounded btn-icon text-white hover-margin bg-yellow-400 hover:bg-yellow-300">
+								<span class="text-2xl mr-2">
+									<font-awesome-icon icon="fa-solid fa-angle-left" />
+								</span>
+								<span>Kembali ke verifikasi</span>
+							</button>
+							<button type="button" @click="onConfirmInvoice('terkirim')" class="px-4 py-3 rounded btn-icon text-white hover-margin bg-green-600 hover:bg-green-500">
+								<span class="text-2xl mr-2">
+									<font-awesome-icon icon="fa-solid fa-check" />
+								</span>
+								<span>Telah terkirim</span>
 							</button>
 						</div>
 						<h6 class="font-bold text-lg my-4"><span class="border-t-2 border-green-400/50 pr-8 py-2">Customer</span></h6>
@@ -162,7 +177,7 @@ const onConfirmInvoice = async () => {
 				</ConfirmDialog>
 				<ConfirmDialog ref="statusConfirm" icon="fa-solid fa-check">
 					<template #text>
-						<p class="text-sm font-medium text-gray-700">Anda akan mengupdate status ke pengiriman. Lanjutkan?</p>
+						<p class="text-sm font-medium text-gray-700">Anda akan mengupdate status ke {{ confirmMessage }}. Lanjutkan?</p>
 					</template>
 					<template #btnConfirm="{ clicked }">
 						<button type="button" @click="clicked" class="px-4 py-2 text-sm text-white rounded transition-colors bg-green-600 hover:bg-green-500">Ya, lanjutkan</button>
