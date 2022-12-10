@@ -80,15 +80,46 @@ const onSearchFormSubmit = (event) => {
 							<p class="text-center font-semibold text-white text-xl text-shadow-black">Kami menyediakan semen beku sapi dan kerbau dengan berbagai pilihan jenis sapi.</p>
 						</div>
 					</div>
-					<div class="flex flex-col items-center mb-16">
+					<div class="flex flex-col items-center mb-32">
 						<div class="mb-6">
 							<router-link to="/product" class="block text-xl font-semibold px-6 py-3 bg-primary-500 rounded hover:bg-primary-400 hover-margin">MULAI BELANJA</router-link>
 						</div>
 						<h2 class="text-3xl text-primary-600 tracking-wider font-bold text-center">AYO BELANJA DI APLIKASI SILAJUE</h2>
 					</div>
 				</div>
-				<div class="lg:container mb-32">
-					<img src="/assets/img/distribution-flow.png">
+				<div class="bg-gray-100">
+					<div class="container py-16 mb-32">
+						<h2 class="text-2xl text-gray-900 tracking-wider font-bold mb-8">Alur Pembelian di Silajue</h2>
+						<div class="flex flex-wrap justify-center items-end gap-8 mb-8">
+							<div class="flow-card">
+								<span class="flow-number">1</span>
+								<font-awesome-icon icon="fa-brands fa-google-play" fixed-width />
+								<span class="flow-text"><strong>Download Apps</strong><br>di <a href="#">Playstore</a> atau kunjungi situsresmi <a href="#">E-Market Silajue</a>.</span>
+							</div>
+							<div class="flow-card">
+								<span class="flow-number">2</span>
+								<font-awesome-icon icon="fa-solid fa-child" fixed-width />
+								<span class="flow-text"><strong>Registrasi dan Login.</strong><br>Pastikan memasukkan data diri dan alamat yang benar. Upload juga foto KTP anda untuk verifikasi pesanan anda nantinya.</span>
+							</div>
+						</div>
+						<div class="flex flex-wrap justify-center items-start gap-8">
+							<div class="flow-card">
+								<span class="flow-number">3</span>
+								<font-awesome-icon icon="fa-solid fa-cart-arrow-down" fixed-width />
+								<span class="flow-text"><strong>Temukan produk</strong><br>semen beku yang kamu butuhkan.</span>
+							</div>
+							<div class="flow-card">
+								<span class="flow-number">4</span>
+								<font-awesome-icon icon="fa-solid fa-receipt" fixed-width />
+								<span class="flow-text"><strong>Lakukan pembayaran</strong><br>lalu upload nota untuk verifikasi pesanan anda. Anda akan menerima <b>Nota Pengambilan</b>.</span>
+							</div>
+							<div class="flow-card">
+								<span class="flow-number">5</span>
+								<font-awesome-icon icon="fa-solid fa-warehouse" />
+								<span class="flow-text">Anda dapat membawa<br><strong>Nota Pengambilan</strong><br>ke <b>Bank Sperma</b> di lokasi <a href="#">berikut</a>.</span>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="container mb-32">
 					<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -203,6 +234,30 @@ header {
 
 .feedback-message {
 	@apply text-sm text-gray-600;
+}
+
+.flow-card {
+	@apply bg-white rounded-xl shadow border relative px-6 pb-6 pt-8 flex items-center gap-4 md:w-2/3 lg:max-w-[20rem] lg:w-auto;
+}
+
+.flow-number {
+	@apply text-xl font-bold border border-primary-600 text-primary-600 w-8 h-8 bg-white flex justify-center items-center rounded-full absolute -top-4 left-8;
+}
+
+.flow-card svg {
+	@apply w-12 h-12 text-gray-400;
+}
+
+.flow-text {
+	@apply text-sm font-medium text-gray-700 leading-6;
+}
+
+.flow-text strong {
+	@apply text-xl font-bold text-primary-600;
+}
+
+.flow-text a {
+	@apply font-bold transition-colors hover:text-primary-600;
 }
 
 </style>

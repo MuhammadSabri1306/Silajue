@@ -48,7 +48,7 @@ const textPhone = computed(() => socialStore.social && socialStore.social.phoneN
 					<div>
 						<h6 class="mt-16 font-bold text-blue-500 text-xl mb-4">Layanan Lainnya</h6>
 						<ul class="flex flex-col items-start mb-12">
-							<li><a target="_blank" href="#" class="footer-link">Pelatihan DISNAKKESWAN SULSEL</a></li>
+							<li><a target="_blank" href="#" class="footer-link">Training Center</a></li>
 							<li><a target="_blank" href="https://play.google.com/store/apps/details?id=disnakkeswan.raisa" class="footer-link">Aplikasi RAISA Peternak</a></li>
 							<li><a target="_blank" href="https://play.google.com/store/apps/details?id=disnakkeswan.raisa_inseminator" class="footer-link">Aplikasi RAISA Inseminator</a></li>
 						</ul>

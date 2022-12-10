@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 import FormLogin from "@/components/FormLogin.vue";
 import FormRegister from "@/components/form-register/Form.vue";
-import FooterLight from "@/components/basic-layout/FooterLight.vue";
+import Footer from "@/components/basic-layout/Footer.vue";
 
 const route = useRoute();
 const isLoginPage = computed(() => route.name == "login");
@@ -19,6 +19,6 @@ const isLoginPage = computed(() => route.name == "login");
 				<FormRegister v-else />
 			</div>
 		</div>
-		<FooterLight />
+		<Footer />
 	</div>
 </template>
