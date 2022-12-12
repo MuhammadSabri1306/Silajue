@@ -1,13 +1,36 @@
 <script setup>
 import { ref, defineAsyncComponent  } from "vue";
+import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/user";
+import { useViewStore } from "@/stores/view";
+import http from "@/modules/http-common";
 import Footer from "@/components/basic-layout/Footer.vue";
 import Loader from "@/components/Loader.vue";
 
 const Scanner = defineAsyncComponent(() => import("@/components/InvoiceScanner.vue"));
-const isScannerLoaded = ref(false);
+const showScanner = ref(false);
 
-const onDecode = text => {
-    console.log(`Decode text from QR code is ${text}`);
+const router = useRouter();
+const viewStore = useViewStore();
+const userStore = useUserStore();
+
+const onDecode = noInvoice => {
+	const headers = { "Authorization": "Bearer " + userStore.token };
+	showScanner.value = false;
+
+	http.get("/invoice/detail/" + noInvoice, { headers })
+		.then(response => {
+			const dataItem = response.data.data;
+			if(!dataItem)
+				return viewStore.showToast("scanInvoice", false);
+			
+			const invoiceId = dataItem.id;
+			router.push("/app/invoice/" + invoiceId);
+		})
+		.catch(err => {
+			console.error(err);
+			viewStore.showToast("scanInvoice", false);
+		});
 };
 </script>
 <template>
@@ -30,17 +53,17 @@ const onDecode = text => {
 		</nav>
 		<main class="grow">
 			<div class="container">
-				<div class="pt-8 pb-12 my-12 rounded-xl bg-white shadow-lg">
+				<div class="pt-8 pb-12 lg:px-8 my-12 rounded-xl bg-white shadow-lg">
 					<p class="font-bold text-primary-600 mb-2 flex items-center justify-center">
 						<span class="mr-2">
 							<font-awesome-icon icon="fa-solid fa-qrcode" />
 						</span>
 						<span>Scan Tiket Disini</span>
 					</p>
-					<div v-show="isScannerLoaded" class="scanner">
-						<Scanner @decode="onDecode" @loaded="isScannerLoaded = true" />
+					<div v-show="showScanner" class="scanner">
+						<Scanner @decode="onDecode" @loaded="showScanner = true" />
 					</div>
-					<Loader v-if="!isScannerLoaded" />
+					<Loader v-if="!showScanner" />
 				</div>
 			</div>
 		</main>

@@ -1,10 +1,10 @@
 <script setup>
 // import { ref } from "vue";
 import { StreamBarcodeReader } from "vue-barcode-reader";
-/*
-defineEmits(["loaded"]);
 
-const onDecode = text => {
+defineEmits(["decode", "loaded"]);
+
+/*const onDecode = text => {
     console.log(`Decode text from QR code is ${text}`)
 };
 
@@ -13,7 +13,7 @@ const onLoaded = () => {
 };*/
 </script>
 <template>
-   <StreamBarcodeReader class="scanner" @decode="onDecode" @loaded="$emit('loaded')" />
+   <StreamBarcodeReader class="scanner" @decode="val => $emit('decode', val)" @loaded="$emit('loaded')" />
 </template>
 <style scoped>
    

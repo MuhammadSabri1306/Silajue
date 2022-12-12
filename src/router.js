@@ -13,6 +13,7 @@ import Panduan from "./views/Panduan.vue";
 import Invoice from "./views/Invoice.vue";
 
 import DashbHome from "./views/DashbHome.vue";
+import DashbProfile from "./views/DashbProfile.vue";
 import DashbProduct from  "./views/DashbProduct.vue";
 import DashbProductForm from "./views/DashbProductForm.vue";
 import DashbProductCategory from "./views/DashbProductCategory.vue";
@@ -42,6 +43,7 @@ const routes = {
     invoice: { path: "/invoice", component: Invoice, meta: { needLogin: true } },
 
     dashboard: { path: "/app", component: DashbHome, meta: { needLogin: true } },
+    dashbProfile: { path: "/app/profile", component: DashbProfile, meta: { needLogin: true } },
     dashbProduct: { path: "/app/product", component: DashbProduct, meta: { needAdminRole: true } },
     dashbProductNew: { path: "/app/product/new", component: DashbProductForm, meta: { needAdminRole: true } },
     dashbProductEdit: { path: "/app/product/edit/:id", component: DashbProductForm, meta: { needAdminRole: true } },

@@ -78,7 +78,7 @@ const profileAvatar = computed(() => userStore.profile.avatar);
 					</button>
 					<Transition name="fade">
 						<div v-show="expandUserMenu" class="navbar-collapse">
-							<router-link to="/user" class="collapse-item">
+							<router-link to="/app/profile" class="collapse-item">
 								<div class="icon text-primary-500">
 									<font-awesome-icon icon="fa-regular fa-face-smile" fixed-width />
 								</div>

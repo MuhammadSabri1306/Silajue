@@ -139,11 +139,11 @@ const onConfirmInvoice = async (status) => {
 								</span>
 								<span>Kembali ke verifikasi</span>
 							</button>
-							<button type="button" @click="onConfirmInvoice('terkirim')" class="px-4 py-3 rounded btn-icon text-white hover-margin bg-green-600 hover:bg-green-500">
+							<button type="button" @click="onConfirmInvoice('selesai')" class="px-4 py-3 rounded btn-icon text-white hover-margin bg-green-600 hover:bg-green-500">
 								<span class="text-2xl mr-2">
 									<font-awesome-icon icon="fa-solid fa-check" />
 								</span>
-								<span>Telah terkirim</span>
+								<span>Selesai</span>
 							</button>
 						</div>
 						<h6 class="font-bold text-lg my-4"><span class="border-t-2 border-green-400/50 pr-8 py-2">Customer</span></h6>

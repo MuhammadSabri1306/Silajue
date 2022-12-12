@@ -173,6 +173,13 @@ const toastContent = {
 			summary: "Gagal mengirim.",
 			detail:"Terjadi masalah saat menghubungi server."
 		}
+	},
+	scanInvoice: {
+		error: {
+			severity:"error",
+			summary: "No. Invoice tidak terdeteksi.",
+			detail:"Silahkan coba refresh aplikasi anda. Atau silahkan menghubungi kami jika mengalami kendala."
+		}
 	}
 };
 
