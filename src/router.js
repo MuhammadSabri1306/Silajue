@@ -24,6 +24,8 @@ import DashbBlogEdit from "@/views/DashbBlogEdit.vue";
 import DashbUser from "./views/DashbUser.vue";
 import DashbSocial from "./views/DashbSocial.vue";
 
+import ScanInvoice from "./views/ScanInvoice.vue";
+
 const useBuildPath = true;
 const routes = {
     beranda: { path: "/", component: Beranda },
@@ -39,18 +41,20 @@ const routes = {
     panduan: { path: "/guide", component: Panduan },
     invoice: { path: "/invoice", component: Invoice, meta: { needLogin: true } },
 
-    dashboard: { path: "/app", component: DashbHome, meta: { needAdminRole: true } },
+    dashboard: { path: "/app", component: DashbHome, meta: { needLogin: true } },
     dashbProduct: { path: "/app/product", component: DashbProduct, meta: { needAdminRole: true } },
     dashbProductNew: { path: "/app/product/new", component: DashbProductForm, meta: { needAdminRole: true } },
     dashbProductEdit: { path: "/app/product/edit/:id", component: DashbProductForm, meta: { needAdminRole: true } },
     dashbProductCategory: { path: "/app/product/category", component: DashbProductCategory, meta: { needAdminRole: true } },
     dashbInvoice: { path: "/app/invoice", component: DashbInvoice, meta: { needAdminRole: true } },
-    dashbInvoiceDetail: { path: "/app/invoice/:id", component: DashbInvoiceDetail, meta: { needAdminRole: true } },
+    dashbInvoiceDetail: { path: "/app/invoice/:id", component: DashbInvoiceDetail, meta: { needLogin: true } },
     dashbBlog: { path: "/app/blog", component: DashbBlog, meta: { needAdminRole: true } },
     dashbBlogNew: { path: "/app/blog/new", component: DashbBlogNew, meta: { needAdminRole: true } },
     dashbBlogEdit: { path: "/app/blog/edit/:id", component: DashbBlogEdit, meta: { needAdminRole: true } },
     dashbUser: { path: "/app/users", component: DashbUser, meta: { needAdminRole: true } },
-    dashbSocial: { path: "/app/social", component: DashbSocial, meta: { needAdminRole: true } }
+    dashbSocial: { path: "/app/social", component: DashbSocial, meta: { needAdminRole: true } },
+
+    scanInvoice: { path: "/app/scan-qr", component: ScanInvoice }
 };
 
 const defineMyRouter = routesObj => {

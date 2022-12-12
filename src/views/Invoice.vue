@@ -9,6 +9,7 @@ import ModalInvoiceVerification from "@/components/ModalInvoiceVerification.vue"
 import ModalInvoiceGuide from "@/components/ModalInvoiceGuide.vue";
 import ModalBankList from "@/components/ModalBankList.vue";
 import FabProduct from "@/components/FabProduct.vue";
+import ModalInvoiceQrCode from "@/components/ModalInvoiceQrCode.vue";
 
 const errMessage = ref(null);
 const isInvoiceLoaded = ref(false);
@@ -33,6 +34,7 @@ const onInvoiceVerified = () => {
 
 const showGuideModal = ref(false);
 const showBankListModal = ref(false);
+const qrCode = ref(null);
 </script>
 <template>
 	<BasicLayout>
@@ -58,12 +60,13 @@ const showBankListModal = ref(false);
 					<h6 class="text-2xl font-semibold text-center text-gray-800">{{ errMessage }}</h6>
 				</div>
 				<div v-if="isInvoiceLoaded">
-					<SectionInvoiceLg class="hidden lg:block" @verify="openVerfModal" />
-					<SectionInvoiceSm class="lg:hidden" @verify="openVerfModal" />
+					<SectionInvoiceLg class="hidden lg:block" @verify="openVerfModal" @showQrCode="val => qrCode = val" />
+					<SectionInvoiceSm class="lg:hidden" @verify="openVerfModal" @showQrCode="val => qrCode = val" />
 				</div>
 				<ModalInvoiceVerification v-if="showVerfModal" :invoiceId="verfProductId" @close="showVerfModal = false" @verified="onInvoiceVerified" />
 				<ModalInvoiceGuide v-if="showGuideModal" @close="showGuideModal = false" />
 				<ModalBankList v-if="showBankListModal" @close="showBankListModal = false" />
+				<ModalInvoiceQrCode v-if="qrCode" :noInvoice="qrCode" @close="qrCode = null" />
 				<FabProduct />
 			</div>
 		</template>

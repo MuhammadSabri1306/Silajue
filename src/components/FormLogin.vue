@@ -59,12 +59,13 @@ const onLogin = async () => {
 			getProfileAvatar(token);
 			viewStore.showToast("login", true);
 
-			const baseRedirect = role === "admin" ? "/app" : "/";
+			const baseRedirect = (role === "admin" || role === "operator") ? "/app" : "/";
 			setTimeout(() => router.push(route.query.redirect || baseRedirect), 500);
 
 		})
 		.catch(err => {
 			console.error(err);
+			showLoader.value = false;
 			viewStore.showToast("login", false);
 		});
 

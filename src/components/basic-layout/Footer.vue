@@ -18,8 +18,8 @@ const textPhone = computed(() => socialStore.social && socialStore.social.phoneN
 					<router-link to="/" class="flex items-center mb-16 mt-16 transition-opacity opacity-100 hover:opacity-80">
 						<img src="/assets/img/logo-pemprov-sulsel.webp" class="h-16 md:h-24 w-auto">
 						<div class="ml-2">
-							<h5 class="text-lg font-semibold text-white text-shadow-black mb-1">Dinas Peternakan dan<br>KesehatanHewan Provinsi</h5>
-							<h6 class="text-sm md:text-base font-bold text-blue-500 text-shadow-black">SULAWESI SELATAN</h6>
+							<h5 class="text-xl font-semibold text-white text-shadow-black mb-1">UPT PIBPS</h5>
+							<h6 class="text-xs md:text-sm font-bold text-shadow-black text-white">Dinas Peternakan dan Kesehatan Hewan<br><span class="text-blue-500">Prov. SULAWESI SELATAN</span></h6>
 						</div>
 					</router-link>
 					<p class="text-sm mb-2 text-gray-200 font-semibold">Alamat</p>

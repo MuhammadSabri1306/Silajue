@@ -19,6 +19,7 @@ const navItems = [
 const userStore = useUserStore();
 const isRolePublic = computed(() => userStore.isRolePublic);
 const isRoleAdmin = computed(() => userStore.isRoleAdmin);
+const isRoleOperator = computed(() => userStore.isRoleOperator);
 
 const router = useRouter();
 const navigateTo = to => router.push(to);
@@ -43,7 +44,7 @@ const useTopbarSlot = computed(() => !!slots.topbar);
 <template>
 	<div id="basicWrapper" class="w-full max-w-[100vw] overflow-x-hidden relative">
 		<nav :style="{ marginLeft: contentLeft }" class="navbar border-b shadow-lg">
-			<div v-if="isRoleAdmin" class="bg-gray-900">
+			<div v-if="isRoleAdmin || isRoleOperator" class="bg-gray-900">
 				<router-link to="/app" class="flex justify-center items-center m-auto px-8 py-4 transition-colors text-gray-100 hover:text-white">
 					<font-awesome-icon icon="fa-solid fa-arrow-left-long" fixed-width></font-awesome-icon>
 					<span class="text-xs font-semibold ml-1">Kembali ke Dashboard</span>

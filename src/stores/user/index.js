@@ -10,9 +10,10 @@ export const useUserStore = defineStore("user", {
 	}),
 	getters: {
 		isRoleAdmin: (state) => state.token.length > 0 && state.role === "admin",
+		isRoleOperator: (state) => state.token.length > 0 && state.role === "operator",
 		isRoleUser: (state) => state.token.length > 0 && state.role === "user",
-		isRolePublic() {
-			return !this.isRoleAdmin && !this.isRoleUser
+		isRolePublic(state) {
+			return !this.isRoleAdmin && !this.isRoleOperator && !this.isRoleUser;
 		}
 	},
 	actions: {

@@ -5,7 +5,7 @@ import { toTimeStr } from "@/modules/date-id";
 import { formatIdr } from "@/modules/currency-format";
 import CardTable from "@/components/ui/CardTable.vue";
 
-defineEmits(["verify"]);
+defineEmits(["verify", "showQrCode"]);
 const productStore = useProductStore();
 
 const invoices = computed(() => {
@@ -13,8 +13,8 @@ const invoices = computed(() => {
 });
 
 const statusBgClass = {
-	"selesai": "bg-green-300",
-	"pengiriman": "bg-gray-300",
+	"selesai": "bg-gray-300",
+	"aktif": "bg-green-300",
 	"pengajuan verifikasi": "bg-yellow-200",
 	"belum verifikasi": "bg-red-200"
 };
@@ -34,11 +34,17 @@ const statusBgClass = {
 				<tr v-for="item in invoices">
 					<td>{{ item.dateTime }}</td>
 					<td>
-						<p class="mb-6">No. Invoice : <b class="text-lg">{{ item.noInvoice }}</b></p>
-						<div class="flex items-center">
-							<span class="mr-2">Status :</span>
+						<p class=" mb-2">No. Invoice:<br><b class="text-lg">{{ item.noInvoice }}</b></p>
+						<div class="flex items-center mb-6">
+							<span class="mr-2">Status:</span>
 							<span v-if="item.status != 'belum verifikasi'" :class="statusBgClass[item.status]" class="cursor-default capitalize">{{ item.status }}</span>
 							<button v-else type="button" @click="$emit('verify', item.id)" class="bg-red-200 hover-margin capitalize">{{ item.status }}</button>
+						</div>
+						<div v-if="item.status == 'aktif'" class="flex">
+							<button type="button" @click="$emit('showQrCode', item.noInvoice)" class="btn flex flex-col justify-center items-center gap-2 border border-green-200 transition-colors text-gray-500 bg-transparent hover:bg-green-200">
+								<span>Tiket Pesanan: </span>
+								<span class="text-4xl mb-2"><font-awesome-icon icon="fa-solid fa-qrcode" /></span>
+							</button>
 						</div>
 					</td>
 					<td>

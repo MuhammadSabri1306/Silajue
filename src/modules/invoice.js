@@ -7,7 +7,6 @@ export const createInvoiceCode = userId => {
 
 export const formatInvoice = invoices => {
 	return invoices.map(item => {
-		// console.log(item)
 		const date = new Date(item.created_at);
 		const dateTime = `${ date.getDate() }/${ date.getMonth() }/${ date.getFullYear() } ${ toTimeStr(date, ":").time }`;
 
@@ -28,7 +27,6 @@ export const formatInvoice = invoices => {
 			regency: item.user.village.district.regency.name,
 			province: item.user.village.district.regency.province.name
 		};
-		console.log(item.proof_payment)
 
 		return {
 			dateTime,

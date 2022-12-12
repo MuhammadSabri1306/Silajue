@@ -77,7 +77,7 @@ const onSearchFormSubmit = (event) => {
 							<BgImageAsync src="/assets/img/kerbau belang-sopai.webp" class="hidden md:block" />
 						</div>
 						<div class="absolute w-full h-full top-0 left-0 bg-black/70 px-8 py-4 flex justify-center items-center">
-							<p class="text-center font-semibold text-white text-xl text-shadow-black">Kami menyediakan semen beku sapi dan kerbau dengan berbagai pilihan jenis sapi.</p>
+							<p class="text-center font-semibold text-white text-xl text-shadow-black">Kami menyediakan semen beku sapi, kerbau, kuda, dan kambing.</p>
 						</div>
 					</div>
 					<div class="flex flex-col items-center mb-32">

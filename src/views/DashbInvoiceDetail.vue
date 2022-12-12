@@ -49,8 +49,8 @@ const deleteConfirm = async () => {
 };
 
 const statusBgClass = {
-	"selesai": "bg-green-300",
-	"pengiriman": "bg-gray-300",
+	"selesai": "bg-gray-300",
+	"aktif": "bg-green-300",
 	"pengajuan verifikasi": "bg-yellow-200",
 	"belum verifikasi": "bg-red-200"
 };
@@ -62,6 +62,7 @@ const updateInvoiceStatus = status => {
 	http.post("/invoice/status/" + invoiceId.value, body, { headers })
 		.then(() => {
 			productStore.fetchInvoice(true);
+			console.log(productStore.invoiceById(invoiceId.value))
 			viewStore.showToast("updateInvoiceStatus", true);
 			// router.push("/app/invoice");
 		})
@@ -124,14 +125,14 @@ const onConfirmInvoice = async (status) => {
 							</div>
 						</div>
 						<div v-if="currInvoice.status == 'pengajuan verifikasi'" class="mb-16 flex justify-center items-center bg-gray-100 p-8">
-							<button type="button" @click="onConfirmInvoice('pengiriman')" class="px-4 py-3 rounded btn-icon text-white hover-margin bg-green-600 hover:bg-green-500">
+							<button type="button" @click="onConfirmInvoice('aktif')" class="px-4 py-3 rounded btn-icon text-white hover-margin bg-green-600 hover:bg-green-500">
 								<span class="text-2xl mr-2">
 									<font-awesome-icon icon="fa-solid fa-check" />
 								</span>
-								<span>Lanjutkan ke Pengiriman</span>
+								<span>Aktifkan Invoice</span>
 							</button>
 						</div>
-						<div v-if="currInvoice.status == 'pengiriman'" class="mb-16 flex justify-center items-center bg-gray-100 p-8 gap-8">
+						<div v-if="currInvoice.status == 'aktif'" class="mb-16 flex justify-center items-center bg-gray-100 p-8 gap-8">
 							<button type="button" @click="onConfirmInvoice('verifikasi')" class="px-4 py-3 rounded btn-icon text-white hover-margin bg-yellow-400 hover:bg-yellow-300">
 								<span class="text-2xl mr-2">
 									<font-awesome-icon icon="fa-solid fa-angle-left" />

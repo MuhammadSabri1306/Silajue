@@ -1,9 +1,10 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, computed } from "vue";
 import { useUserStore } from "@/stores/user";
 import http from "@/modules/http-common";
 import VueApexCharts from "vue3-apexcharts";
 import DashbLayout from "@/components/dashboard-layout/Layout.vue";
+import InvoiceScanner from "@/components/InvoiceScanner.vue";
 /*
 const chartSelledProduct = {
 	options: reactive({}),
@@ -135,6 +136,9 @@ const fetchDashboard = () => {
 };
 
 fetchDashboard();
+
+const isRoleOperator = computed(() => userStore.isRoleOperator);
+const showScanner = ref(false);
 </script>
 <template>
 	<DashbLayout>
@@ -146,7 +150,15 @@ fetchDashboard();
 						<VueApexCharts width="500" type="bar" :options="chartSelledProduct.options" :series="chartSelledProduct.series" />
 					</div>
 				</div> -->
-				<div class="grid grid-cols-2 mb-16 gap-8">
+				<div v-if="isRoleOperator" class="mb-8 flex justify-end">
+					<button type="button" @click="showScanner = true" class="btn btn-icon grow md:grow-0 text-white transition-colors bg-gray-900 hover:bg-gray-700">
+						<span class="text-lg">
+							<font-awesome-icon icon="fa-solid fa-qrcode" />
+						</span>
+						<span class="text-sm font-semibold ml-2">SCAN NOTA PENGAMBILAN</span>
+					</button>
+				</div>
+				<div v-if="!showScanner" class="grid grid-cols-1 md:grid-cols-2 mb-16 gap-8">
 					<div v-if="countProduct.loaded" class="chart card-chart-lg hover-opacity bg-blue-700">
 						<h6 class="count-title">Jumlah Produk</h6>
 						<p class="count-number">{{ countProduct.data }}</p>
@@ -156,7 +168,7 @@ fetchDashboard();
 						<p class="count-number">{{ countSoldProduct.data }}</p>
 					</div>
 				</div>
-				<div class="grid grid-cols-3 gap-8 mb-16">
+				<div v-if="!showScanner" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
 					<div v-if="countIncome.loaded" class="chart card-chart hover-opacity bg-gray-900">
 						<h6 class="count-title">Jumlah Pendapatan</h6>
 						<div class="flex justify-center items-end">

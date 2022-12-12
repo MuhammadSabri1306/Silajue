@@ -18,6 +18,7 @@ userStore.checkUserCookie();
 const router = useRouter();
 router.beforeEach((to, from) => {
     const needLogin = (to.meta.needAdminRole && !userStore.isRoleAdmin) || (to.meta.needLogin && userStore.isRolePublic);
+    
     if(needLogin)
         return { path: "/login", query: { redirect: to.fullPath } };
 });

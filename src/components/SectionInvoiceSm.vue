@@ -4,7 +4,7 @@ import { useProductStore } from "@/stores/product";
 import { toTimeStr } from "@/modules/date-id";
 import { formatIdr } from "@/modules/currency-format";
 
-defineEmits(["verify"]);
+defineEmits(["verify", "showQrCode"]);
 const productStore = useProductStore();
 
 const invoices = computed(() => {
@@ -12,8 +12,8 @@ const invoices = computed(() => {
 });
 
 const statusBgClass = {
-	"selesai": "bg-green-300",
-	"pengiriman": "bg-gray-300",
+	"selesai": "bg-gray-300",
+	"aktif": "bg-green-300",
 	"pengajuan verifikasi": "bg-yellow-200",
 	"belum verifikasi": "bg-red-200"
 };
@@ -44,6 +44,12 @@ const statusBgClass = {
 								<p class="text-gray-700 mb-8">Total: <span class="font-semibold text-lg text-gray-800">{{ formatIdr(item.totalPrice) }}</span></p>
 								<div v-if="item.status == 'belum verifikasi'" class="flex justify-end">
 									<button type="button" @click="$emit('verify', item.id)" class="text-white bg-primary-700 hover:bg-primary-600 px-4 py-2 rounded">Verifikasi</button>
+								</div>
+								<div v-if="item.status == 'aktif'" class="grid grid-cols-1">
+									<button type="button" @click="$emit('showQrCode', item.noInvoice)" class="btn btn-icon gap-2 border border-green-300 transition-colors text-gray-600 bg-transparent hover:bg-green-300">
+										<font-awesome-icon icon="fa-solid fa-qrcode" fixed-width />
+										<span>Tiket Pesanan</span>
+									</button>
 								</div>
 							</div>
 						</div>

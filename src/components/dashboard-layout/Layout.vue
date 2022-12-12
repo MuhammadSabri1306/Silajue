@@ -8,22 +8,27 @@ defineProps({
 	activeNav: { type: Number, default: 0 }
 });
 
-const sidebarItem = [
-	{ to: "/app", title: "Dashboard", icon: "fa-solid fa-laptop" },
-	{ to: "/app/product", title: "Data Produk", icon: "fa-solid fa-star" },
-	{ to: "/app/product/category", title: "Kategori Produk", icon: "fa-solid fa-tags" },
-	{ to: "/app/invoice", title: "Invoice", icon: "fa-solid fa-bookmark" },
-	{ to: "/app/blog", title: "Halaman Blog", icon: "fa-solid fa-thumbtack" },
-	{ to: "/app/users", title: "Data Pengguna", icon: "fa-solid fa-user" },
-	{ to: "/app/social", title: "Sosial", icon: "fa-solid fa-thumbs-up" }
-];
+const userStore = useUserStore();
+const userRole = computed(() => userStore.role);
+
+const sidebarItem = computed(() => {
+	if(userRole.value == "operator")
+		return [{ to: "/app", title: "Dashboard", icon: "fa-solid fa-laptop" }];
+
+	return [
+		{ to: "/app", title: "Dashboard", icon: "fa-solid fa-laptop" },
+		{ to: "/app/product", title: "Data Produk", icon: "fa-solid fa-star" },
+		{ to: "/app/product/category", title: "Kategori Produk", icon: "fa-solid fa-tags" },
+		{ to: "/app/invoice", title: "Invoice", icon: "fa-solid fa-bookmark" },
+		{ to: "/app/blog", title: "Halaman Blog", icon: "fa-solid fa-thumbtack" },
+		{ to: "/app/users", title: "Data Pengguna", icon: "fa-solid fa-user" },
+		{ to: "/app/social", title: "Sosial", icon: "fa-solid fa-thumbs-up" }
+	];
+});
 
 const toggleSidebar = ref(false);
-
 const expandUserMenu = ref(false);
-const onUserMenuLostFocus = event => {
-	expandUserMenu.value = false;
-};
+const onUserMenuLostFocus = event => expandUserMenu.value = false;
 
 onMounted(() => {
 	document.addEventListener("click", onUserMenuLostFocus);
@@ -35,7 +40,6 @@ onUnmounted(() => {
 });
 
 const router = useRouter();
-const userStore = useUserStore();
 const onLogout = () => {
 	userStore.logout();
 	router.push("/");
