@@ -75,7 +75,7 @@ const textPhone = computed(() => socialStore.social && socialStore.social.phoneN
 }
 
 .footer-link {
-	@apply block py-2 px-4 text-sm font-medium mr-4 transition-all text-gray-200 hover:text-blue-500 ml-4 lg:hover:ml-0;
+	@apply block py-2 px-4 text-sm font-medium mr-4 transition-all duration-300 text-gray-200 hover:text-blue-500 ml-4 lg:hover:ml-0;
 }
 
 </style>

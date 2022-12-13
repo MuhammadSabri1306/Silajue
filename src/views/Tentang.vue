@@ -29,7 +29,7 @@ import OrganizationStructure from "@/components/OrganizationStructure.vue";
 						<p>Pemerintah Provinsi Sulawesi Selatan melalui <b>UPT-PIBPS</b> terus berupaya untuk meningkatkan produksi dan pendistribusian semen beku disertai dengan peningkatan mutu dan kuatlitas secara berkesinambungan.</p>
 						<p>UPT-PIBPS atau <b>UPT Pelayanan Inseminasi Buatan dan Produk Semen</b> itu sendiri didirikan pada tahun 2018 yang merupakan perwujudan desentralisasi urusan Pemerintah Pusat ke Provinsi/Daerah dalam pelayanan Inseminasi Buatan untuk meningkatkan efisiensi dan efektifitas proses semen beku, penyediaan nitrogen cair, dan  pendistribusiannya.</p>
 					</div>
-					<div class="container mb-16">
+					<div class="container mb-36">
 						<h5 class="text-lg text-gray-900 font-bold text-shadow-white mb-8">Strategi Pelayanan</h5>
 						<div class="flex flex-wrap justify-center gap-8 ml-4 md:ml-0">
 							<div class="card">
@@ -64,9 +64,16 @@ import OrganizationStructure from "@/components/OrganizationStructure.vue";
 							</div>
 						</div>
 					</div>
-					<div class="container mb-16">
-						<h5 class="text-lg text-gray-900 font-bold text-shadow-white mb-8">Struktur Organisasi</h5>
-						<OrganizationStructure />
+					<div class="container mb-16 grid grid-cols-1 lg:grid-cols-2 gap-16">
+						<div>
+							<h5 class="text-lg text-gray-900 font-bold text-shadow-white mb-8 text-center">Struktur Organisasi</h5>
+							<OrganizationStructure />
+						</div>
+						<div class="basic-paragraph">
+							<h3 class="text-3xl font-light text-primary-500 text-shadow-white text-center lg:text-left mb-8">“The Frozen Drop Prosperity”</h3>
+							<p><b>UPT-PIBPS</b> senantiasa mengutamakan peran pelayanan dalam penyediaan semen beku bagi akseptor baik dalam maupun luar provinsi. Potensi akseptor dalam SulSel sendiri mencapai 613 ekor, sementara kapasitas produksi UPT-PIBPS adalah antara 100 - 250 ribu dosis per tahun.</p>
+							<p>Kami telah memperoleh sertifikasi Standar Nasional Indonesia baik dari segi manajemen dan standar kualiatas semen yang diproduksi. Penanganan  semen segar hingga menjadi semen beku dilakukan dengan teknologi modern dan oleh tenaga terlatih dan profesional.</p>
+						</div>
 					</div>
 				</div>
 			</section>
