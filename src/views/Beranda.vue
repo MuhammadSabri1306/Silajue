@@ -48,7 +48,7 @@ const onSearchFormSubmit = (event) => {
 			<header class="h-[451px] relative w-full overflow-hidden">
 				<div class="absolute top-0 left-0 w-full h-full bg-black/20 flex">
 					<div class="m-auto flex flex-col items-center">
-						<img src="/assets/img/text-hero.webp" class="w-2/3 md:w-[20rem] mb-10">
+						<img src="/assets/img/header2.webp" class="w-2/3 md:w-[30rem] mb-10">
 						<form @submit.prevent="onSearchFormSubmit">
 							<div class="flex">
 								<div class="grid grow md:w-[30rem] mr-2 lg:mr-4">
@@ -189,7 +189,7 @@ const onSearchFormSubmit = (event) => {
 <style scoped>
 	
 header {
-	background-image: url(/assets/img/bg-hero.jpg);
+	background-image: url(/assets/img/header.webp);
 	background-size: cover;
 	background-position: center;
 	background-attachment: fixed;
