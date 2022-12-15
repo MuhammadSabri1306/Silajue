@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive, computed } from "vue";
 import { useUserStore } from "@/stores/user";
+import { formatIdr } from "@/modules/currency-format";
 import http from "@/modules/http-common";
 import VueApexCharts from "vue3-apexcharts";
 import DashbLayout from "@/components/dashboard-layout/Layout.vue";
@@ -94,6 +95,7 @@ const countIncome = reactive({
 	data: 0,
 	loaded: false
 });
+const formatCountIncome = computed(() => formatIdr(countIncome.data));
 
 const countUser = reactive({
 	data: 0,
@@ -168,10 +170,9 @@ const isRoleOperator = computed(() => userStore.isRoleOperator);
 				</div>
 				<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
 					<div v-if="countIncome.loaded" class="chart card-chart hover-opacity bg-gray-900">
-						<h6 class="count-title">Jumlah Pendapatan</h6>
+						<h6 class="count-title-lg">Pendapatan</h6>
 						<div class="flex justify-center items-end">
-							<p class="font-bold text-white mb-2 mr-1">IDR</p>
-							<p class="count-number">{{ countIncome.data }}</p>
+							<p class="count-number-sm">{{ formatCountIncome }}</p>
 						</div>
 					</div>
 					<div v-if="countUser.loaded" class="chart card-chart hover-opacity bg-emerald-500">
@@ -222,8 +223,16 @@ const isRoleOperator = computed(() => userStore.isRoleOperator);
 	@apply text-xs font-semibold text-white opacity-90 mb-4 whitespace-nowrap text-center;
 }
 
+.count-title-lg {
+	@apply text-3xl font-semibold text-white opacity-90 mb-4 whitespace-nowrap text-center;
+}
+
 .count-number {
 	@apply text-6xl text-white whitespace-nowrap text-center;
+}
+
+.count-number-sm {
+	@apply text-lg text-white whitespace-nowrap text-center;
 }
 
 .card-chart-lg .count-number {

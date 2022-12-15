@@ -7,3 +7,5 @@ export const toNumber = str => {
 };
 
 export const formatIdr = numb => "IDR " + toString(numb);
+
+export default { toString, toNumber, formatIdr };

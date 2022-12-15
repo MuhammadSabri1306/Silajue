@@ -33,7 +33,7 @@ const toggleSidebar = () => viewStore.toggleShowSidebar();
 		<div class="flex">
 			<router-link to="/" class="nav-brand text-shadow-white group">
 				<h6 class="transition-all ml-0 group-hover:ml-4">E-Market <span class="text-primary-600">Silajue</span></h6>
-				<p class="transition-all ml-0 group-hover:ml-8">Pasar Bibit Ternak Daring</p>
+				<p class="transition-all ml-0 group-hover:ml-8">Pasar Benih Ternak Daring</p>
 			</router-link>
 			<ul class="nav-menu">
 				<li v-for="item in navItems" class="nav-link text-shadow-white hover-margin">
