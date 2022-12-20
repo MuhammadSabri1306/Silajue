@@ -14,7 +14,7 @@ const textPhone = computed(() => socialStore.social && socialStore.social.phoneN
 	<footer class="bg-gray-900 pt-16 pb-8">
 		<div class="px-6 md:px-8 lg:px-12 container">
 			<div class="flex flex-col md:flex-row md:justify-between lg:justify-around items-center md:items-stretch">
-				<div class="lg:max-w-[34rem] mb-16 lg:mb-0">
+				<div class="lg:max-w-[34rem]">
 					<router-link to="/" class="flex items-center mb-16 mt-16 transition-opacity opacity-100 hover:opacity-80">
 						<img src="/assets/img/logo-pemprov-sulsel.webp" class="h-16 md:h-24 w-auto">
 						<div class="ml-2">

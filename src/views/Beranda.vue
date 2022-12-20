@@ -45,20 +45,18 @@ const onSearchFormSubmit = (event) => {
 <template>
 	<BasicLayout>
 		<template #main>
-			<header class="h-[451px] relative w-full overflow-hidden">
-				<div class="absolute top-0 left-0 w-full h-full bg-black/20 flex">
-					<div class="m-auto flex flex-col items-center">
-						<img src="/assets/img/header2.webp" class="w-2/3 md:w-[30rem] mb-10">
-						<form @submit.prevent="onSearchFormSubmit">
-							<div class="flex">
-								<div class="grid grow md:w-[30rem] mr-2 lg:mr-4">
-									<input type="search" class="block w-full h-full px-6 text-sm font-semibold rounded transition-color bg-gray-200 hover:bg-white focus:bg-white" placeholder="Cari...">
-								</div>
-								<button class="px-3 py-2 rounded text-xl transition-color text-white hover:text-primary-500 bg-black">
-									<font-awesome-icon icon="fa-solid fa-search" />
-								</button>
-							</div>
-						</form>
+			<header class="h-[451px] relative w-full overflow-hidden border-t-2 border-yellow-400">
+				<div class="absolute top-0 left-0 w-full h-full header-bg"></div>
+				<div class="absolute top-0 left-0 w-full h-full flex flex-col md:flex-row">
+					<div class="m-auto w-full md:w-[40rem] flex justify-center items-center">
+						<!-- <img src="/assets/img/header1.webp" class="w-full md:w-[40rem] mb-10"> -->
+						<div class="py-12">
+							<h5 class="text-6xl md:text-7xl text-blue-700 font-bold drop-shadow-[0_0_4px_#a0ff07]">SILAJUE</h5>
+							<h6 class="text-gray-900 font-semibold md:text-xl drop-shadow-[0_0_2px_#fff]">Sistem Layanan Penjualan Online</h6>
+						</div>
+					</div>
+					<div class="mt-auto ml-auto">
+						<img src="/assets/img/profil.webp" class="w-[30rem] h-auto">
 					</div>
 				</div>
 			</header>
@@ -80,7 +78,7 @@ const onSearchFormSubmit = (event) => {
 							<p class="text-center font-semibold text-white text-xl text-shadow-black">Kami menyediakan semen beku sapi, kerbau, kuda, dan kambing.</p>
 						</div>
 					</div>
-					<div class="flex flex-col items-center mb-32">
+					<div class="flex flex-col items-center mb-16 md:mb-32">
 						<div class="mb-6">
 							<router-link to="/product" class="block text-xl font-semibold px-6 py-3 bg-primary-500 rounded hover:bg-primary-400 hover-margin">MULAI BELANJA</router-link>
 						</div>
@@ -88,7 +86,7 @@ const onSearchFormSubmit = (event) => {
 					</div>
 				</div>
 				<div class="bg-gray-100">
-					<div class="container py-16 mb-32">
+					<div class="container py-16 mb-16 md:mb-32">
 						<h2 class="text-2xl text-gray-900 tracking-wider font-bold mb-8">Alur Pembelian di Silajue</h2>
 						<div class="flex flex-wrap justify-center items-end gap-8 mb-8">
 							<div class="flow-card">
@@ -157,7 +155,7 @@ const onSearchFormSubmit = (event) => {
 							</div>
 						</div>
 						<div>
-							<h6 class="text-2xl text-gray-700 font-semibold my-4">Bagikan respons anda</h6>
+							<h6 class="text-2xl text-gray-700 font-semibold my-4">Berikan komentar anda</h6>
 							<div class="px-8 py-16 bg-white shadow-lg rounded border">
 								<form @submit.prevent="onFeedbackSubmit">
 									<div class="grid grid-cols-1 gap-4 mb-8">
@@ -188,11 +186,25 @@ const onSearchFormSubmit = (event) => {
 </template>
 <style scoped>
 	
+/*header {
+	background-image: url(/assets/img/bg-new.webp);
+	@apply bg-cover lg:bg-[length:100%_auto] bg-bottom bg-no-repeat bg-fixed;
+}*/
+
 header {
-	background-image: url(/assets/img/header.webp);
-	background-size: cover;
-	background-position: center;
-	background-attachment: fixed;
+	background: linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)),
+		radial-gradient(77.36% 256.97% at 77.36% 57.52%, rgb(34, 197, 94) 0%, #a0ff07 100%);
+	clip-path: ellipse(150% 87% at 93% 13%);
+}
+
+header > .header-bg {
+	background-image: url("/assets/img/endless-cloud.svg");
+	-webkit-mask-image: linear-gradient(transparent 10%, #000 100%);
+	@apply bg-[bottom_1px_center];
+}
+
+.header-logo {
+	background-image: radial-gradient(circle, rgb(255 255 255 / 55%) 0%, transparent 70%);
 }
 
 .category-item {

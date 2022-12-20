@@ -33,7 +33,7 @@ socialStore.fetchSocial(false, () => {
 			<div>
 				<h3 class="page-title">Sosial</h3>
 				<form v-if="isLoaded" @submit.prevent="">
-					<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
 						<div class="input-group">
 							<label for="inputFacebook">
 								<span class="text-2xl text-gray-400"><font-awesome-icon icon="fa-brands fa-facebook" /></span>

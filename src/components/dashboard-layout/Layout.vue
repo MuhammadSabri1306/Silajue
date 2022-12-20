@@ -108,7 +108,7 @@ const profileAvatar = computed(() => userStore.profile.avatar);
 				<slot name="main"></slot>
 			</main>
 			<footer class="px-8 py-8 bg-gray-100">
-				<p class="text-sm font-medium text-gray-600 text-center md:text-end"><span class="whitespace-nowrap font-medium">&copy; Dinas Peternakan dan Kesehatan Hewan Sulawesi Selatan 2022.</span> <span class="whitespace-nowrap">All Rights Reserved.</span></p>
+				<p class="text-sm font-medium text-gray-600 text-center md:text-end"><span class="lg:whitespace-nowrap font-medium">&copy; Dinas Peternakan dan Kesehatan Hewan Sulawesi Selatan 2022.</span> <span class="lg:whitespace-nowrap">All Rights Reserved.</span></p>
 			</footer>
 		</div>
 	</div>
@@ -168,8 +168,12 @@ body > #app > div,
 }
 
 #content {
-	@apply w-screen md:w-min h-screen overflow-y-auto md:grow ml-0 h-screen text-gray-800 flex flex-col items-stretch relative;
+	@apply w-screen md:w-auto overflow-x-hidden overflow-y-auto md:grow ml-0 h-screen text-gray-800 flex flex-col items-stretch relative;
 	transition: margin-left 0.3s;
+}
+
+#content > *:not(nav) {
+	@apply w-screen md:w-auto;
 }
 
 .toggle-sidebar #content {

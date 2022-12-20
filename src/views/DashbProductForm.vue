@@ -201,7 +201,7 @@ const deleteConfirm = async () => {
 						<span class="text-xs font-semibold">Hapus</span>
 					</button>
 				</div>
-				<form v-if="isLoaded" @submit.prevent="onSubmit" class="grid grid-cols-2 gap-4">
+				<form v-if="isLoaded" @submit.prevent="onSubmit" class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-4">
 					<div class="flex justify-center items-start">
 						<a role="button" v-if="getImgThumb" @click="showImgModal = true" :class="getInvalidClass('img')" class="rounded-xl border bg-gray-100 overflow-hidden block w-full relative group aspect-video">
 							<BgImageAsync :src="getImgThumb" class="w-full h-full" />
@@ -213,7 +213,7 @@ const deleteConfirm = async () => {
 							<span class=" m-auto">Upload Gambar Produk</span>
 						</a>
 					</div>
-					<div class="px-8">
+					<div class="md:px-8">
 						<div class="input-group mb-8">
 							<label for="inputName">Nama Produk</label>
 							<input type="text" v-model="v$.name.$model" :class="getInvalidClass('name')" id="inputName">

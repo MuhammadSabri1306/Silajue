@@ -136,7 +136,7 @@ const deleteConfirm = async () => {
 					</button>
 				</div>
 				<form v-if="isLoaded" @submit.prevent="onSubmit">
-					<div class="grid grid-cols-2 mb-8">
+					<div class="lg:grid grid-cols-2 mb-8">
 						<div class="flex justify-center items-start">
 							<a role="button" v-if="thumbImg" @click="showImgModal = true" class="border bg-gray-100 block w-full relative group">
 								<BgImageAsync :src="thumbImg" class="aspect-video w-full" />
@@ -150,7 +150,7 @@ const deleteConfirm = async () => {
 						</div>
 						<span></span>
 					</div>
-					<div class="grid grid-cols-2 mb-8">
+					<div class="lg:grid grid-cols-2 mb-8">
 						<div class="input-group">
 							<label for="inputTitle">Judul</label>
 							<input type="text" v-model="v$.title.$model" id="inputTitle">

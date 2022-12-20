@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useProductStore } from "@/stores/product";
 import http from "@/modules/http-common";
 import { getSession, setSession, deleteSession } from "@/modules/session";
 
@@ -19,10 +20,11 @@ export const useUserStore = defineStore("user", {
 	actions: {
 
 		logout() {
-			this.token = "";
-			this.role = "";
-			this.profile = {};
 			deleteSession("user");
+			this.$reset();
+
+			const productStore = useProductStore();
+			productStore.$reset();
 		},
 
 		/*

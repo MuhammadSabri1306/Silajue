@@ -76,7 +76,7 @@ const onSubmit = async () => {
 			<div>
 				<h3 class="page-title">Halaman Blog</h3>
 				<form @submit.prevent="onSubmit">
-					<div class="grid grid-cols-2 mb-8">
+					<div class="lg:grid grid-cols-2 mb-8">
 						<div class="flex justify-center items-start">
 							<a role="button" v-if="thumbImg" @click="showImgModal = true" class="border bg-gray-100 block w-full relative group">
 								<img :src="thumbImg" class="max-w-full h-auto" />
@@ -90,7 +90,7 @@ const onSubmit = async () => {
 						</div>
 						<span></span>
 					</div>
-					<div class="grid grid-cols-2 mb-8">
+					<div class="lg:grid grid-cols-2 mb-8">
 						<div class="input-group">
 							<label for="inputTitle">Judul</label>
 							<input type="text" v-model="v$.title.$model" id="inputTitle">
