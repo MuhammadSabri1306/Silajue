@@ -59,6 +59,7 @@ const onSearchFormSubmit = (event) => {
 						<img src="/assets/img/profil.webp" class="w-[30rem] h-auto">
 					</div>
 				</div>
+				<div class="absolute top-0 left-0 w-full h-full filter-bg"></div>
 			</header>
 			<div class="bg-white pt-16 pb-8">
 				<div class="container">
@@ -201,6 +202,10 @@ header > .header-bg {
 	background-image: url("/assets/img/endless-cloud.svg");
 	-webkit-mask-image: linear-gradient(transparent 10%, #000 100%);
 	@apply bg-[bottom_1px_center];
+}
+
+header > .filter-bg {
+	@apply backdrop-saturate-[.8] bg-gray-300 mix-blend-multiply;
 }
 
 .header-logo {
