@@ -205,7 +205,7 @@ header > .header-bg {
 }
 
 header > .filter-bg {
-	@apply backdrop-saturate-[.8] bg-gray-300 mix-blend-multiply;
+	@apply backdrop-saturate-[.6] bg-gray-300 mix-blend-multiply;
 }
 
 .header-logo {
