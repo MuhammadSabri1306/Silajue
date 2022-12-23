@@ -93,7 +93,7 @@ const onSearchFormSubmit = (event) => {
 							<div class="flow-card">
 								<span class="flow-number">1</span>
 								<font-awesome-icon icon="fa-brands fa-google-play" fixed-width />
-								<span class="flow-text"><strong>Download Apps</strong><br>di <a href="#">Playstore</a> atau kunjungi situsresmi <a href="#">E-Market Silajue</a>.</span>
+								<span class="flow-text"><strong>Download Apps</strong><br>di <a href="#">Playstore</a> atau kunjungi situs resmi <a href="#">Silajue</a>.</span>
 							</div>
 							<div class="flow-card">
 								<span class="flow-number">2</span>
@@ -205,7 +205,7 @@ header > .header-bg {
 }
 
 header > .filter-bg {
-	@apply backdrop-saturate-[.6] bg-gray-300 mix-blend-multiply;
+	@apply backdrop-saturate-[.6] lg:backdrop-saturate-[.8] bg-gray-300 mix-blend-multiply;
 }
 
 .header-logo {

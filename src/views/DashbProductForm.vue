@@ -14,6 +14,8 @@ import SwitchToggle from "@/components/ui/SwitchToggle.vue";
 import ModalUploadProductImg from "@/components/ModalUploadProductImg.vue";
 import BgImageAsync from "@/components/BgImageAsync.vue";
 import ConfirmDialog from "@/components/ui/ConfirmDialog.vue";
+import SelectColor from "@/components/SelectColor.vue";
+import QuillEditor from "@/components/QuillEditor.vue";
 
 const productStore = useProductStore();
 productStore.fetchCategories();
@@ -30,13 +32,21 @@ const newImgThumb = ref(null);
 const showLoadingIcon = ref(false);
 
 const productId = computed(() => route.params.id);
+const defaultDescription = "<p>Bobot Badan: ~ Kg</p><p>Tinggi Gumba: ~ cm</p><p>Lingkar Dada: ~ cm</p><p>Panjang Badan: ~ cm";
+
 const { data, v$ } = useDataForm({
 	name: { value: null, required },
 	stock: { value: null, required },
 	categoryId: { value: null, required },
-	description: { value: null, required }
+	description: { value: defaultDescription, required },
+	code: { value: null, required },
+	birth: { value: "2015-01-01", required },
+	strawColor: { value: "red", required },
+	sire: { value: null },
+	dam: { value: null  }
 });
 
+const quillEditor = ref(null);
 const initData = () => {
 
 	http.get("/produk/" + productId.value)
@@ -48,6 +58,13 @@ const initData = () => {
 			data.stock = dataProduct.stock;
 			data.categoryId = dataProduct.category.id;
 			data.description = dataProduct.description;
+
+			data.code = dataProduct.code;
+			data.birth = dataProduct.date_birth;
+			data.sire = dataProduct.sire;
+			data.dam = dataProduct.dam;
+			data.strawColor = (dataProduct.straw_color === "Merah") ? "red" : dataProduct.straw_color;
+
 			isLoaded.value = true;
 
 			newImg.value = null;
@@ -132,6 +149,7 @@ const sendRequest = body => {
 };
 
 const onSubmit = async () => {
+	data.description = quillEditor.value.getContent();
 	const isValid = await v$.value.$validate();
 	hasSubmitted.value = true;
 
@@ -140,13 +158,13 @@ const onSubmit = async () => {
 
 	const reqBody = {
 		name: data.name,
-		code: "11522",
-		stock: data.stock,
+		code: data.code,
+		stock: Number(data.stock),
 		category_id: data.categoryId,
-		date_birth: "2022-11-12",
-		sire: "10823-Bravo",
-		dam: "PC 113",
-		straw_color: "Merah",
+		date_birth: data.birth,
+		sire: data.sire || "-",
+		dam: data.dam || "-",
+		straw_color: data.strawColor,
 		description: data.description
 	};
 
@@ -185,6 +203,12 @@ const deleteConfirm = async () => {
 		console.log(err);
 	}
 };
+
+const updateBirth = event => {
+	const newBirthDate = event.target.value;
+	if(newBirthDate)
+		data.birth = newBirthDate;
+};
 </script>
 <template>
 	<DashbLayout :activeNav="1">
@@ -215,12 +239,18 @@ const deleteConfirm = async () => {
 					</div>
 					<div class="md:px-8">
 						<div class="input-group mb-8">
-							<label for="inputName">Nama Produk</label>
+							<label for="inputName">Nama Produk *</label>
 							<input type="text" v-model="v$.name.$model" :class="getInvalidClass('name')" id="inputName">
 						</div>
-						<div class="input-group input-group-category grid grid-cols-1 mb-8">
-							<label class="mr-2 mb-0">Kategori</label>
-							<Dropdown v-if="categories.length > 0" :options="categories" :value="data.categoryId" labelKey="title" valueKey="id" @change="val => data.categoryId = val" :class="getInvalidClass('categoryId')" />
+						<div class="grid grid-cols-2 gap-4 mb-8">
+							<div class="input-group">
+								<label for="inputCode">Kode *</label>
+								<input type="text" v-model="v$.code.$model" :class="getInvalidClass('code')" id="inputCode">
+							</div>
+							<div class="input-group input-group-category">
+								<label class="mr-2 mb-0">Kategori *</label>
+								<Dropdown v-if="categories.length > 0" :options="categories" :value="data.categoryId" labelKey="title" valueKey="id" @change="val => data.categoryId = val" :class="getInvalidClass('categoryId')" />
+							</div>
 						</div>
 						<div class="grid grid-cols-2 gap-4 mb-8">
 							<div class="input-group">
@@ -228,13 +258,33 @@ const deleteConfirm = async () => {
 								<input type="number" :value="textPrice" id="inputPrice" readonly>
 							</div>
 							<div class="input-group">
-								<label for="inputStock">Jumlah Stok</label>
+								<label for="inputStock">Jumlah Stok *</label>
 								<input type="number" v-model="v$.stock.$model" :class="getInvalidClass('stock')" id="inputStock">
 							</div>
 						</div>
-						<div class="input-group">
-							<label for="textDescription">Deskripsi</label>
-							<textarea v-model="v$.description.$model" :class="getInvalidClass('description')" id="textDescription" rows="4"></textarea>
+						<div class="grid grid-cols-2 gap-4 mb-8">
+							<div class="input-group">
+								<label for="inputBirth">Tgl. Lahir</label>
+								<input type="date" :value="data.birth" :class="getInvalidClass('birth')" id="inputBirth" @change="updateBirth">
+							</div>
+							<div class="input-group">
+								<label>Warna Straw</label>
+								<SelectColor position="top" :defaultValue="data.strawColor" @change="val => data.strawColor = val" />
+							</div>
+						</div>
+						<div class="grid grid-cols-2 gap-4 mb-8">
+							<div class="input-group">
+								<label for="inputSire">Sire</label>
+								<input type="text" v-model="data.sire" :class="getInvalidClass('sire')" id="inputSire">
+							</div>
+							<div class="input-group">
+								<label for="inputDam">Dam</label>
+								<input type="text" v-model="data.dam" :class="getInvalidClass('dam')" id="inputDam">
+							</div>
+						</div>
+						<div class="input-group mb-8">
+							<label for="textDescription">Deskripsi *</label>
+							<QuillEditor ref="quillEditor" :content="data.description" :class="getInvalidClass('description')" />
 						</div>
 						<div class="flex justify-end items-center gap-8 px-4 pt-8">
 							<button type="submit" :class="{ 'py-2': !showLoadingIcon, 'py-3': showLoadingIcon }" class="btn-icon rounded px-4 text-white gap-1 hover-margin bg-primary-600 hover:bg-primary-500">

@@ -13,7 +13,13 @@ export const useProductStore = defineStore("product", {
 		isSexing: true,
 		currProduct: {},
 		invoice: [],
-		invoiceUser: []
+		invoiceUser: [],
+		colors: {
+			red: { bg: "bg-red-500", title: "Merah" },
+			white: { bg: "bg-white", title: "Putih" },
+			purple: { bg: "bg-purple-700", title: "Ungu" },
+			pink: { bg: "bg-pink-500", title: "Merah Muda" }
+		}
 	}),
 	getters: {
 

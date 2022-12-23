@@ -43,7 +43,7 @@ const openModal = id => {
 				</button>
 			</div>
 			<div class="py-4 px-2">
-				<p class="text-sm text-gray-600 mb-4">{{ currProduct.description }}</p>
+				<div class="text-sm text-gray-600 mb-4" v-html="currProduct.description"></div>
 				<p class="text-sm text-gray-600 mb-4">Stok Tersedia: <b>{{ currProduct.stock }}</b></p>
 				<div class="flex items-center mb-4 gap-2">
 					<span class="card-badge bg-gray-700 text-white capitalize">{{ currProduct.category.type }}</span>

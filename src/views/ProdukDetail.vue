@@ -57,6 +57,8 @@ const setupSuggestions = () => {
 
 setupSuggestions();
 watch(() => productStore.products, setupSuggestions);
+
+const getCircleBgClass = key => productStore.colors[key]?.bg;
 </script>
 <template>
 	<BasicLayout>
@@ -73,14 +75,32 @@ watch(() => productStore.products, setupSuggestions);
 									<BgImageAsync class="aspect-video" :src="product.image" />
 								</div>
 							</div>
-							<div class="p-4 flex items-center">
+							<div class="p-4 md:flex items-center">
 								<div class="relative">
-									<h6 class="text-4xl font-bold text-gray-900">{{ product.name }}</h6>
+									<h6 class="text-4xl font-bold text-gray-900 md:mr-24">{{ product.name }}</h6>
 									<p class="text-base font-semibold text-gray-600 capitalize">{{ product.category?.name }}</p>
 									<span class="absolute right-0 top-0 text-xs font-semibold px-3 py-1 rounded bg-gray-700 text-white capitalize">{{ product.category?.type }}</span>
-									<div class="py-4">
-										<p class="text-sm text-gray-600 mb-4">{{ product.description }}</p>
-										<p class="text-sm text-gray-600 mb-4">Stok Tersedia: <b>{{ product.stock }}</b></p>
+									<div class="pt-8 pb-4">
+										<div class="product-description mb-4" v-html="product.description"></div>
+										<p class="text-sm text-gray-600 grid grid-cols-[auto_1fr] gap-1 mb-4">
+											<span>Kode</span>
+											<b>: {{ product.code }}</b>
+											<span>Tgl. Lahir</span>
+											<b>: {{ product.date_birth }}</b>
+											<span>Sire</span>
+											<b>: {{ product.sire }}</b>
+											<span>Dam</span>
+											<b>: {{ product.dam }}</b>
+											<span>Stok</span>
+											<b>: {{ product.stock }}</b>
+										</p>
+										<div class="flex items-center rounded bg-gray-800 mb-16 p-4 min-w-[12rem]">
+											<p class="text-white text-center text-sm font-semibold">Warna Straw</p>
+											<div class="grow flex items-center justify-center">
+												<div :class="getCircleBgClass(product.straw_color)" class="w-12 h-12 rounded-full border border-black"></div>
+											</div>
+										</div>
+										<p class="font-bold whitespace-nowrap text-gray-800 text-right">Harga</p>
 										<p class="font-bold text-2xl whitespace-nowrap text-green-600 text-right">{{ textPrice }}</p>
 									</div>
 									<div class="flex justify-end">
@@ -127,6 +147,10 @@ watch(() => productStore.products, setupSuggestions);
 	
 .product-card-wrapper {
 	@apply flex-[0_0_18rem];
+}
+
+.product-description :deep(p) {
+	@apply text-sm text-gray-600 mb-1;
 }
 
 </style>
