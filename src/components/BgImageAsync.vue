@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, watch } from "vue";
+import { v3ImgPreviewFn } from "v3-img-preview";
 
 const emit = defineEmits(["loaded"]);
 const props = defineProps({
@@ -23,9 +24,10 @@ const load = src => {
 load(props.src);
 watch(() => props.src, load);
 
+const previewImg = () => v3ImgPreviewFn(imgSrc.value);
 </script>
 <template>
-	<div class="bg-cover bg-center bg-no-repeat bg-primary-500" :style="styleImg">
+	<div class="bg-cover bg-center bg-no-repeat bg-gray-500 cursor-pointer" :style="styleImg" @click="previewImg">
 		<slot></slot>
 	</div>
 </template>

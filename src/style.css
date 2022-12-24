@@ -121,3 +121,7 @@
 	}
 
 }
+
+.v-images-wrap {
+	@apply z-[8889] !important;
+}
