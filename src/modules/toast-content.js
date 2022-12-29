@@ -180,6 +180,30 @@ const toastContent = {
 			summary: "No. Invoice tidak terdeteksi.",
 			detail:"Silahkan coba refresh aplikasi anda. Atau silahkan menghubungi kami jika mengalami kendala."
 		}
+	},
+	deleteProductFeedback: {
+		success: {
+			severity:"success",
+			summary: "Feedback",
+			detail:"Berhasil menghapus feedback produk."
+		},
+		error: {
+			severity:"error",
+			summary: "Feedback tidak terhapus.",
+			detail:"Terjadi masalah saat menghubungi server."
+		}
+	},
+	addProductFeedback: {
+		success: {
+			severity:"success",
+			summary: "Feedback",
+			detail:"Terima kasih atas tanggapan anda terhadap produk kami."
+		},
+		error: {
+			severity:"error",
+			summary: "Feedback tidak terkirim.",
+			detail:"Terjadi masalah saat menghubungi server."
+		}
 	}
 };
 

@@ -10,12 +10,14 @@ const props = defineProps({
 const imgSrc = ref(null);
 const styleImg = computed(() => ({ backgroundImage: `url('${ imgSrc.value }')` }));
 
+const isImgLoaded = ref(false);
 const load = src => {
 	imgSrc.value = null;
 	const targetImg = new Image();
 	targetImg.onload = () => {
 		imgSrc.value = props.src;
 		emit("loaded");
+		isImgLoaded.value = true;
 	};
 
 	targetImg.src = src;
@@ -24,10 +26,10 @@ const load = src => {
 load(props.src);
 watch(() => props.src, load);
 
-const previewImg = () => v3ImgPreviewFn(imgSrc.value);
+const previewImg = () => isImgLoaded.value && v3ImgPreviewFn(imgSrc.value);
 </script>
 <template>
-	<div class="bg-cover bg-center bg-no-repeat bg-gray-500 cursor-pointer" :style="styleImg" @click="previewImg">
+	<div :class="{ 'cursor-pointer': isImgLoaded }" :style="styleImg" @click="previewImg" class="bg-cover bg-center bg-no-repeat bg-gray-500">
 		<slot></slot>
 	</div>
 </template>

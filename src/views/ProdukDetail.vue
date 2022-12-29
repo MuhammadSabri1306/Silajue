@@ -74,8 +74,9 @@ const getCircleBgClass = key => productStore.colors[key]?.bg;
 								<div class="rounded-2xl overflow-hidden">
 									<BgImageAsync class="aspect-video" :src="product.image" />
 								</div>
+								<ProductFeedback :productId="productId" class="hidden md:block mt-16" />
 							</div>
-							<div class="p-4 md:flex items-center">
+							<div class="p-4">
 								<div class="relative">
 									<h6 class="text-4xl font-bold text-gray-900 md:mr-24">{{ product.name }}</h6>
 									<p class="text-base font-semibold text-gray-600 capitalize">{{ product.category?.name }}</p>
@@ -93,13 +94,11 @@ const getCircleBgClass = key => productStore.colors[key]?.bg;
 											<b>: {{ product.dam }}</b>
 											<span>Stok</span>
 											<b>: {{ product.stock }}</b>
-										</p>
-										<div class="flex items-center rounded bg-gray-800 mb-16 p-4 min-w-[12rem]">
-											<p class="text-white text-center text-sm font-semibold">Warna Straw</p>
-											<div class="grow flex items-center justify-center">
-												<div :class="getCircleBgClass(product.straw_color)" class="w-12 h-12 rounded-full border border-black"></div>
+											<div class="col-span-2 flex items-center gap-2">
+												<b>Warna Straw</b>
+												<div :class="getCircleBgClass(product.straw_color)" class="w-12 h-12 rounded-full border shadow-sm"></div>
 											</div>
-										</div>
+										</p>
 										<p class="font-bold whitespace-nowrap text-gray-800 text-right">Harga</p>
 										<p class="font-bold text-2xl whitespace-nowrap text-green-600 text-right">{{ textPrice }}</p>
 									</div>
@@ -112,13 +111,7 @@ const getCircleBgClass = key => productStore.colors[key]?.bg;
 								</div>
 							</div>
 						</div>
-						<div class="flex">
-							<div class="w-full md:w-1/2">
-
-								<ProductFeedback :productId="productId" />
-
-							</div>
-						</div>
+						<ProductFeedback :productId="productId" class="md:hidden" />
 					</div>
 				</div>
 				<div v-if="isSuggestLoaded" class="bg-gray-100 pt-16 pb-8">

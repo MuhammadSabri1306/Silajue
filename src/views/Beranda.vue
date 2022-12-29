@@ -120,9 +120,10 @@ const onSearchFormSubmit = (event) => {
 						</div>
 					</div>
 				</div>
-				<div class="container mb-32">
+				<div class="relative mb-32">
 					<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-						<div>
+						<BgImageAsync src="/assets/img/mockup.jpg" class="aspect-square md:aspect-auto md:h-full" />
+						<!-- <div>
 							<h6 class="text-4xl text-gray-900 font-bold">Feedback</h6>
 							<p class="text-gray-600 mb-12">Review dari pengguna layanan kami.</p>
 							<div class="flex flex-col gap-8">
@@ -154,10 +155,11 @@ const onSearchFormSubmit = (event) => {
 									</div>
 								</div>
 							</div>
-						</div>
-						<div>
-							<h6 class="text-2xl text-gray-700 font-semibold my-4">Berikan komentar anda</h6>
-							<div class="px-8 py-16 bg-white shadow-lg rounded border">
+						</div> -->
+						<div class="px-8 py-4">
+							<h6 class="text-4xl text-gray-900 font-bold">Feedback</h6>
+							<h6 class="text-2xl text-gray-700 font-semibold mb-4">Berikan komentar anda</h6>
+							<div class="px-8 py-16 md:w-[23rem] bg-white shadow-lg rounded border">
 								<form @submit.prevent="onFeedbackSubmit">
 									<div class="grid grid-cols-1 gap-4 mb-8">
 										<div class="input-group">
