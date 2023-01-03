@@ -9,7 +9,6 @@ import ProdukDetail from "./views/ProdukDetail.vue";
 import Blog from "./views/Blog.vue";
 import BlogDetail from "./views/BlogDetail.vue";
 import Account from "./views/Account.vue";
-import Panduan from "./views/Panduan.vue";
 import Invoice from "./views/Invoice.vue";
 
 import DashbHome from "./views/DashbHome.vue";
@@ -39,7 +38,6 @@ const routes = {
     blogDetail: { path: "/blog/detail/:slug", component: BlogDetail },
     login: { path: "/login", component: Account },
     register: { path: "/register", component: Account },
-    panduan: { path: "/guide", component: Panduan },
     invoice: { path: "/invoice", component: Invoice, meta: { needLogin: true } },
 
     dashboard: { path: "/app", component: DashbHome, meta: { needLogin: true } },

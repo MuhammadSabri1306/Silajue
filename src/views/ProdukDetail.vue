@@ -96,7 +96,7 @@ const getCircleBgClass = key => productStore.colors[key]?.bg;
 											<b>: {{ product.stock }}</b>
 											<div class="col-span-2 flex items-center gap-2">
 												<b>Warna Straw</b>
-												<div :class="getCircleBgClass(product.straw_color)" class="w-12 h-12 rounded-full border shadow-sm"></div>
+												<div :class="getCircleBgClass(product.straw_color)" class="w-12 h-12 rounded-full border border-gray-400 shadow-sm"></div>
 											</div>
 										</p>
 										<p class="font-bold whitespace-nowrap text-gray-800 text-right">Harga</p>

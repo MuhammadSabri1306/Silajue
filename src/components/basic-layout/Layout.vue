@@ -12,8 +12,7 @@ const navItems = [
 	{ title: "Beranda", target: "/", routeItems: ["beranda"] },
 	{ title: "Tentang", target: "/about", routeItems: ["tentang"] },
 	{ title: "Produk", target: "/product", routeItems: ["produk", "produkKategori", "produkDetail"] },
-	{ title: "Blog", target: "/blog", routeItems: ["blog", "blogDetail"] },
-	{ title: "Panduan", target: "/guide", routeItems: ["panduan"] }
+	{ title: "Blog", target: "/blog", routeItems: ["blog", "blogDetail"] }
 ];
 
 const userStore = useUserStore();
