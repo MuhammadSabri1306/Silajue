@@ -8,6 +8,8 @@ import SectionBlogSuggest from "@/components/SectionBlogSuggest.vue";
 const blogStore = useBlogStore();
 
 const blogList = computed(() => blogStore.blogs);
+const mostRead = computed(() => blogStore.mostRead);
+const editorPick = computed(() => blogStore.editorPick);
 
 if(blogList.value.length < 1)
 	blogStore.fetchBlog();
@@ -44,11 +46,11 @@ if(blogList.value.length < 1)
 							<div class="flex flex-col pb-8 md:pt-8">
 								<div class="pr-4 md:pr-8 pl-4 md:pl-0 mb-16">
 									<p class="text-lg font-semibold text-gray-900 mb-4 bg-yellow-400/50 p-4">Paling banyak dibaca</p>
-									<SectionBlogSuggest />
+									<SectionBlogSuggest :suggests="mostRead" />
 								</div>
 								<div class="pr-4 md:pr-8 pl-4 md:pl-0">
 									<p class="text-lg font-semibold text-gray-900 mb-4 bg-yellow-400/50 p-4">Pilihan editor</p>
-									<SectionBlogSuggest />
+									<SectionBlogSuggest :suggests="editorPick" />
 								</div>
 							</div>
 						</div>

@@ -15,6 +15,20 @@ export const useBlogStore = defineStore("blog", {
 					return null;
 				return state.blogs.find(item => item.id == id);
 			};
+		},
+
+		mostRead: state => {
+			const blogs = state.blogs;
+			if(blogs.length < 1)
+				return [];
+			return blogs.slice(-3).reverse(); 
+		},
+
+		editorPick: state => {
+			const blogs = state.blogs;
+			if(blogs.length < 1)
+				return [];
+			return blogs.slice(0, 1); 
 		}
 	
 	},

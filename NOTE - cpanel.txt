@@ -1,0 +1,3 @@
+cPanel: silajue.diskeswan.sulselprov.go.id:2083
+| UserName: silajuesulsel
+| PassWord: #Sulseljayas1l4jue

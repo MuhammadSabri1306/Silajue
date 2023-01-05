@@ -27,19 +27,33 @@ const blogDate = computed(() => {
 });
 
 const viewStore = useViewStore();
-http.get("/blog/" + blogSlug.value)
-	.then(response => {
-		const currBlog = response.data.data;
-		if(!currBlog)
-			return console.log(response.data);
+const fetchCurrBlog = slug => {
+	http.get("/blog/" + slug)
+		.then(response => {
+			const currBlog = response.data.data;
+			if(!currBlog)
+				return console.log(response.data);
 
-		blog.value = currBlog;
-		isBlogLoaded.value = true;
-	})
-	.catch(err => {
-		console.error(err);
-		viewStore.showToast("fetchData", false);
-	});
+			blog.value = currBlog;
+			isBlogLoaded.value = true;
+		})
+		.catch(err => {
+			console.error(err);
+			viewStore.showToast("fetchData", false);
+		});
+};
+
+fetchCurrBlog(route.params.slug);
+watch(() => route.params.slug, fetchCurrBlog);
+
+const blogStore = useBlogStore();
+
+const blogList = computed(() => blogStore.blogs);
+const mostRead = computed(() => blogStore.mostRead);
+const editorPick = computed(() => blogStore.editorPick);
+
+if(blogList.value.length < 1)
+	blogStore.fetchBlog();
 </script>
 <template>
 	<BasicLayout>
@@ -82,13 +96,17 @@ http.get("/blog/" + blogSlug.value)
 							</article>
 						</div>
 						<div class="pb-8 md:pt-8">
-							<div class="mb-8">
+							<div class="mb-16">
 								<p class="hidden md:block text-xl font-semibold text-gray-900 mb-4">Share</p>
 								<SectionBlogShare class="fixed right-0 bottom-0 w-full md:static" />
 							</div>
+							<div class="pr-4 md:pr-8 pl-4 md:pl-0 mb-16">
+								<p class="text-lg font-semibold text-gray-900 mb-4 bg-yellow-400/50 p-4">Paling banyak dibaca</p>
+								<SectionBlogSuggest :suggests="mostRead" />
+							</div>
 							<div class="pr-4 md:pr-8 pl-4 md:pl-0">
-								<p class="text-xl font-semibold text-gray-900 mb-4">Artikel terkait</p>
-								<SectionBlogSuggest :id="1" />
+								<p class="text-lg font-semibold text-gray-900 mb-4 bg-yellow-400/50 p-4">Pilihan editor</p>
+								<SectionBlogSuggest :suggests="editorPick" />
 							</div>
 						</div>
 					</div>
@@ -101,10 +119,6 @@ http.get("/blog/" + blogSlug.value)
 
 .blog-content {
 	@apply text-gray-700;
-}
-
-.blog-content :deep(p) {
-	@apply mb-4;
 }
 
 .blog-content :deep(strong) {

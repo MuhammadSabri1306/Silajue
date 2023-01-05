@@ -1,37 +1,24 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { computed } from "vue";
 import { getPostSuggestions } from "@/modules/sample-products";
 import BgImageAsync from "@/components/BgImageAsync.vue";
 
-const props = defineProps(["id"]);
+const props = defineProps({
+	suggests: { type: Array, default: [] }
+});
 
-const suggests = reactive([]);
-const isSuggestLoaded = ref(false);
-
-const onFetchSuccess = response => {
-	if(!response.blog)
-		return;
-	
-	response.blog.forEach(item => suggests.push(item));
-	isSuggestLoaded.value = true;
-};
-
-const onFetchError = err => console.error(err);
-
-if(!props.id)
-	getPostSuggestions(props.id).then(onFetchSuccess).catch(onFetchError);
-else
-	getPostSuggestions().then(onFetchSuccess).catch(onFetchError);
+const list = computed(() => props.suggests);
+const getUrl = slug => "/blog/detail/" + slug;
 </script>
 <template>
-	<div v-if="isSuggestLoaded" class="grid grid-cols-1 gap-8">
-		<div v-for="item in suggests" class="grid grid-cols-[1fr_2fr] gap-2">
+	<div v-if="list.length > 0" class="grid grid-cols-1 gap-8">
+		<router-link v-for="item in list" :to="getUrl(item.slug)" class="grid grid-cols-[1fr_2fr] gap-2">
 			<div class="flex items-center">
-				<BgImageAsync class="aspect-[1.2/1] w-full" :src="item.img" />
+				<BgImageAsync class="aspect-[1.2/1] w-full" :src="item.image" />
 			</div>
 			<div class="flex items-center">
 				<h6 class="font-semibold text-gray-800">{{ item.title }}</h6>
 			</div>
-		</div>
+		</router-link>
 	</div>
 </template>

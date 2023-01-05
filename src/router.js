@@ -25,6 +25,7 @@ import DashbUser from "./views/DashbUser.vue";
 import DashbSocial from "./views/DashbSocial.vue";
 
 import ScanInvoice from "./views/ScanInvoice.vue";
+import ErrorNotFound from "./views/ErrorNotFound.vue";
 
 const useBuildPath = true;
 const routes = {
@@ -54,7 +55,8 @@ const routes = {
     dashbUser: { path: "/app/users", component: DashbUser, meta: { needAdminRole: true } },
     dashbSocial: { path: "/app/social", component: DashbSocial, meta: { needAdminRole: true } },
 
-    scanInvoice: { path: "/app/scan-qr", component: ScanInvoice }
+    scanInvoice: { path: "/app/scan-qr", component: ScanInvoice },
+    e404: { path: "/:pathMatch(.*)*", component: ErrorNotFound }
 };
 
 const defineMyRouter = routesObj => {
