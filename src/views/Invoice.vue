@@ -46,7 +46,7 @@ const qrCode = ref(null);
 							<span class="icon">
 								<font-awesome-icon icon="fa-solid fa-building-columns" fixed-width />
 							</span>
-							<span>Daftar Bank</span>
+							<span class="whitespace-nowrap">Metode Pembayaran</span>
 						</button>
 						<button type="button" @click="showGuideModal = true" class="btn-help border hover-margin border-transparent border-bg-green-600 bg-transparent hover:bg-green-200">
 							<span class="icon">
