@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive, computed, watch, onMounted, onUnmounted } from "vue";
 import { useUserStore } from "@/stores/user";
+import { useViewStore } from "@/stores/view";
 import http from "@/modules/http-common";
 import Listbox from "primevue/listbox";
 import { useDataForm } from "@/modules/data-form";
@@ -9,6 +10,8 @@ import BasicLayout from "@/components/basic-layout/Layout.vue";
 import BgImageAsync from "@/components/BgImageAsync.vue";
 // import UploadIdCard from "@/components/UploadIdCard.vue";
 import ModalUploadImg from "@/components/ModalUploadImg.vue";
+import LoaderHorizontalLine from "@/components/LoaderHorizontalLine.vue";
+import ModalUpdatePassword from "@/components/ModalUpdatePassword.vue";
 
 const { data, v$ } = useDataForm({
 	name: { value: null },
@@ -126,7 +129,30 @@ watch(
 	idDesa => data.villageId = idDesa
 );
 
-const onSave = event => null;
+const showLoadingIcon = ref(false);
+const viewStore = useViewStore();
+const onSave = () => {
+	const headers = { "Authorization": "Bearer " + userStore.token };
+	const body = {
+		name: data.name,
+		phone_number: data.phoneNumber,
+		village_id: data.villageId.toString(),
+		address: data.address,
+		nric: data.nric
+	};
+
+	showLoadingIcon.value = true;
+	http.post("/user/profile", body, { headers })
+		.then(response => {
+			viewStore.showToast("updateProfile", true);
+			showLoadingIcon.value = false;
+		})
+		.catch(err => {
+			console.error(err);
+			viewStore.showToast("updateProfile", false);
+			showLoadingIcon.value = false;
+		});
+};
 const profileSection = ref(1);
 
 const uploadIdCardElm = ref(null);
@@ -187,6 +213,12 @@ const updateAvatar = avatarImg => {
 };
 
 const isRoleAdmin = computed(() => userStore.isRoleAdmin);
+
+const modalPass = ref(null);
+const showModalPass = ref(false);
+const updatePass = newPass => {
+	console.log(newPass);
+};
 </script>
 <template>
 	<BasicLayout>
@@ -218,107 +250,119 @@ const isRoleAdmin = computed(() => userStore.isRoleAdmin);
 								</ul>
 							</div>
 							<div class="relative">
-								<Transition name="fade">
-									<section v-if="profileSection == 1 || isRoleAdmin" class="profile-section">
-										<div class="input-group">
-											<label for="inputName">Nama Lengkap</label>
-											<input type="text" v-model="v$.name.$model" id="inputName">
-										</div>
-										<div class="input-group">
-											<label for="inputEmail">Email</label>
-											<input type="email" v-model="v$.email.$model" id="inputEmail">
-										</div>
-										<div class="input-group mb-4">
-											<label for="inputTelp">No. Telepon</label>
-											<input type="tele" v-model="v$.phoneNumber.$model" id="inputTelp">
-										</div>
-										<div class="input-group flex items-center">
-											<label>Password</label>
-											<button type="button" class="ml-4 px-4 py-2 inline-flex gap-1 justify-center items-center rounded shadow-sm hover-margin text-gray-700 bg-yellow-300 hover:bg-yellow-200">
-												<span class="text-lg">
-													<font-awesome-icon icon="fa-solid fa-key" fixed-width />
-												</span>
-												<span class="text-xs font-medium">Reset Password</span>
-											</button>
-										</div>
-										<div class="flex justify-end pt-12">
-											<button type="button" @click="onSave" class="py-2 px-4 rounded font-medium text-white hover-margin bg-primary-600 hover:bg-primary-500">Simpan Perubahan</button>
-										</div>
-									</section>
-								</Transition>
-								<Transition name="fade">
-									<section v-if="profileSection == 2 && !isRoleAdmin" class="profile-section">
-										<div class="input-group">
-											<label for="inputProvinsi">Provinsi</label>
-											<div class="listbox-wrapper" @click.stop="">
-												<input :value="prov.text" type="text" id="inputProvinsi" class="focus-shadow" readonly required @click="prov.showListbox = true">
-												<div v-if="prov.showListbox" class="listbox listbox-region top-full">
-													<Listbox :options="prov.list" optionLabel="name" :filter="true" @change="onProvChange" />
+								<form @submit.prevent="onSave">
+									<Transition name="fade">
+										<section v-if="profileSection == 1 || isRoleAdmin" class="profile-section">
+											<div class="input-group">
+												<label for="inputName">Nama Lengkap</label>
+												<input type="text" v-model="v$.name.$model" id="inputName">
+											</div>
+											<div class="input-group">
+												<label for="inputEmail">Email</label>
+												<input type="email" :value="data.email" id="inputEmail" disabled>
+											</div>
+											<div class="input-group mb-4">
+												<label for="inputTelp">No. Telepon</label>
+												<input type="tele" v-model="v$.phoneNumber.$model" id="inputTelp">
+											</div>
+											<div class="input-group flex items-center">
+												<label>Password</label>
+												<button type="button" @click="showModalPass = true" class="ml-4 px-4 py-2 inline-flex gap-1 justify-center items-center rounded shadow-sm hover-margin text-gray-700 bg-yellow-300 hover:bg-yellow-200">
+													<span class="text-lg">
+														<font-awesome-icon icon="fa-solid fa-key" fixed-width />
+													</span>
+													<span class="text-xs font-medium">Update Password</span>
+												</button>
+											</div>
+											<div class="flex justify-end pt-12">
+												<button type="submit" class="btn btn-icon rounded font-medium text-white gap-1 hover-margin bg-primary-600 hover:bg-primary-500">
+													<span v-show="showLoadingIcon"><font-awesome-icon icon="fa-solid fa-circle-notch" spin fixed-width /></span>
+													<span>Simpan Perubahan</span>
+												</button>
+											</div>
+										</section>
+									</Transition>
+									<Transition name="fade">
+										<section v-if="profileSection == 2 && !isRoleAdmin" class="profile-section">
+											<div class="input-group">
+												<label for="inputProvinsi">Provinsi</label>
+												<div class="listbox-wrapper" @click.stop="">
+													<input :value="prov.text" type="text" id="inputProvinsi" class="focus-shadow" readonly required @click="prov.showListbox = true">
+													<div v-if="prov.showListbox" class="listbox listbox-region top-full">
+														<Listbox :options="prov.list" optionLabel="name" :filter="true" @change="onProvChange" />
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="input-group">
-											<label for="inputKab">Kabupaten</label>
-											<div class="listbox-wrapper" @click.stop="">
-												<input type="text" :value="kab.text" :disabled="!kab.idProv" id="inputKab" class="focus-shadow" readonly required @click="kab.showListbox = true">
-												<div v-if="kab.showListbox" class="listbox listbox-region top-full">
-													<Listbox :options="kab.list" optionLabel="name" :filter="true" @change="onKabChange" />
+											<div class="input-group">
+												<label for="inputKab">Kabupaten</label>
+												<div class="listbox-wrapper" @click.stop="">
+													<input type="text" :value="kab.text" :disabled="!kab.idProv" id="inputKab" class="focus-shadow" readonly required @click="kab.showListbox = true">
+													<div v-if="kab.showListbox" class="listbox listbox-region top-full">
+														<Listbox :options="kab.list" optionLabel="name" :filter="true" @change="onKabChange" />
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="input-group">
-											<label for="inputKec">Kecamatan</label>
-											<div class="listbox-wrapper" @click.stop="">
-												<input type="text" :value="kec.text" :disabled="!kec.idKab" @click="kec.showListbox = true" id="inputKec" class="focus-shadow" readonly required>
-												<div v-if="kec.showListbox" class="listbox listbox-region top-full">
-													<Listbox :options="kec.list" optionLabel="name" :filter="true" @change="onKecChange" />
+											<div class="input-group">
+												<label for="inputKec">Kecamatan</label>
+												<div class="listbox-wrapper" @click.stop="">
+													<input type="text" :value="kec.text" :disabled="!kec.idKab" @click="kec.showListbox = true" id="inputKec" class="focus-shadow" readonly required>
+													<div v-if="kec.showListbox" class="listbox listbox-region top-full">
+														<Listbox :options="kec.list" optionLabel="name" :filter="true" @change="onKecChange" />
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="input-group">
-											<label for="inputDesa">Desa/Kelurahan</label>
-											<div class="listbox-wrapper" @click.stop="">
-												<input type="text" :value="desa.text" :disabled="!desa.idKec" @click="desa.showListbox = true" id="inputDesa" class="focus-shadow" readonly required>
-												<div v-if="desa.showListbox" class="listbox listbox-region bottom-full">
-													<Listbox :options="desa.list" optionLabel="name" :filter="true" @change="onDesaChange" />
+											<div class="input-group">
+												<label for="inputDesa">Desa/Kelurahan</label>
+												<div class="listbox-wrapper" @click.stop="">
+													<input type="text" :value="desa.text" :disabled="!desa.idKec" @click="desa.showListbox = true" id="inputDesa" class="focus-shadow" readonly required>
+													<div v-if="desa.showListbox" class="listbox listbox-region bottom-full">
+														<Listbox :options="desa.list" optionLabel="name" :filter="true" @change="onDesaChange" />
+													</div>
 												</div>
 											</div>
-										</div>
-										<div :class="{ 'invalid': v$.address.$invalid && hasSubmitted }" class="input-group">
-											<label for="textAddress" class="text-shadow-white">Jalan *</label>
-											<textarea v-model="v$.address.$model" id="textAddress" rows="3" class="focus-shadow" required></textarea>
-										</div>
-										<div class="flex justify-end pt-12">
-											<button type="button" @click="onSave" class="py-2 px-4 rounded font-medium text-white hover-margin bg-primary-600 hover:bg-primary-500">Simpan Perubahan</button>
-										</div>
-									</section>
-								</Transition>
-								<Transition name="fade">
-									<section v-if="profileSection == 3 && !isRoleAdmin" class="profile-section">
-										<div class="input-group mb-8">
-											<label for="inputNric">No. NIK</label>
-											<input type="tele" v-model="v$.nric.$model" id="inputNric">
-										</div>
-										<div>
-											<button v-if="!data.identityCard" type="button" @click="showUploadIdCard = true" class="btn text-sm font-medium text-white transition-colors bg-gray-500 hover:bg-gray-400">Verifikasi Akun</button>
-											<div v-else>
-												<div class="aspect-video rounded-2xl overflow-hidden mb-4">
-													<BgImageAsync :src="data.identityCard" class="w-full h-full" />
-												</div>
-												<button type="button" @click="showUploadIdCard = true" class="btn text-sm font-medium text-white transition-colors bg-gray-500 hover:bg-gray-400">Ganti</button>
+											<div class="input-group">
+												<label for="textAddress" class="text-shadow-white">Jalan *</label>
+												<textarea v-model="v$.address.$model" id="textAddress" rows="3" class="focus-shadow" required></textarea>
 											</div>
-										</div>
-										<div class="flex justify-end pt-12">
-											<button type="button" @click="onSave" class="py-2 px-4 rounded font-medium text-white hover-margin bg-primary-600 hover:bg-primary-500">Simpan Perubahan</button>
-										</div>
-									</section>
-								</Transition>
+											<div class="flex justify-end pt-12">
+												<button type="submit" class="btn btn-icon rounded font-medium text-white gap-1 hover-margin bg-primary-600 hover:bg-primary-500">
+													<span v-show="showLoadingIcon"><font-awesome-icon icon="fa-solid fa-circle-notch" spin fixed-width /></span>
+													<span>Simpan Perubahan</span>
+												</button>
+											</div>
+										</section>
+									</Transition>
+									<Transition name="fade">
+										<section v-if="profileSection == 3 && !isRoleAdmin" class="profile-section">
+											<div class="input-group mb-8">
+												<label for="inputNric">No. NIK</label>
+												<input type="tele" v-model="v$.nric.$model" id="inputNric">
+											</div>
+											<div>
+												<button v-if="!data.identityCard" type="button" @click="showUploadIdCard = true" class="btn text-sm font-medium text-white transition-colors bg-gray-500 hover:bg-gray-400">Verifikasi Akun</button>
+												<div v-else>
+													<div class="aspect-video rounded-2xl overflow-hidden mb-4">
+														<BgImageAsync :src="data.identityCard" class="w-full h-full" />
+													</div>
+													<button type="button" @click="showUploadIdCard = true" class="btn text-sm font-medium text-white transition-colors bg-gray-500 hover:bg-gray-400">Ganti</button>
+												</div>
+											</div>
+											<div class="flex justify-end pt-12">
+												<button type="submit" class="btn btn-icon rounded font-medium text-white gap-1 hover-margin bg-primary-600 hover:bg-primary-500">
+													<span v-show="showLoadingIcon"><font-awesome-icon icon="fa-solid fa-circle-notch" spin fixed-width /></span>
+													<span>Simpan Perubahan</span>
+												</button>
+											</div>
+										</section>
+									</Transition>
+								</form>
 							</div>
 						</div>
 					</div>
 				</div>
 				<ModalUploadImg v-if="showUploadIdCard" ref="uploadIdCardElm" title="Verifikasi Akun" label="Upload Foto KTP" @change="updateIdCard" />
 				<ModalUploadImg v-if="showUploadAvatar" ref="uploadAvatarElm" title="Foto Profil" label="Upload Foto Profil" @change="updateAvatar" />
+				<ModalUpdatePassword v-if="showModalPass" ref="modalPass" @update="updatePass" @close="showModalPass = false" />
 			</div>
 		</template>
 	</BasicLayout>

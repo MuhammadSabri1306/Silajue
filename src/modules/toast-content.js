@@ -204,6 +204,30 @@ const toastContent = {
 			summary: "Feedback tidak terkirim.",
 			detail:"Terjadi masalah saat menghubungi server."
 		}
+	},
+	updateProfile: {
+		success: {
+			severity:"success",
+			summary: "Profil",
+			detail:"Berhasil memperbarui profil."
+		},
+		error: {
+			severity:"error",
+			summary: "Gagal memperbarui Profil.",
+			detail:"Terjadi masalah saat menghubungi server."
+		}
+	},
+	updatePassword: {
+		success: {
+			severity:"success",
+			summary: "Password",
+			detail:"Berhasil memperbarui Password."
+		},
+		error: {
+			severity:"error",
+			summary: "Gagal memperbarui Password.",
+			detail:"Terjadi masalah saat menghubungi server."
+		}
 	}
 };
 

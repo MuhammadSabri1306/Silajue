@@ -103,7 +103,7 @@ const onConfirmInvoice = async (status) => {
 					</button>
 				</div>
 				<div v-if="currInvoice" class="relative">
-					<div class="rounded-2xl bg-white shadow-lg border overflow-hidden p-8 text-gray-700">
+					<div class="md:rounded-2xl md:bg-white md:shadow-lg border-t md:border overflow-hidden py-8 md:px-8 text-gray-700">
 						<div class="flex items-start">
 							<div>
 								<h6 class="font-semibold text-lg text-gray-800 mb-2">{{ currInvoice.noInvoice }}</h6>
@@ -114,7 +114,7 @@ const onConfirmInvoice = async (status) => {
 								<font-awesome-icon icon="fa-solid fa-bookmark" fixed-width />
 							</span>
 						</div>
-						<div class="my-16 grid grid-cols-2 gap-4">
+						<div class="my-16 grid grid-cols-1 md:grid-cols-2 gap-4">
 							<div>
 								<p class="text-center font-semibold text-sm mb-2">Kartu Tanda Penduduk</p>
 								<BgImageAsync :src="currInvoice.userIdCard" class="w-full aspect-video rounded-2xl" />
@@ -124,7 +124,7 @@ const onConfirmInvoice = async (status) => {
 								<BgImageAsync :src="currInvoice.transferNote" class="w-full aspect-video rounded-2xl" />
 							</div>
 						</div>
-						<div v-if="currInvoice.status == 'pengajuan verifikasi'" class="mb-16 flex justify-center items-center bg-gray-100 p-8">
+						<div v-if="currInvoice.status == 'pengajuan verifikasi'" class="mb-16 flex flex-wrap justify-center items-center bg-gray-100 p-8">
 							<button type="button" @click="onConfirmInvoice('aktif')" class="px-4 py-3 rounded btn-icon text-white hover-margin bg-green-600 hover:bg-green-500">
 								<span class="text-2xl mr-2">
 									<font-awesome-icon icon="fa-solid fa-check" />
@@ -132,7 +132,7 @@ const onConfirmInvoice = async (status) => {
 								<span>Aktifkan Invoice</span>
 							</button>
 						</div>
-						<div v-if="currInvoice.status == 'aktif'" class="mb-16 flex justify-center items-center bg-gray-100 p-8 gap-8">
+						<div v-if="currInvoice.status == 'aktif'" class="mb-16 flex flex-wrap justify-center items-center bg-gray-100 p-8 gap-8">
 							<button type="button" @click="onConfirmInvoice('verifikasi')" class="px-4 py-3 rounded btn-icon text-white hover-margin bg-yellow-400 hover:bg-yellow-300">
 								<span class="text-2xl mr-2">
 									<font-awesome-icon icon="fa-solid fa-angle-left" />

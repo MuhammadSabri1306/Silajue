@@ -81,11 +81,11 @@
 
 	.input-group input,
 	.input-group textarea {
-		@apply block w-full px-4 py-2 text-sm focus:shadow-none rounded transition-colors bg-gray-100 border;
+		@apply block w-full px-4 py-2 text-sm focus:shadow-none rounded transition-colors bg-gray-100 border disabled:text-gray-500;
 	}
 
-	.input-group.invalid {
-		@apply border-danger-500;
+	.input-group .invalid {
+		@apply border-danger-400;
 	}
 
 	.input-group label {
