@@ -135,11 +135,9 @@ const sendRequest = body => {
 		.then(response => {
 			viewStore.showToast("saveProduct", true);
 			showLoadingIcon.value = false;
-
-			if(!productId.value) {
-				productStore.fetchProducts(true);
+			productStore.fetchProducts(true);
+			if(!productId.value)
 				router.push("/app/product");
-			}
 		})
 		.catch(err => {
 			console.error(err);
@@ -216,7 +214,7 @@ const updateBirth = event => {
 			<div>
 				<h3 class="page-title">Data Produk</h3>
 				<div class="flex items-end mb-8">
-					<button type="button" @click="back" class="btn-icon text-gray-600 rounded px-3 py-2 mr-auto transition-colors bg-white hover:bg-gray-100">
+					<button type="button" @click="$router.push('/app/product')" class="btn-icon text-gray-600 rounded px-3 py-2 mr-auto transition-colors bg-white hover:bg-gray-100">
 						<font-awesome-icon icon="fa-solid fa-arrow-left-long" fixed-width />
 						<span class="text-sm ml-2">Kembali</span>
 					</button>

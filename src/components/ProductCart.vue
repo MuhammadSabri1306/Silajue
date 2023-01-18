@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed } from "vue";
+import { ref, reactive, computed, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useProductStore } from "@/stores/product";
 import { useUserStore } from "@/stores/user";
@@ -9,22 +9,21 @@ import http from "@/modules/http-common";
 import { createInvoiceCode } from "@/modules/invoice";
 
 const productStore = useProductStore();
-productStore.readCartCookie();
 const carts = computed(() => productStore.carts);
+
+const isCartLoaded = ref(false);
+productStore.readCartCookie();
 
 defineEmits(["hide"]);
 const data = reactive([]);
-const disableSubmit = computed(() => data.length < 1);
+const isAvailable = ref(true);
+const disableSubmit = computed(() => !isAvailable.value || carts.value.length < 1);
 
 const userStore = useUserStore();
 const isRolePublic = computed(() => userStore.isRolePublic);
 const router = useRouter();
 const route = useRoute();
 const viewStore = useViewStore();
-
-const removeItem = itemId => {
-	productStore.deleteCartItem(itemId);
-};
 
 const newInvoice = (dataInvoice, totalPrice) => {
 	const headers = { "Authorization": "Bearer " + userStore.token };
@@ -67,8 +66,20 @@ const submitInvoice = () => {
 			};
 		})
 		.filter(item => item !== null);
-	// console.log(dataInvoice);
+	
 	newInvoice(productInvoice, totalPrice);
+};
+
+const checkDataStock = () => {
+	for(let i=0; i<data.length; i++) {
+		const productItem = carts.value.find(item => item.id === data[i]);
+		if(!productItem)
+			return;
+		if(productItem && Number(productItem.stock) < 1) {
+			isAvailable.value = false;
+			i = data.length;
+		}
+	}
 };
 
 const toggleData = productId => {
@@ -77,6 +88,16 @@ const toggleData = productId => {
 		data.push(productId);
 	else
 		data.splice(index, 1);
+	nextTick(() => checkDataStock());
+};
+
+const removeItem = itemId => {
+	const index = data.indexOf(itemId);
+	if(index >= 0)
+		data.splice(index, 1);
+
+	productStore.deleteCartItem(itemId);
+	nextTick(() => checkDataStock());
 };
 
 const formatPrice = item => {

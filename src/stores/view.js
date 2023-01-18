@@ -5,7 +5,8 @@ export const useViewStore = defineStore("view", {
 	state: () => ({
 		showSidebar: false,
 		sidebarWidth: "70vw",
-		toastContent: null
+		toastContent: {},
+		toastCounter: 0
 	}),
 	getters: {},
 	actions: {
@@ -25,6 +26,7 @@ export const useViewStore = defineStore("view", {
 				return console.warn("modules/toast: unknown status of toast.");
 
 			this.toastContent = toastContent[type][status];
+			this.toastCounter++;
 		}
 	}
 });

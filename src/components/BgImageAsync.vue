@@ -8,9 +8,13 @@ const props = defineProps({
 });
 
 const imgSrc = ref(null);
-const styleImg = computed(() => ({ backgroundImage: `url('${ imgSrc.value }')` }));
-
 const isImgLoaded = ref(false);
+const styleImg = computed(() => {
+	if(!isImgLoaded.value)
+		return {};
+	return { backgroundImage: `url('${ imgSrc.value }')` };
+});
+
 const load = src => {
 	imgSrc.value = null;
 	const targetImg = new Image();
@@ -27,9 +31,14 @@ load(props.src);
 watch(() => props.src, load);
 
 const previewImg = () => isImgLoaded.value && v3ImgPreviewFn(imgSrc.value);
+const imgClass = computed(() => {
+	if(!isImgLoaded.value)
+		return ["skeleton-loader"];
+	return ["cursor-pointer", "bg-cover", "bg-center", "bg-no-repeat"];
+});
 </script>
 <template>
-	<div :class="{ 'cursor-pointer': isImgLoaded }" :style="styleImg" @click="previewImg" class="bg-cover bg-center bg-no-repeat bg-gray-500">
+	<div :style="styleImg" @click="previewImg" :class="imgClass">
 		<slot></slot>
 	</div>
 </template>

@@ -168,8 +168,8 @@ const isRoleOperator = computed(() => userStore.isRoleOperator);
 						<p class="count-number">{{ countSoldProduct.data }}</p>
 					</div>
 				</div>
-				<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-					<div v-if="countIncome.loaded" class="chart card-chart hover-opacity bg-gray-900">
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+					<div v-if="countIncome.loaded" class="chart card-chart hover-opacity bg-gray-900 md:col-span-2 lg:col-span-1">
 						<h6 class="count-title-lg">Pendapatan</h6>
 						<div class="flex justify-center items-end">
 							<p class="count-number-sm">{{ formatCountIncome }}</p>

@@ -11,7 +11,8 @@ import "primevue/resources/themes/bootstrap4-light-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
 
-import "./style.css";
+import "./styles/skeleton.css";
+import "./styles/style.css";
 import App from "./App.vue";
 
 const app = createApp(App);

@@ -13,8 +13,9 @@ const productStore = useProductStore();
 productStore.fetchCategories();
 productStore.fetchProducts();
 
-const isSexing = ref(true);
 const categoryId = ref(null);
+const isSexing = computed(() => productStore.isSexing);
+const toggleSexing = () => productStore.setSexing(!isSexing.value);
 
 const sexingCategories = computed(() => productStore.sexingCategories);
 const unsexingCategories = computed(() => productStore.unsexingCategories);
@@ -57,7 +58,7 @@ const toEditPage = productId => router.push("/app/product/edit/" + productId);
 					<div class="flex gap-4 mb-8">
 						<div class="input-group table-filter">
 							<label class="mr-2 mb-0">Sexing</label>
-							<SwitchToggle :value="isSexing" @toggle="val => isSexing = val" />
+							<SwitchToggle :value="isSexing" @toggle="toggleSexing" />
 						</div>
 						<div class="input-group table-filter">
 							<label class="mr-2 mb-0">Kategori</label>

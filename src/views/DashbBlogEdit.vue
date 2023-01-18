@@ -73,7 +73,7 @@ const saveBlog = formData => {
 		})
 		.catch(err => {
 			viewStore.showToast("saveBlog", false);
-		})
+		});
 };
 
 const onSubmit = async () => {

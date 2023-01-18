@@ -10,7 +10,7 @@ export const useProductStore = defineStore("product", {
 		products: [],
 		categories: [],
 		carts: [],
-		isSexing: true,
+		isSexing: false,
 		currProduct: {},
 		invoice: [],
 		invoiceUser: [],
@@ -84,10 +84,11 @@ export const useProductStore = defineStore("product", {
 	
 	},
 	actions: {
-		readCartCookie() {
+		readCartCookie(callback = null) {
 			const cartData = getCart();
 			if(cartData)
 				this.carts = cartData;
+			callback && callback();
 		},
 
 		addToCart({ itemCount, product }) {

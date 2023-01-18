@@ -127,16 +127,16 @@ body > #app > div,
 }
 
 #dashbWrapper {
-	@apply w-screen flex overflow-x-hidden;
+	@apply w-screen overflow-x-hidden;
 }
 
 .sidebar {
-	@apply fixed md:static h-screen top-0 left-[-18rem] w-[18rem] z-[10] bg-gray-900 overflow-x-hidden ml-0;
-	transition: left 0.3s, margin-left 0.3s;
+	@apply fixed h-screen top-0 left-[-18rem] md:left-0 w-[18rem] z-[8889] bg-gray-900 overflow-x-hidden;
+	transition: left 0.3s;
 }
 
 .toggle-sidebar .sidebar {
-	@apply left-0 md:ml-[-18rem];
+	@apply left-0 md:left-[-18rem];
 }
 
 .nav-brand {
@@ -168,16 +168,16 @@ body > #app > div,
 }
 
 #content {
-	@apply w-screen md:w-auto overflow-x-hidden overflow-y-auto md:grow ml-0 h-screen text-gray-800 flex flex-col items-stretch relative;
-	transition: margin-left 0.3s;
+	@apply w-full md:w-[calc(100%-18rem)] overflow-x-hidden overflow-y-auto md:grow md:ml-[18rem] h-screen text-gray-800 flex flex-col items-stretch relative;
+	transition: margin-left 0.3s, width 0.3s;
 }
 
 #content > *:not(nav) {
-	@apply w-screen md:w-auto;
+	@apply w-full md:w-auto;
 }
 
 .toggle-sidebar #content {
-	@apply ml-[18rem] md:ml-0;
+	@apply ml-[18rem] md:ml-0 md:w-full;
 }
 
 .navbar {

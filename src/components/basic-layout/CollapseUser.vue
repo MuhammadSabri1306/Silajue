@@ -72,7 +72,7 @@ const avatarUser = computed(() => userStore.profile.avatar);
 }
 
 .navbar-collapse {
-	@apply absolute top-full right-0 min-w-[16rem] mt-2 bg-white rounded border shadow-lg overflow-hidden grid grid-cols-1;
+	@apply absolute z-10 top-full right-0 min-w-[16rem] mt-2 bg-white rounded border shadow-lg overflow-hidden grid grid-cols-1;
 }
 
 .navbar-collapse > *:not(:last-child) {

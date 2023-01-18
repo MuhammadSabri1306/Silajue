@@ -2,15 +2,7 @@
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
-import { useViewStore } from "@/stores/view";
-import { useToast } from "primevue/usetoast";
-
-const viewStore = useViewStore();
-const toast = useToast();
-
-const watcherSrc = () => viewStore.toastContent;
-const watcherCall = toastContent => toast.add(toastContent);
-watch(watcherSrc, watcherCall);
+import Toast from "@/components/ui/Toast.vue";
 
 const userStore = useUserStore();
 userStore.checkUserCookie();
@@ -32,6 +24,6 @@ router.beforeEach((to, from) => {
 <template>
     <div>
         <router-view :key="viewKey"></router-view>
-        <Toast position="bottom-right" class="z-[9999]" />
+        <Toast />
     </div>
 </template>

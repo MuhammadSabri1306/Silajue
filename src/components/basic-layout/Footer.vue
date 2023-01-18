@@ -4,11 +4,43 @@ import { useSocialStore } from "@/stores/social";
 
 const socialStore = useSocialStore();
 
-const urlFb = computed(() => socialStore.social && socialStore.social.facebook ? socialStore.social.facebook : "#");
-const urlIg = computed(() => socialStore.social && socialStore.social.instagram ? socialStore.social.instagram : "#");
-const urlTw = computed(() => socialStore.social && socialStore.social.twitter ? socialStore.social.twitter : "#");
-const urlWa = computed(() => socialStore.social && socialStore.social.whatsapp ? "https://wa.me/" + socialStore.social.whatsapp : "#");
-const textPhone = computed(() => socialStore.social && socialStore.social.phoneNumber ?  socialStore.social.phoneNumber : null);
+const socialLinkAttr = computed(() => {
+	const social = socialStore.social;
+	const linkAttr = {
+		fb: { href: "#" },
+		ig: { href: "#" },
+		tw: { href: "#" },
+		wa: { href: "#" },
+		phone: null
+	};
+	if(!socialStore.social)
+		return linkAttr;
+
+	if(social.facebook) {
+		linkAttr.fb.url = social.facebook;
+		linkAttr.fb.target = "_blank";
+	}
+
+	if(social.instagram) {
+		linkAttr.ig.url = social.instagram;
+		linkAttr.ig.target = "_blank";
+	}
+
+	if(social.twitter) {
+		linkAttr.tw.url = social.twitter;
+		linkAttr.tw.target = "_blank";
+	}
+
+	if(social.whatsapp) {
+		linkAttr.wa.url = "https://wa.me/" + social.whatsapp;
+		linkAttr.wa.target = "_blank";
+	}
+
+	if(social.phoneNumber)
+		linkAttr.phone = social.phoneNumber;
+
+	return linkAttr;
+});
 </script>
 <template>
 	<footer class="bg-gray-900 pt-16 pb-8">
@@ -26,22 +58,22 @@ const textPhone = computed(() => socialStore.social && socialStore.social.phoneN
 					<p class="text-sm text-gray-200 mb-8"><a href="https://goo.gl/maps/VNnu4i7HiubN4WLq8" target="_blank">Jl. Veteran Selatan No.234, Kec. Mamajang,<br>Kota Makassar, Sulawesi Selatan 90131</a></p>
 					<p class="text-sm text-shadow-black text-gray-100 font-semibold">Hubungi Kami</p>
 					<div class="flex items-center my-6 gap-6 text-3xl">
-						<a :href="urlFb" target="_blank" class="social-link text-shadow-black hover-margin">
+						<a v-bind="socialLinkAttr.fb" class="social-link text-shadow-black hover-margin">
 							<font-awesome-icon icon="fa-brands fa-facebook" />
 						</a>
-						<a :href="urlIg" target="_blank" class="social-link text-shadow-black hover-margin">
+						<a v-bind="socialLinkAttr.ig" class="social-link text-shadow-black hover-margin">
 							<font-awesome-icon icon="fa-brands fa-instagram" />
 						</a>
-						<a :href="urlTw" target="_blank" class="social-link text-shadow-black hover-margin">
+						<a v-bind="socialLinkAttr.tw" class="social-link text-shadow-black hover-margin">
 							<font-awesome-icon icon="fa-brands fa-twitter" />
 						</a>
-						<a :href="urlWa" target="_blank" class="social-link text-shadow-black hover-margin">
+						<a v-bind="socialLinkAttr.wa" class="social-link text-shadow-black hover-margin">
 							<font-awesome-icon icon="fa-brands fa-whatsapp" />
 						</a>
 					</div>
-					<div v-if="textPhone" class="flex items-center text-gray-100 text-shadow-black">
+					<div v-if="socialLinkAttr.phone" class="flex items-center text-gray-100 text-shadow-black">
 						<font-awesome-icon icon="fa-solid fa-phone" />
-						<span class="text-sm ml-2">{{ textPhone }}</span>
+						<span class="text-sm ml-2">{{ socialLinkAttr.phone }}</span>
 					</div>
 				</div>
 				<div>

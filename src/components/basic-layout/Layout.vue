@@ -69,7 +69,7 @@ const useTopbarSlot = computed(() => !!slots.topbar);
 <style>
 
 body {
-	@apply bg-primary-500;
+	@apply bg-gray-900;
 }
 
 body,

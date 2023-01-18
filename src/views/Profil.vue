@@ -212,7 +212,7 @@ const updateAvatar = avatarImg => {
 		});
 };
 
-const isRoleAdmin = computed(() => userStore.isRoleAdmin);
+const isRoleUser = computed(() => userStore.isRoleUser);
 
 const modalPass = ref(null);
 const showModalPass = ref(false);
@@ -239,7 +239,7 @@ const updatePass = newPass => {
 						</div>
 						<div class="card-profile">
 							<div class="md:py-2 border-r bg-gray-100">
-								<ul v-if="isRoleAdmin" class="profile-menu">
+								<ul v-if="!isRoleUser" class="profile-menu">
 									<li class="hidden md:list-item"><h6 class="text-gray-900 px-4 py-2 font-semibold text-lg">Update Profil</h6></li>
 								</ul>
 								<ul v-else class="profile-menu">
@@ -252,7 +252,7 @@ const updatePass = newPass => {
 							<div class="relative">
 								<form @submit.prevent="onSave">
 									<Transition name="fade">
-										<section v-if="profileSection == 1 || isRoleAdmin" class="profile-section">
+										<section v-if="profileSection == 1" class="profile-section">
 											<div class="input-group">
 												<label for="inputName">Nama Lengkap</label>
 												<input type="text" v-model="v$.name.$model" id="inputName">
@@ -283,7 +283,7 @@ const updatePass = newPass => {
 										</section>
 									</Transition>
 									<Transition name="fade">
-										<section v-if="profileSection == 2 && !isRoleAdmin" class="profile-section">
+										<section v-if="profileSection == 2 && isRoleUser" class="profile-section">
 											<div class="input-group">
 												<label for="inputProvinsi">Provinsi</label>
 												<div class="listbox-wrapper" @click.stop="">
@@ -333,7 +333,7 @@ const updatePass = newPass => {
 										</section>
 									</Transition>
 									<Transition name="fade">
-										<section v-if="profileSection == 3 && !isRoleAdmin" class="profile-section">
+										<section v-if="profileSection == 3 && isRoleUser" class="profile-section">
 											<div class="input-group mb-8">
 												<label for="inputNric">No. NIK</label>
 												<input type="tele" v-model="v$.nric.$model" id="inputNric">
