@@ -13,34 +13,37 @@ const socialLinkAttr = computed(() => {
 		wa: { href: "#" },
 		phone: null
 	};
+	
 	if(!socialStore.social)
 		return linkAttr;
 
 	if(social.facebook) {
-		linkAttr.fb.url = social.facebook;
+		linkAttr.fb.href = social.facebook;
 		linkAttr.fb.target = "_blank";
 	}
 
 	if(social.instagram) {
-		linkAttr.ig.url = social.instagram;
+		linkAttr.ig.href = social.instagram;
 		linkAttr.ig.target = "_blank";
 	}
 
 	if(social.twitter) {
-		linkAttr.tw.url = social.twitter;
+		linkAttr.tw.href = social.twitter;
 		linkAttr.tw.target = "_blank";
 	}
 
 	if(social.whatsapp) {
-		linkAttr.wa.url = "https://wa.me/" + social.whatsapp;
+		linkAttr.wa.href = "https://wa.me/" + social.whatsapp;
 		linkAttr.wa.target = "_blank";
 	}
 
 	if(social.phoneNumber)
 		linkAttr.phone = social.phoneNumber;
-
+	
 	return linkAttr;
 });
+
+socialStore.fetchSocial();
 </script>
 <template>
 	<footer class="bg-gray-900 pt-16 pb-8">

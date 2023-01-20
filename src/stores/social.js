@@ -8,23 +8,12 @@ export const useSocialStore = defineStore("social", {
 	}),
 	actions: {
 		async fetchSocial(force = false, callback = null) {
-			/*this.social = {
-				facebook: null,
-				instagram: "https://www.instagram.com/disnakkeswan.sulsel/",
-				twitter: null,
-				whatsapp: "6282193142389",
-				phoneNumber: "+6282193142389"
-			};*/
 			if(!force && this.social) {
 				callback && callback(true);
 				return;
 			}
-
-			const userStore = useUserStore();
-			const headers = { "Authorization": "Bearer " + userStore.token };
-
 			try {
-				const response = await http.get("/sosialmedia", { headers });
+				const response = await http.get("/sosialmedia");
 				let data = response.data.data;
 				if(Array.isArray(data))
 					data = data[0];
