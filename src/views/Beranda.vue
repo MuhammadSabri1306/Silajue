@@ -4,7 +4,6 @@ import { useViewStore } from "@/stores/view";
 import { required } from "@vuelidate/validators";
 import { useDataForm } from "@/modules/data-form";
 import http from "@/modules/http-common";
-
 import BasicLayout from "@/components/basic-layout/Layout.vue";
 import BgImageAsync from "@/components/BgImageAsync.vue";
 
@@ -45,21 +44,9 @@ const onSearchFormSubmit = (event) => {
 <template>
 	<BasicLayout>
 		<template #main>
-			<header class="h-[451px] relative w-full overflow-hidden border-t-2 border-yellow-400">
-				<div class="absolute top-0 left-0 w-full h-full header-bg"></div>
-				<div class="absolute top-0 left-0 w-full h-full flex flex-col md:flex-row">
-					<div class="m-auto w-full md:w-[40rem] flex justify-center items-center">
-						<!-- <img src="/assets/img/header1.webp" class="w-full md:w-[40rem] mb-10"> -->
-						<div class="py-12">
-							<h5 class="text-6xl md:text-7xl text-blue-700 font-bold drop-shadow-[0_0_4px_#a0ff07]">SILAJUE</h5>
-							<h6 class="text-gray-900 font-semibold md:text-xl drop-shadow-[0_0_2px_#fff]">Sistem Layanan Penjualan Online</h6>
-						</div>
-					</div>
-					<div class="mt-auto ml-auto">
-						<img src="/assets/img/profil.webp" class="w-[30rem] h-auto">
-					</div>
-				</div>
-				<div class="absolute top-0 left-0 w-full h-full filter-bg"></div>
+			<header>
+				<BgImageAsync src="/assets/img/banner-landscape.webp" :preview="false" class="w-full aspect-[2/1] hidden lg:block" />
+				<BgImageAsync src="/assets/img/banner-portrait.webp" :preview="false" class="w-full aspect-[2/3] lg:hidden" />
 			</header>
 			<div class="bg-white pt-16 pb-8">
 				<div class="container">
@@ -188,31 +175,6 @@ const onSearchFormSubmit = (event) => {
 	</BasicLayout>
 </template>
 <style scoped>
-	
-/*header {
-	background-image: url(/assets/img/bg-new.webp);
-	@apply bg-cover lg:bg-[length:100%_auto] bg-bottom bg-no-repeat bg-fixed;
-}*/
-
-header {
-	background: linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)),
-		radial-gradient(77.36% 256.97% at 77.36% 57.52%, rgb(34, 197, 94) 0%, #a0ff07 100%);
-	clip-path: ellipse(150% 87% at 93% 13%);
-}
-
-header > .header-bg {
-	background-image: url("/assets/img/endless-cloud.svg");
-	-webkit-mask-image: linear-gradient(transparent 10%, #000 100%);
-	@apply bg-[bottom_1px_center];
-}
-
-header > .filter-bg {
-	@apply backdrop-saturate-[.6] lg:backdrop-saturate-[.8] bg-gray-300 mix-blend-multiply;
-}
-
-.header-logo {
-	background-image: radial-gradient(circle, rgb(255 255 255 / 55%) 0%, transparent 70%);
-}
 
 .category-item {
 	@apply w-28;
