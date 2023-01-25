@@ -45,8 +45,8 @@ const onSearchFormSubmit = (event) => {
 	<BasicLayout>
 		<template #main>
 			<header>
-				<BgImageAsync src="/assets/img/banner-landscape.webp" :preview="false" class="w-full aspect-[2/1] hidden lg:block" />
-				<BgImageAsync src="/assets/img/banner-portrait.webp" :preview="false" class="w-full aspect-[2/3] lg:hidden" />
+				<BgImageAsync src="/assets/img/banner-landscape.jpg" :preview="false" class="w-full aspect-[2/1] hidden lg:block" />
+				<BgImageAsync src="/assets/img/banner-portrait.jpg" :preview="false" class="w-full aspect-[2/3] lg:hidden" />
 			</header>
 			<div class="bg-white pt-16 pb-8">
 				<div class="container">
