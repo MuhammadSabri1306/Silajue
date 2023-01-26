@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive, computed, watch, onMounted, onUnmounted } from "vue";
 import { useUserStore } from "@/stores/user";
+import { useViewStore } from "@/stores/view";
 import http from "@/modules/http-common";
 import Listbox from "primevue/listbox";
 import { useDataForm } from "@/modules/data-form";
@@ -8,6 +9,7 @@ import { useRegion } from "@/modules/region-id";
 import DashbLayout from "@/components/dashboard-layout/Layout.vue";
 import BgImageAsync from "@/components/BgImageAsync.vue";
 import ModalUploadImg from "@/components/ModalUploadImg.vue";
+import ModalUpdatePassword from "@/components/ModalUpdatePassword.vue";
 
 const { data, v$ } = useDataForm({
 	name: { value: null },
@@ -23,6 +25,8 @@ const profileImg = computed(() => {
 });
 
 const userStore = useUserStore();
+const viewStore = useViewStore();
+
 http.get("/user", { headers: { "Authorization": "Bearer " + userStore.token } })
 	.then(response => {
 		const dataUser = response.data.data;
@@ -66,6 +70,17 @@ const updateAvatar = avatarImg => {
 };
 
 const isRoleAdmin = computed(() => userStore.isRoleAdmin);
+
+const modalPass = ref(null);
+const showModalPass = ref(false);
+const updatePass = newPass => {
+	modalPass.value.setLoadingIcon(true);
+	console.log(newPass);
+	userStore.updatePassword(newPass, success => {
+		modalPass.value.setLoadingIcon(false);
+		viewStore.showToast("updatePassword", success);
+	});
+};
 </script>
 <template>
 	<DashbLayout :activeNav="4">
@@ -103,11 +118,11 @@ const isRoleAdmin = computed(() => userStore.isRoleAdmin);
 								</div>
 								<div class="input-group flex items-center">
 									<label>Password</label>
-									<button type="button" class="ml-4 px-4 py-2 inline-flex gap-1 justify-center items-center rounded shadow-sm hover-margin text-gray-700 bg-yellow-300 hover:bg-yellow-200">
+									<button type="button" @click="showModalPass = true" class="ml-4 px-4 py-2 inline-flex gap-1 justify-center items-center rounded shadow-sm hover-margin text-gray-700 bg-yellow-300 hover:bg-yellow-200">
 										<span class="text-lg">
 											<font-awesome-icon icon="fa-solid fa-key" fixed-width />
 										</span>
-										<span class="text-xs font-medium">Reset Password</span>
+										<span class="text-xs font-medium">Ganti Password</span>
 									</button>
 								</div>
 								<div class="flex justify-end pt-12">
@@ -118,6 +133,7 @@ const isRoleAdmin = computed(() => userStore.isRoleAdmin);
 					</div>
 				</div>
 				<ModalUploadImg v-if="showUploadAvatar" ref="uploadAvatarElm" title="Foto Profil" label="Upload Foto Profil" @change="updateAvatar" />
+				<ModalUpdatePassword v-if="showModalPass" ref="modalPass" @update="updatePass" @close="showModalPass = false" />
 			</div>
 		</template>
 	</DashbLayout>

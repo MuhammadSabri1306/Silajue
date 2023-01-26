@@ -217,7 +217,12 @@ const isRoleUser = computed(() => userStore.isRoleUser);
 const modalPass = ref(null);
 const showModalPass = ref(false);
 const updatePass = newPass => {
+	modalPass.value.setLoadingIcon(true);
 	console.log(newPass);
+	userStore.updatePassword(newPass, success => {
+		modalPass.value.setLoadingIcon(false);
+		viewStore.showToast("updatePassword", success);
+	});
 };
 </script>
 <template>
@@ -271,7 +276,7 @@ const updatePass = newPass => {
 													<span class="text-lg">
 														<font-awesome-icon icon="fa-solid fa-key" fixed-width />
 													</span>
-													<span class="text-xs font-medium">Update Password</span>
+													<span class="text-xs font-medium">Ganti Password</span>
 												</button>
 											</div>
 											<div class="flex justify-end pt-12">

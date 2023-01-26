@@ -50,7 +50,7 @@ socialStore.fetchSocial();
 		<div class="px-6 md:px-8 lg:px-12 container">
 			<div class="flex flex-col md:flex-row md:justify-between lg:justify-around items-center md:items-stretch">
 				<div class="lg:max-w-[34rem]">
-					<router-link to="/" class="flex items-center mb-16 mt-16 transition-opacity opacity-100 hover:opacity-80">
+					<router-link to="/" class="flex items-center mb-8 transition-opacity opacity-100 hover:opacity-80">
 						<img src="/assets/img/logo-pemprov-sulsel.webp" class="h-16 md:h-24 w-auto">
 						<div class="ml-2">
 							<h5 class="text-xl font-semibold text-white text-shadow-black mb-1">UPT PIBPS</h5>
@@ -81,23 +81,32 @@ socialStore.fetchSocial();
 				</div>
 				<div>
 					<div>
-						<h6 class="mt-16 font-bold text-blue-500 text-xl mb-4">Layanan Lainnya</h6>
-						<ul class="flex flex-col items-start mb-12">
+						<h6 class="font-bold text-blue-500 text-xl mb-4 mt-8">Layanan Lainnya</h6>
+						<ul class="flex flex-col items-start mb-8">
 							<li><a target="_blank" href="#" class="footer-link">Training Center</a></li>
 							<li><a target="_blank" href="https://play.google.com/store/apps/details?id=disnakkeswan.raisa" class="footer-link">Aplikasi RAISA Peternak</a></li>
 							<li><a target="_blank" href="https://play.google.com/store/apps/details?id=disnakkeswan.raisa_inseminator" class="footer-link">Aplikasi RAISA Inseminator</a></li>
 						</ul>
 						<h6 class="font-bold text-blue-500 text-xl mb-4">Link Terkait</h6>
-						<ul class="flex flex-col items-start">
+						<ul class="flex flex-col items-start mb-8">
 							<li><a target="_blank" href="https://disnakkeswan.sulselprov.go.id/" class="footer-link">Profil DISNAKKESWAN SULSEL</a></li>
 							<li><a target="_blank" href="https://sulselprov.go.id/" class="footer-link">PEMPROV Sulawesi Selatan</a></li>
 							<li><a target="_blank" href="https://ditjenpkh.pertanian.go.id/" class="footer-link">Ditjen PKH RI</a></li>
 							<li><a target="_blank" href="https://www.pertanian.go.id/" class="footer-link">Kementerian Pertanian RI</a></li>
 						</ul>
+						<div class="flex justify-center md:justify-start">
+							<div class="flex flex-col justify-center items-center gap-2">
+								<span class="text-gray-200 mr-2">Download Apps di</span>
+								<a href="https://play.google.com/store/apps/details?id=com.lni.silajue.app" target="_blank" class="inline-flex justify-center items-center pr-4 py-2 pl-1 rounded-lg shadow-sm border border-gray-900 text-white hover-margin bg-black hover:bg-black/40">
+									<img src="/assets/img/playstore-logo.svg" class="w-12" alt="Google Play Store logo">
+									<span class="font-medium -ml-2">Google Play</span>
+								</a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="pt-24">
+			<div class="pt-16 md:pt-24">
 				<p class="text-sm text-gray-200 font-semibold text-center">&copy; Dinas Peternakan dan Kesehatan Hewan Provinsi Sulawesi Selatan 2022. All Rights Reserved.</p>
 			</div>
 		</div>
@@ -110,7 +119,7 @@ socialStore.fetchSocial();
 }
 
 .footer-link {
-	@apply block py-2 px-4 text-sm font-medium mr-4 transition-all duration-300 text-gray-200 hover:text-blue-500 ml-4 lg:hover:ml-0;
+	@apply block py-1 px-4 text-sm font-medium mr-4 transition-all duration-300 text-gray-200 hover:text-blue-500 ml-4 lg:hover:ml-0;
 }
 
 </style>

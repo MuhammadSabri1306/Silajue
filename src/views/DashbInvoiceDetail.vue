@@ -20,6 +20,7 @@ const currInvoice = computed(() => productStore.invoiceById(invoiceId.value));
 const userStore = useUserStore();
 const viewStore = useViewStore();
 const router = useRouter();
+
 const deleteInvoice = () => {
 	const url = "/invoice/" + invoiceId.value;
 	const headers = { "Authorization": "Bearer " + userStore.token };
@@ -86,6 +87,9 @@ const onConfirmInvoice = async (status) => {
 		confirmMessage.value = null;
 	}
 };
+
+const isAdmin = computed(() => userStore.isRoleAdmin);
+const isOperator = computed(() => userStore.isRoleOperator);
 </script>
 <template>
 	<DashbLayout :activeNav="3">
@@ -124,7 +128,7 @@ const onConfirmInvoice = async (status) => {
 								<BgImageAsync :src="currInvoice.transferNote" class="w-full aspect-video rounded-2xl" />
 							</div>
 						</div>
-						<div v-if="currInvoice.status == 'pengajuan verifikasi'" class="mb-16 flex flex-wrap justify-center items-center bg-gray-100 p-8">
+						<div v-if="currInvoice.status == 'pengajuan verifikasi' && isAdmin" class="mb-16 flex flex-wrap justify-center items-center bg-gray-100 p-8">
 							<button type="button" @click="onConfirmInvoice('aktif')" class="px-4 py-3 rounded btn-icon text-white hover-margin bg-green-600 hover:bg-green-500">
 								<span class="text-2xl mr-2">
 									<font-awesome-icon icon="fa-solid fa-check" />
@@ -132,7 +136,7 @@ const onConfirmInvoice = async (status) => {
 								<span>Aktifkan Invoice</span>
 							</button>
 						</div>
-						<div v-if="currInvoice.status == 'aktif'" class="mb-16 flex flex-wrap justify-center items-center bg-gray-100 p-8 gap-8">
+						<div v-if="currInvoice.status == 'aktif' && isOperator" class="mb-16 flex flex-wrap justify-center items-center bg-gray-100 p-8 gap-8">
 							<button type="button" @click="onConfirmInvoice('verifikasi')" class="px-4 py-3 rounded btn-icon text-white hover-margin bg-yellow-400 hover:bg-yellow-300">
 								<span class="text-2xl mr-2">
 									<font-awesome-icon icon="fa-solid fa-angle-left" />

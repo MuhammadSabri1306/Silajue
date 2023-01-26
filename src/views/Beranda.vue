@@ -44,10 +44,22 @@ const onSearchFormSubmit = (event) => {
 <template>
 	<BasicLayout>
 		<template #main>
-			<header>
+			<header class="border-b border-gray-300">
 				<BgImageAsync src="/assets/img/banner-landscape.jpg" :preview="false" class="w-full aspect-[2/1] hidden lg:block" />
 				<BgImageAsync src="/assets/img/banner-portrait.jpg" :preview="false" class="w-full aspect-[2/3] lg:hidden" />
 			</header>
+			<div class="relative">
+				<div class="-mt-[5vw] lg:-mt-[3vw] mb-[5vw] lg:mb-[3vw] container pb-8 flex justify-center items-center">
+					<div class="flex flex-col lg:flex-row gap-4 justify-center items-center bg-white rounded-3xl border border-gray-400 p-6 shadow">
+						<img src="/assets/img/logo-ib.png" alt="Logo Inseminasi Buatan" class="h-28">
+						<div>
+							<p class="text-xl font-light text-gray-900 text-center lg:text-left mb-2 lg:mb-0">UPT Pelayanan Inseminasi Buatan dan Produk Semen</p>
+							<p class="text-lg text-gray-900 font-bold text-center lg:text-left mb-2 lg:mb-0">Dinas Peternakan dan Kesehatan Hewan</p>
+							<p class="text-lg text-primary-700 font-bold text-center lg:text-left mb-2 lg:mb-0">Provinsi Sulawesi Selatan</p>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="bg-white pt-16 pb-8">
 				<div class="container">
 					<div class="flex justify-center items-center mb-12">
@@ -80,7 +92,7 @@ const onSearchFormSubmit = (event) => {
 							<div class="flow-card">
 								<span class="flow-number">1</span>
 								<font-awesome-icon icon="fa-brands fa-google-play" fixed-width />
-								<span class="flow-text"><strong>Download Apps</strong><br>di <a href="#">Playstore</a> atau kunjungi situs resmi <a href="#">Silajue</a>.</span>
+								<span class="flow-text"><strong>Download Apps</strong><br>di <a href="https://play.google.com/store/apps/details?id=com.lni.silajue.app" target="_blank">Play Store</a> atau kunjungi situs resmi <a href="https://silajue.diskeswan.sulselprov.go.id/" target="_blank">Silajue</a>.</span>
 							</div>
 							<div class="flow-card">
 								<span class="flow-number">2</span>

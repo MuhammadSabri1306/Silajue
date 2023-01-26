@@ -131,7 +131,7 @@ body > #app > div,
 }
 
 .sidebar {
-	@apply fixed h-screen top-0 left-[-18rem] md:left-0 w-[18rem] z-[8889] bg-gray-900 overflow-x-hidden;
+	@apply fixed h-screen top-0 left-[-18rem] md:left-0 w-[18rem] z-[8888] bg-gray-900 overflow-x-hidden;
 	transition: left 0.3s;
 }
 

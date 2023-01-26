@@ -56,6 +56,10 @@ export const useUserStore = defineStore("user", {
 		checkUserCookie() {
 			const dataUser = getSession("user");
 			dataUser && this.updateUser(dataUser, false);
+		},
+
+		async updatePassword(newPassword, callback = null) {
+			callback && callback(false);
 		}
 	}
 });
