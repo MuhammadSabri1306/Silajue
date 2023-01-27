@@ -58,8 +58,24 @@ export const useUserStore = defineStore("user", {
 			dataUser && this.updateUser(dataUser, false);
 		},
 
-		async updatePassword(newPassword, callback = null) {
-			callback && callback(false);
+		async updatePassword({ oldPass, newPass, newPassRetype }, callback = null) {
+			const headers = { "Authorization": "Bearer " + this.token };
+			const body = {
+				old_password: oldPass,
+				new_password: newPass,
+				new_password_confirmation: newPassRetype
+			};
+			try {
+				const response = await http.post("/user/update-password", body, { headers });
+				const success = response.data.success;
+				
+				if(!success)
+					console.log(response.data);
+				callback && callback(true);
+			} catch(err) {
+				console.error(err);
+				callback && callback(false);
+			}
 		}
 	}
 });

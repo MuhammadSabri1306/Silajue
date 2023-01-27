@@ -73,10 +73,10 @@ const isRoleAdmin = computed(() => userStore.isRoleAdmin);
 
 const modalPass = ref(null);
 const showModalPass = ref(false);
-const updatePass = newPass => {
+const updatePass = password => {
 	modalPass.value.setLoadingIcon(true);
-	console.log(newPass);
-	userStore.updatePassword(newPass, success => {
+	console.log(password);
+	userStore.updatePassword(password, success => {
 		modalPass.value.setLoadingIcon(false);
 		viewStore.showToast("updatePassword", success);
 	});

@@ -21,10 +21,16 @@ const hasSubmitted = ref(false);
 
 const onSubmit = async () => {
 	hasSubmitted.value = true;
-	
 	const isValid = await v$.value.$validate();
-	if(isValid && isPassEqual.value)
-		emits("update", data.newPass1.toString());
+
+	if(!isValid || !isPassEqual.value)
+		return;
+	
+	emits("update", {
+		oldPass: data.oldPass.toString(),
+		newPass: data.newPass1.toString(),
+		newPassRetype: data.newPass2.toString()
+	});
 };
 </script>
 <template>
