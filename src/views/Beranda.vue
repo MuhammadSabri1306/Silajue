@@ -60,14 +60,15 @@ const onSearchFormSubmit = (event) => {
 					</div>
 				</div>
 			</div>
-			<div class="bg-white pt-16 pb-8">
+			<div class="bg-white mt-16 mb-8">
 				<div class="container">
-					<div class="flex justify-center items-center mb-12">
+					<div class="flex justify-center items-center relative z-[1]">
 						<div class="w-36 border-b border-gray-500 hidden md:block"></div>
-						<h3 class="text-2xl tracking-widest font-bold text-center mx-8">PRODUK KAMI</h3>
+						<!-- <h3 class="text-2xl tracking-widest font-bold text-center mx-8">PRODUK KAMI</h3> -->
+						<img src="/assets/img/icon.svg" class="w-36 drop-shadow-[0_4px_3px_rgba(0,0,0,0.5)]" alt="">
 						<div class="w-36 border-b border-gray-500 hidden md:block"></div>
 					</div>
-					<div class="relative mb-16">
+					<div class="relative -mt-12 mb-16">
 						<div class="grid grid-cols-1 md:grid-cols-4 h-48">
 							<BgImageAsync src="/assets/img/bali-bima.webp" />
 							<BgImageAsync src="/assets/img/limousin-abang.webp" class="hidden md:block" />
