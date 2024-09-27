@@ -8,7 +8,7 @@ export const createInvoiceCode = userId => {
 export const formatInvoice = invoices => {
 	return invoices.map(item => {
 		const date = new Date(item.created_at);
-		const dateTime = `${ date.getDate() }/${ date.getMonth() }/${ date.getFullYear() } ${ toTimeStr(date, ":").time }`;
+		const dateTime = `${ date.getDate() }/${ date.getMonth() + 1 }/${ date.getFullYear() } ${ toTimeStr(date, ":").time }`;
 
 		const status = (item.status == "verifikasi" && !item.proof_payment) ? "belum verifikasi" : (item.status == "verifikasi") ? "pengajuan verifikasi" : item.status;
 
